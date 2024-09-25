@@ -1,45 +1,57 @@
 #' Fit a logistic mixed-effects regression model
 #'
 #' @description
-#' 'logistic_mixed_model()' is a function utilized with the \code{\link{growth_curve_model_fit}} function for fitting a logistic mixed-effects regression model to growth data utilizing the \code{\link[nlme]{nlme}} function.
-#' Starting values are derived from an initial least-squares model using the \code{\link[minpack.lm]{nlsLM}} function.
+#' 'logistic_mixed_model()' is a function utilized with the
+#' \code{\link{growth_curve_model_fit}} function for fitting a logistic
+#' mixed-effects regression model to growth data utilizing the saemix package.
+#' Starting values are derived from an initial least-squares model using the
+#' \code{\link[minpack.lm]{nlsLM}} function.
 #'
 #'
-#' @inheritParams growth_curve_model_fit
+#' @inheritParams exponential_mixed_model
 #'
-#' @return Returns a logistic model object of class 'nlme' when a mixed-effects model is specified or a model object of class 'nls' if a least-squares model is specified.
+#' @return Returns a logistic model object of class 'saemix' when a
+#' mixed-effects model is specified or a model object of class 'nls' if a
+#' least-squares model is specified.
 #' @seealso \code{\link{growth_curve_model_fit}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter mutate pull summarise
 #' @importFrom minpack.lm nlsLM
-#' @importFrom nlme nlme nlmeControl
-#' @importFrom stats as.formula na.omit
+#' @importFrom saemix saemix saemixData saemixModel
+#' @importFrom stats as.formula
 #' @export
 #'
 #' @examples
 #' # Load example data (logistic data from GrowthCurveME package)
 #' data(log_mixed_data)
-#' # Fit a logistic mixed-effects growth model to the data using the main growth_curve_model_fit() function
-#' log_mixed_model <- growth_curve_model_fit(data_frame = log_mixed_data, function_type = "logistic")
-#' # Fit a logistic mixed-effected model using the logistic_mixed_model() function
+#' # Fit a logistic mixed-effects growth model to the data
+#' log_mixed_model <- growth_curve_model_fit(data_frame = log_mixed_data,
+#' function_type = "logistic")
+#' # Fit a logistic mixed-effected model using logistic_mixed_model()
 #' log_mixed_model <- logistic_mixed_model(data_frame = log_mixed_data)
 logistic_mixed_model <- function(data_frame,
                                  model_type = "mixed",
-                                 fixed_rate = TRUE) {
+                                 fixed_rate = TRUE,
+                                 num_chains = 1) {
   # Calculate initial starting values
   start_lower_asy <- data_frame %>%
-    dplyr::filter(time == min(time)) %>%
-    dplyr::summarise(mean = mean(growth_metric, na.rm = TRUE)) %>%
-    dplyr::pull(mean)
+    dplyr::filter(.data$time == min(.data$time)) %>%
+    dplyr::summarise(mean = mean(.data$growth_metric, na.rm = TRUE)) %>%
+    dplyr::pull(.data$mean)
   start_upper_asy <- max(data_frame$growth_metric, na.rm = TRUE)
   mid_point <- start_upper_asy - start_lower_asy
   start_inflection <- data_frame %>%
-    dplyr::mutate(diff_growth_metric = abs(growth_metric - mid_point)) %>%
-    dplyr::filter(diff_growth_metric == min(diff_growth_metric)) %>%
-    dplyr::pull(time)
-  # Fit an initial least squares sigmoidal model to calculate better starting values
-  logistic_formula <- as.formula("growth_metric ~ lower_asy + (upper_asy - lower_asy)/(1 + exp(-rate*(time-inflection)))")
-  initial_logistic_model <- tryCatch(
+    dplyr::mutate(diff_growth_metric = abs(.data$growth_metric - mid_point)) %>%
+    dplyr::filter(.data$diff_growth_metric == min(.data$diff_growth_metric)) %>%
+    dplyr::pull(.data$time)
+  # Fit an initial least-squares logistic model to calculate starting values
+  logistic_formula <- as.formula(
+    paste0(
+      "growth_metric ~ lower_asy + (upper_asy - lower_asy)/",
+      "(1 + exp(-rate*(time-inflection)))"
+    )
+  )
+  ls_model <- tryCatch(
     expr = {
       withCallingHandlers(
         minpack.lm::nlsLM(logistic_formula,
@@ -59,83 +71,194 @@ logistic_mixed_model <- function(data_frame,
     error = function(e) {
       error_message <- paste("Caution an error occured: ", e)
       message(error_message)
-      stop("Initial non-linear least squares model could not be fit due to error, please inspect data or change function type")
     }
   )
 
+  # Obtain starting values for mixed model
+  if (inherits(ls_model, "nls")) {
+    # Extract model estimates from ls_model to use as starting values
+    start_lower_asy <- round(as.numeric(ls_model$m$getPars()[1]), 3)
+    start_upper_asy <- round(as.numeric(ls_model$m$getPars()[2]), 3)
+    start_rate <- round(as.numeric(ls_model$m$getPars()[3]), 6)
+    start_inflection <- round(as.numeric(ls_model$m$getPars()[4]), 3)
+
+    # Create summary object
+    sum_object <- summary(ls_model)
+
+    # Create sequence of other starting values
+    lower_asy_sd <- sum_object$coefficients[1, 2] * sqrt(nrow(data_frame))
+    upper_asy_sd <- sum_object$coefficients[2, 2] * sqrt(nrow(data_frame))
+    rate_sd <- sum_object$coefficients[3, 2] * sqrt(nrow(data_frame))
+    inflection_sd <- sum_object$coefficients[4, 2] * sqrt(nrow(data_frame))
+
+    set.seed(123)
+    start_lower_asy_vec <- runif(
+      n = 10,
+      min = start_lower_asy - (2 * lower_asy_sd),
+      max = start_lower_asy + (2 * lower_asy_sd)
+    )
+    start_upper_asy_vec <- runif(
+      n = 10,
+      min = start_upper_asy - (2 * upper_asy_sd),
+      max = start_upper_asy + (2 * upper_asy_sd)
+    )
+    start_rate_vec <- runif(
+      n = 10,
+      min = start_rate - (2 * rate_sd),
+      max = start_rate + (2 * rate_sd)
+    )
+    start_inflection_vec <- runif(
+      n = 10,
+      min = start_inflection - (2 * inflection_sd),
+      max = start_inflection + (2 * inflection_sd)
+    )
+
+    start_lower_asy_vec <- c(start_lower_asy, start_lower_asy_vec)
+    start_upper_asy_vec <- c(start_upper_asy, start_upper_asy_vec)
+    start_rate_vec <- c(start_rate, start_rate_vec)
+    start_inflection_vec <- c(start_inflection, start_inflection_vec)
+  } else {
+    stop(paste(
+      "Initial least-squares model did not converge,",
+      "function selected may not be appropriate for data"
+    ))
+  }
+
   if (model_type == "mixed") {
-    # Extract model estimates from initial_sigmoid_model to use as starting values for mixed model
-    start_lower_asy <- round(as.numeric(initial_logistic_model$m$getPars()[1]), 3)
-    start_upper_asy <- round(as.numeric(initial_logistic_model$m$getPars()[2]), 3)
-    start_rate <- round(as.numeric(initial_logistic_model$m$getPars()[3]), 6)
-    start_inflection <- round(as.numeric(initial_logistic_model$m$getPars()[4]), 3)
+    # Prepare SAEMIX data object
+    saemix_data <- saemix::saemixData(
+      name.data = data_frame,
+      name.group = "cluster",
+      name.predictors = "time",
+      name.response = "growth_metric",
+      units = list(x = "time", y = "growth_metric"),
+      verbose = FALSE
+    )
+    # Create SAEMIX model function
+    saemix_function <- function(psi, id, x) {
+      time <- x[, 1]
+      lower_asy <- psi[id, 1]
+      upper_asy <- psi[id, 2]
+      rate <- psi[id, 3]
+      inflection <- psi[id, 4]
+
+      ypred <- lower_asy+(upper_asy-lower_asy)/(1+exp(-rate*(time-inflection)))
+
+      return(ypred)
+    }
+    # Set NLMEG options
+    NLMEG.options <- list(
+      seed = 1234, displayProgress = FALSE,
+      print = FALSE, save = FALSE,
+      save.graphs = FALSE,
+      nb.chains = num_chains
+    )
     # If fixed_rate == TRUE
     if (fixed_rate == TRUE) {
-      # Fit non-linear (logistic) mixed effects model with random lower asymptote, upper asymptote, and inflection point
-      logistic_model <- tryCatch(
-        expr = {
-          withCallingHandlers(
-            nlme::nlme(logistic_formula,
-              start = c(
-                lower_asy = start_lower_asy,
-                upper_asy = start_upper_asy,
-                rate = start_rate,
-                inflection = start_inflection
+      model_saemix <- "No"
+      count <- 1
+      while (!inherits(model_saemix, "SaemixObject") &
+        count <= length(start_lower_asy_vec)) {
+        # Set model structure
+        saemix_model_object <- saemix::saemixModel(
+          model = saemix_function,
+          description = "SAEMIX Logistic Model",
+          psi0 = c(
+            lower_asy = start_lower_asy_vec[count],
+            upper_asy = start_upper_asy_vec[count],
+            rate = start_rate_vec[count],
+            inflection = start_inflection_vec[count]
+          ),
+          covariance.model = matrix(c(
+            1, 1, 0, 1,
+            1, 1, 0, 1,
+            0, 0, 0, 0,
+            1, 1, 0, 1
+          ), ncol = 4, byrow = TRUE),
+          transform.par = c(0, 0, 0, 0),
+          verbose = FALSE
+        )
+        # Fit mixed-effects model
+        model_saemix <- tryCatch(
+          expr = {
+            withCallingHandlers(
+              saemix::saemix(
+                model = saemix_model_object,
+                data = saemix_data,
+                control = NLMEG.options
               ),
-              method = "REML",
-              fixed = lower_asy + upper_asy + rate + inflection ~ 1,
-              random = lower_asy + upper_asy + inflection ~ 1,
-              groups = ~cluster,
-              na.action = na.omit,
-              control = nlme::nlmeControl(maxIter = 5000),
-              data = data_frame
-            ),
-            warning = function(w) {
-              invokeRestart("muffleWarning")
-            }
-          )
-        },
-        error = function(e) {
-          error_message <- paste("Caution an error occured: ", e)
-          message(error_message)
-          stop("Initial fit of logistic mixed model failed, current model specification may be in-appropriate for provided data, please inspect data or change function type")
-        }
-      )
+              warning = function(w) {
+                invokeRestart("muffleWarning")
+              }
+            )
+          },
+          error = function(e) {
+            error_message <- paste("Caution an error occured: ", e)
+            message(error_message)
+            return("No")
+          }
+        )
+        count <- count + 1
+      }
       # If fixed_rate == FALSE
     } else {
-      # Fit non-linear (logistic) mixed effects model with random lower asymptote, upper asymptote, and inflection point
-      logistic_model <- tryCatch(
-        expr = {
-          withCallingHandlers(
-            nlme::nlme(logistic_formula,
-              start = c(
-                lower_asy = start_lower_asy,
-                upper_asy = start_upper_asy,
-                rate = start_rate,
-                inflection = start_inflection
+      model_saemix <- "No"
+      count <- 1
+      while (!inherits(model_saemix, "SaemixObject") &
+        count <= length(start_lower_asy_vec)) {
+        # Set model structure
+        saemix_model_object <- saemix::saemixModel(
+          model = saemix_function,
+          description = "SAEMIX Logistic Model",
+          psi0 = c(
+            lower_asy = start_lower_asy_vec[count],
+            upper_asy = start_upper_asy_vec[count],
+            rate = start_rate_vec[count],
+            inflection = start_inflection_vec[count]
+          ),
+          covariance.model = matrix(c(
+            1, 1, 1, 1,
+            1, 1, 1, 1,
+            1, 1, 1, 1,
+            1, 1, 1, 1
+          ), ncol = 4, byrow = TRUE),
+          transform.par = c(0, 0, 0, 0),
+          verbose = FALSE
+        )
+        # Fit mixed-effects model
+        model_saemix <- tryCatch(
+          expr = {
+            withCallingHandlers(
+              saemix::saemix(
+                model = saemix_model_object,
+                data = saemix_data,
+                control = NLMEG.options
               ),
-              method = "REML",
-              fixed = lower_asy + upper_asy + rate + inflection ~ 1,
-              random = lower_asy + upper_asy + rate + inflection ~ 1,
-              groups = ~cluster,
-              na.action = na.omit,
-              control = nlme::nlmeControl(maxIter = 5000),
-              data = data_frame
-            ),
-            warning = function(w) {
-              invokeRestart("muffleWarning")
-            }
-          )
-        },
-        error = function(e) {
-          error_message <- paste("Caution an error occured: ", e)
-          message(error_message)
-          stop("Initial fit of logistic mixed model failed, current model specification may be in-appropriate for provided data, please inspect data or change function type")
-        }
-      )
+              warning = function(w) {
+                invokeRestart("muffleWarning")
+              }
+            )
+          },
+          error = function(e) {
+            error_message <- paste("Caution an error occured: ", e)
+            message(error_message)
+            return("No")
+          }
+        )
+        count <- count + 1
+      }
     }
-    return(logistic_model)
+    if (inherits(model_saemix, "SaemixObject")) {
+      # Return the mixed-model
+      return(model_saemix)
+    } else {
+      stop(paste(
+        "Mixed-effects model did not converge,",
+        "function selected may not be appropriate for data"
+      ))
+    }
   } else {
-    return(initial_logistic_model)
+    # Return the ls model
+    return(ls_model)
   }
 }

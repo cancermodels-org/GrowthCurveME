@@ -7,8 +7,26 @@
 #' Starting values are derived from an initial least-squares model using
 #' the \code{\link[minpack.lm]{nlsLM}} function.
 #'
-#'
-#' @inheritParams growth_curve_model_fit
+#' @param data_frame A data frame object that at minimum contains three
+#' variables:
+#'\itemize{
+#'  \item cluster - a character type variable used to specify how observations
+#'  are nested or grouped by a particular cluster. Note if using a
+#'  least-squares model, please fill in all values of cluster with a single
+#'  dummy character string, do NOT leave blank.
+#'  \item time - a numeric type variable used for measuring time such as
+#'  minutes, hours, or days
+#'  \item growth_metric - a numeric type variable used for measuring growth
+#'  over time such as cell count or confluency
+#'}
+#' @param model_type A character string specifying the type of regression
+#' model to be used. If "mixed" a mixed-effects regression model will be used
+#' with fixed and random effects to account for clustering. Defaults to "mixed".
+#' @param fixed_rate A logical value specifying whether the rate constant
+#' of the function should be treated as a fixed effect (TRUE) or random
+#' effect (FALSE). Defaults to TRUE
+#' @param num_chains A numeric value specifying the number of chains to run
+#' in parallel in the MCMC algorithm of saemix. Defaults to 1.
 #'
 #' @return Returns an exponential model object of class 'saemix' when a
 #' mixed-effects model is specified or a model object of class 'nls' if a
@@ -17,28 +35,26 @@
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter pull summarise
 #' @importFrom minpack.lm nlsLM
-#' @importFrom saemix saemixData saemixModel
+#' @importFrom saemix saemix saemixData saemixModel
 #' @export
 #'
 #' @examples
 #' # Load example data (exponential data from GrowthCurveME package)
 #' data(exp_mixed_data)
-#' # Fit an exponential mixed-effects growth model to the data using the main
-#' growth_curve_model_fit() function
+#' # Fit an exponential mixed-effects growth model
 #' exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data,
 #' function_type = "exponential")
-#' # Fit an exponential mixed-effected model using the
-#' exponential_mixed_model() function
+#' # Fit an exponential mixed-effected model using exponential_mixed_model()
 #' exp_mixed_model <- exponential_mixed_model(data_frame = exp_mixed_data)
 exponential_mixed_model <- function(data_frame,
                                     model_type = "mixed",
                                     fixed_rate = TRUE,
-                                    saemix_nb.chains = 1) {
+                                    num_chains = 1) {
   # Calculating starting value for intercept
   start_intercept <- data_frame %>%
-    dplyr::filter(time == min(time)) %>%
-    dplyr::summarise(mean = mean(growth_metric, na.rm = TRUE)) %>%
-    dplyr::pull(mean)
+    dplyr::filter(.data$time == min(.data$time)) %>%
+    dplyr::summarise(mean = mean(.data$growth_metric, na.rm = TRUE)) %>%
+    dplyr::pull(.data$mean)
   #   Fit an initial exponential model using the minpack.lm::nlsLM to get
   # starting values for exponential mixed effects model
   ls_model <- tryCatch(
@@ -122,7 +138,7 @@ exponential_mixed_model <- function(data_frame,
       seed = 1234, displayProgress = FALSE,
       print = FALSE, save = FALSE,
       save.graphs = FALSE,
-      nb.chains = saemix_nb.chains
+      nb.chains = num_chains
     )
 
     # If fixed_rate is TRUE
@@ -153,7 +169,7 @@ exponential_mixed_model <- function(data_frame,
         model_saemix <- tryCatch(
           expr = {
             withCallingHandlers(
-              saemix(
+              saemix::saemix(
                 model = saemix_model_object,
                 data = saemix_data,
                 control = NLMEG.options
@@ -198,7 +214,7 @@ exponential_mixed_model <- function(data_frame,
         model_saemix <- tryCatch(
           expr = {
             withCallingHandlers(
-              saemix(
+              saemix::saemix(
                 model = saemix_model_object,
                 data = saemix_data,
                 control = NLMEG.options
