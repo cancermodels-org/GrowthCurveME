@@ -4,33 +4,57 @@
 \alias{logistic_mixed_model}
 \title{Fit a logistic mixed-effects regression model}
 \usage{
-logistic_mixed_model(data_frame, model_type = "mixed", fixed_rate = TRUE)
+logistic_mixed_model(
+  data_frame,
+  model_type = "mixed",
+  fixed_rate = TRUE,
+  num_chains = 1
+)
 }
 \arguments{
-\item{data_frame}{A data frame object that at minimum contains three variables:
+\item{data_frame}{A data frame object that at minimum contains three
+variables:
 \itemize{
-\item cluster - a character type variable used to specify how observations are nested or grouped by a particular cluster. Note if using a least-squares model, please fill in all values of cluster with a single dummy character string, do NOT leave blank.
-\item time - a numeric type variable used for measuring time such as minutes, hours, or days
-\item growth_metric - a numeric type variable used for measuring growth over time such as cell count or confluency
+\item cluster - a character type variable used to specify how observations
+are nested or grouped by a particular cluster. Note if using a
+least-squares model, please fill in all values of cluster with a single
+dummy character string, do NOT leave blank.
+\item time - a numeric type variable used for measuring time such as
+minutes, hours, or days
+\item growth_metric - a numeric type variable used for measuring growth
+over time such as cell count or confluency
 }}
 
-\item{model_type}{A character string specifying the type of regression model to be used. If "mixed" a mixed-effects regression model will be used with fixed and random effects to account for clustering. If "least-squares". Defaults to "mixed".}
+\item{model_type}{A character string specifying the type of regression
+model to be used. If "mixed" a mixed-effects regression model will be used
+with fixed and random effects to account for clustering. Defaults to "mixed".}
 
-\item{fixed_rate}{A logical value specifying whether the rate constant of the function should be treated as a fixed effect (TRUE) or random effect (FALSE). Defaults to TRUE}
+\item{fixed_rate}{A logical value specifying whether the rate constant
+of the function should be treated as a fixed effect (TRUE) or random
+effect (FALSE). Defaults to TRUE}
+
+\item{num_chains}{A numeric value specifying the number of chains to run
+in parallel in the MCMC algorithm of saemix. Defaults to 1.}
 }
 \value{
-Returns a logistic model object of class 'nlme' when a mixed-effects model is specified or a model object of class 'nls' if a least-squares model is specified.
+Returns a logistic model object of class 'saemix' when a
+mixed-effects model is specified or a model object of class 'nls' if a
+least-squares model is specified.
 }
 \description{
-'logistic_mixed_model()' is a function utilized with the \code{\link{growth_curve_model_fit}} function for fitting a logistic mixed-effects regression model to growth data utilizing the \code{\link[nlme]{nlme}} function.
-Starting values are derived from an initial least-squares model using the \code{\link[minpack.lm]{nlsLM}} function.
+'logistic_mixed_model()' is a function utilized with the
+\code{\link{growth_curve_model_fit}} function for fitting a logistic
+mixed-effects regression model to growth data utilizing the saemix package.
+Starting values are derived from an initial least-squares model using the
+\code{\link[minpack.lm]{nlsLM}} function.
 }
 \examples{
 # Load example data (logistic data from GrowthCurveME package)
 data(log_mixed_data)
-# Fit a logistic mixed-effects growth model to the data using the main growth_curve_model_fit() function
-log_mixed_model <- growth_curve_model_fit(data_frame = log_mixed_data, function_type = "logistic")
-# Fit a logistic mixed-effected model using the logistic_mixed_model() function
+# Fit a logistic mixed-effects growth model to the data
+log_mixed_model <- growth_curve_model_fit(data_frame = log_mixed_data,
+function_type = "logistic")
+# Fit a logistic mixed-effected model using logistic_mixed_model()
 log_mixed_model <- logistic_mixed_model(data_frame = log_mixed_data)
 }
 \seealso{

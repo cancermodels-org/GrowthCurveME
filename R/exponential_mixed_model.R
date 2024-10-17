@@ -9,7 +9,7 @@
 #'
 #' @param data_frame A data frame object that at minimum contains three
 #' variables:
-#'\itemize{
+#' \itemize{
 #'  \item cluster - a character type variable used to specify how observations
 #'  are nested or grouped by a particular cluster. Note if using a
 #'  least-squares model, please fill in all values of cluster with a single
@@ -18,7 +18,7 @@
 #'  minutes, hours, or days
 #'  \item growth_metric - a numeric type variable used for measuring growth
 #'  over time such as cell count or confluency
-#'}
+#' }
 #' @param model_type A character string specifying the type of regression
 #' model to be used. If "mixed" a mixed-effects regression model will be used
 #' with fixed and random effects to account for clustering. Defaults to "mixed".
@@ -36,14 +36,18 @@
 #' @importFrom dplyr filter pull summarise
 #' @importFrom minpack.lm nlsLM
 #' @importFrom saemix saemix saemixData saemixModel
+#' @importFrom stats runif
+#' @importFrom rlang sym
 #' @export
 #'
 #' @examples
 #' # Load example data (exponential data from GrowthCurveME package)
 #' data(exp_mixed_data)
 #' # Fit an exponential mixed-effects growth model
-#' exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data,
-#' function_type = "exponential")
+#' exp_mixed_model <- growth_curve_model_fit(
+#'   data_frame = exp_mixed_data,
+#'   function_type = "exponential"
+#' )
 #' # Fit an exponential mixed-effected model using exponential_mixed_model()
 #' exp_mixed_model <- exponential_mixed_model(data_frame = exp_mixed_data)
 exponential_mixed_model <- function(data_frame,
@@ -52,9 +56,10 @@ exponential_mixed_model <- function(data_frame,
                                     num_chains = 1) {
   # Calculating starting value for intercept
   start_intercept <- data_frame %>%
-    dplyr::filter(.data$time == min(.data$time)) %>%
-    dplyr::summarise(mean = mean(.data$growth_metric, na.rm = TRUE)) %>%
-    dplyr::pull(.data$mean)
+    dplyr::filter(!!rlang::sym("time") == min(!!rlang::sym("time"))) %>%
+    dplyr::summarise(mean = mean(!!rlang::sym("growth_metric"),
+                                 na.rm = TRUE)) %>%
+    dplyr::pull(!!rlang::sym("mean"))
   #   Fit an initial exponential model using the minpack.lm::nlsLM to get
   # starting values for exponential mixed effects model
   ls_model <- tryCatch(
@@ -92,12 +97,12 @@ exponential_mixed_model <- function(data_frame,
     rate_sd <- sum_object$coefficients[2, 2] * sqrt(nrow(data_frame))
 
     set.seed(123)
-    start_intercept_vec <- runif(
+    start_intercept_vec <- stats::runif(
       n = 10,
       min = start_intercept - (2 * intercept_sd),
       max = start_intercept + (2 * intercept_sd)
     )
-    start_rate_vec <- runif(
+    start_rate_vec <- stats::runif(
       n = 10,
       min = start_rate - (2 * rate_sd),
       max = start_rate + (2 * rate_sd)

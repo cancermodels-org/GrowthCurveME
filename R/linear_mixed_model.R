@@ -14,7 +14,7 @@
 #'  model is specified.
 #' @seealso \code{\link{growth_curve_model_fit}}
 #' @importFrom minpack.lm nlsLM
-#' @importFrom stats lm
+#' @importFrom stats lm runif
 #' @importFrom saemix saemix saemixData saemixModel
 #' @export
 #'
@@ -74,12 +74,12 @@ linear_mixed_model <- function(data_frame,
     rate_sd <- sum_object$coefficients[2, 2] * sqrt(nrow(data_frame))
 
     set.seed(123)
-    start_intercept_vec <- runif(
+    start_intercept_vec <- stats::runif(
       n = 10,
       min = start_intercept - (2 * intercept_sd),
       max = start_intercept + (2 * intercept_sd)
     )
-    start_rate_vec <- runif(
+    start_rate_vec <- stats::runif(
       n = 10,
       min = start_rate - (2 * rate_sd),
       max = start_rate + (2 * rate_sd)

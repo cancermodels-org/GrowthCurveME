@@ -13,20 +13,30 @@ summarize_growth_model(
 )
 }
 \arguments{
-\item{data_frame}{A data frame object that at minimum contains three variables:
+\item{data_frame}{A data frame object that at minimum contains three
+variables:
 \itemize{
-\item cluster - a character type variable used to specify how observations are nested or grouped by a particular cluster. Note if using a least-squares model, please fill in all values of cluster with a single dummy character string, do NOT leave blank.
-\item time - a numeric type variable used for measuring time such as minutes, hours, or days
-\item growth_metric - a numeric type variable used for measuring growth over time such as cell count or confluency
+\item cluster - a character type variable used to specify how observations
+are nested or grouped by a particular cluster. Note if using a
+least-squares model, please fill in all values of cluster with a single
+dummy character string, do NOT leave blank.
+\item time - a numeric type variable used for measuring time such as
+minutes, hours, or days
+\item growth_metric - a numeric type variable used for measuring growth
+over time such as cell count or confluency
 }}
 
 \item{growth_model_object}{The model object that is created using the growth_curve_model_fit()}
 
 \item{model_type}{A character string specifying the model_type that was fit using the \code{\link{growth_curve_model_fit}} function. Options include either "mixed" or "least-squares. Defaults to "mixed".}
 
-\item{function_type}{A character string specifying the function for modeling the shape of the growth. Options include "exponential", "linear", "logistic", or "gompertz".}
+\item{function_type}{A character string specifying the function for
+modeling the shape of the growth. Options include "exponential", "linear",
+"logistic", or "gompertz".}
 
-\item{fixed_rate}{A logical value specifying whether the rate constant of the function should be treated as a fixed effect (TRUE) or random effect (FALSE). Defaults to TRUE}
+\item{fixed_rate}{A logical value specifying whether the rate constant
+of the function should be treated as a fixed effect (TRUE) or random
+effect (FALSE). Defaults to TRUE}
 }
 \value{
 A list object with the following data frames within the list:

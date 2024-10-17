@@ -18,7 +18,8 @@
 #' @importFrom dplyr filter mutate pull summarise
 #' @importFrom minpack.lm nlsLM
 #' @importFrom saemix saemix saemixData saemixModel
-#' @importFrom stats as.formula
+#' @importFrom stats as.formula runif
+#' @importFrom rlang sym
 #' @export
 #'
 #' @examples
@@ -37,15 +38,21 @@ gompertz_mixed_model <- function(data_frame,
                                  num_chains = 1) {
   # Calculate initial starting values
   start_lower_asy <- data_frame %>%
-    dplyr::filter(.data$time == min(.data$time)) %>%
-    dplyr::summarise(mean = mean(.data$growth_metric, na.rm = TRUE)) %>%
-    dplyr::pull(.data$mean)
+    dplyr::filter(!!rlang::sym("time") == min(!!rlang::sym("time"))) %>%
+    dplyr::summarise(mean = mean(!!rlang::sym("growth_metric"),
+                                 na.rm = TRUE)) %>%
+    dplyr::pull(!!rlang::sym("mean"))
   start_upper_asy <- max(data_frame$growth_metric, na.rm = TRUE)
   mid_point <- start_upper_asy - start_lower_asy
   start_inflection <- data_frame %>%
-    dplyr::mutate(diff_growth_metric = abs(.data$growth_metric - mid_point)) %>%
-    dplyr::filter(.data$diff_growth_metric == min(.data$diff_growth_metric)) %>%
-    dplyr::pull(.data$time)
+    dplyr::mutate(
+      diff_growth_metric = abs(!!rlang::sym("growth_metric") - mid_point)
+    ) %>%
+    dplyr::filter(
+      !!rlang::sym("diff_growth_metric") ==
+        min(!!rlang::sym("diff_growth_metric"))
+    ) %>%
+    dplyr::pull(!!rlang::sym("time"))
   # Fit an initial least squares Gompertz model to calculate starting values
   gompertz_formula <- as.formula(
     paste0(
@@ -94,22 +101,22 @@ gompertz_mixed_model <- function(data_frame,
     inflection_sd <- sum_object$coefficients[4, 2] * sqrt(nrow(data_frame))
 
     set.seed(123)
-    start_lower_asy_vec <- runif(
+    start_lower_asy_vec <- stats::runif(
       n = 10,
       min = start_lower_asy - (2 * lower_asy_sd),
       max = start_lower_asy + (2 * lower_asy_sd)
     )
-    start_upper_asy_vec <- runif(
+    start_upper_asy_vec <- stats::runif(
       n = 10,
       min = start_upper_asy - (2 * upper_asy_sd),
       max = start_upper_asy + (2 * upper_asy_sd)
     )
-    start_rate_vec <- runif(
+    start_rate_vec <- stats::runif(
       n = 10,
       min = start_rate - (2 * rate_sd),
       max = start_rate + (2 * rate_sd)
     )
-    start_inflection_vec <- runif(
+    start_inflection_vec <- stats::runif(
       n = 10,
       min = start_inflection - (2 * inflection_sd),
       max = start_inflection + (2 * inflection_sd)
@@ -144,7 +151,7 @@ gompertz_mixed_model <- function(data_frame,
       rate <- psi[id, 3]
       inflection <- psi[id, 4]
 
-      ypred<-lower_asy+(upper_asy-lower_asy)*exp(-exp(-rate*(time-inflection)))
+      ypred <- lower_asy + (upper_asy - lower_asy) * exp(-exp(-rate * (time - inflection)))
 
       return(ypred)
     }

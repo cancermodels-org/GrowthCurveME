@@ -7,16 +7,24 @@
 summarize_growth_model_ls(data_frame, ls_model, function_type = "exponential")
 }
 \arguments{
-\item{data_frame}{A data frame object that at minimum contains three variables:
+\item{data_frame}{A data frame object that at minimum contains three
+variables:
 \itemize{
-\item cluster - a character type variable used to specify how observations are nested or grouped by a particular cluster. Note if using a least-squares model, please fill in all values of cluster with a single dummy character string, do NOT leave blank.
-\item time - a numeric type variable used for measuring time such as minutes, hours, or days
-\item growth_metric - a numeric type variable used for measuring growth over time such as cell count or confluency
+\item cluster - a character type variable used to specify how observations
+are nested or grouped by a particular cluster. Note if using a
+least-squares model, please fill in all values of cluster with a single
+dummy character string, do NOT leave blank.
+\item time - a numeric type variable used for measuring time such as
+minutes, hours, or days
+\item growth_metric - a numeric type variable used for measuring growth
+over time such as cell count or confluency
 }}
 
 \item{ls_model}{The least-squares model object that is created using the 'growth_curve_model_fit()'}
 
-\item{function_type}{A character string specifying the function for modeling the shape of the growth. Options include "exponential", "linear", "logistic", or "gompertz".}
+\item{function_type}{A character string specifying the function for
+modeling the shape of the growth. Options include "exponential", "linear",
+"logistic", or "gompertz".}
 }
 \value{
 A list object with the following data frames within the list:

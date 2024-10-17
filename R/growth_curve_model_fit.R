@@ -34,33 +34,42 @@
 #' model is specified.
 #' @importFrom magrittr %>%
 #' @importFrom dplyr arrange count filter
+#' @importFrom rlang sym
 #' @export
 #'
 #' @examples
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
 #' # Fit an mixed-effects growth model to the data
-#' exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data, function_type = "exponential")
+#' exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data,
+#' function_type = "exponential")
 #' # Summarize the data by creating a summary list object
-#' exp_mixed_model_summary <- summarize_growth_model(data_frame = exp_mixed_data,
+#' exp_mixed_model_summary <- summarize_growth_model(
+#' data_frame = exp_mixed_data,
 #' growth_model_object = exp_mixed_model,
 #' model_type = "mixed",
 #' function_type = "exponential")
 #' # Create flextable object from the summary list object for documentation
-#' exp_model_table <- growth_model_summary_table(growth_model_summary_list = exp_mixed_model_summary)
+#' exp_model_table <- growth_model_summary_table(
+#' growth_model_summary_list = exp_mixed_model_summary)
 #' print(exp_model_table)
-#' # Create growth vs time plot of data with fitted values (plot_type = 2), adjust aesthetics and parameters as desired
-#' exp_growth_plot <- growth_vs_time_plot(growth_model_summary_list = exp_mixed_model_summary,
+#' # Create growth vs time plot of data with fitted values (plot_type = 2),
+#' adjust aesthetics and parameters as desired
+#' exp_growth_plot <- growth_vs_time_plot(
+#' growth_model_summary_list = exp_mixed_model_summary,
 #' model_type = "mixed",
 #' plot_type = 2)
 #' print(exp_growth_plot)
 #' # Check residuals and model assumptions
-#' residual_diag_plot <- growth_model_residual_plots(growth_model_summary_list = exp_mixed_model_summary,
+#' residual_diag_plot <- growth_model_residual_plots(
+#' growth_model_summary_list = exp_mixed_model_summary,
 #' model_type = "mixed",
 #' residual_type = "conditional")
 #' print(residual_diag_plot)
-#' # Create a plot of fixed-effects bootstrapped 95%CI with the doubling time estimates from the exp_mixed_model annotated on the plot
-#' exp_ci_plot <- growth_model_boot_ci_curve(growth_model_object = exp_mixed_model,
+#' # Create a plot of fixed-effects bootstrapped 95%CI with the doubling time
+#' estimates from the exp_mixed_model annotated on the plot
+#' exp_ci_plot <- growth_model_boot_ci_curve(
+#' growth_model_object = exp_mixed_model,
 #' growth_model_summary_list = exp_mixed_model_summary,
 #' model_type = "mixed",
 #' annotate_value = "double_time",
@@ -91,33 +100,39 @@ growth_curve_model_fit <- function(data_frame,
   # Remove missing values from cluster, time, and growth_metric variables
   data_frame <- data_frame %>%
     dplyr::filter(
-      !is.na(cluster),
-      !is.na(time),
-      !is.na(growth_metric)
+      !is.na(!!rlang::sym("cluster")),
+      !is.na(!!rlang::sym("time")),
+      !is.na(!!rlang::sym("growth_metric"))
     )
 
   # If data_frame has < 3 data points, stop function and print message_low_n
   if (nrow(data_frame) < 3) {
     message_low_n <- paste0(
       "After removing missing values, input data contains ", nrow(data_frame),
-      " rows. \nPlease check initial data_frame input and ensure the variables cluster, time, and growth_metric are completed, cluster contains at least 1 unique character value for observations, and data_frame contains at least 3 observations."
+      " rows. \nPlease check initial data_frame input and ensure the",
+      " variables cluster, time, and growth_metric are completed, cluster",
+      " contains at least 1 unique character value for observations, and",
+      " data_frame contains at least 3 observations."
     )
     stop(message_low_n)
   }
 
   # Check number of cluster
   cluster_num <- data_frame %>%
-    dplyr::filter(!is.na(cluster)) %>%
-    dplyr::count(cluster) %>%
+    dplyr::filter(!is.na(!!rlang::sym("cluster"))) %>%
+    dplyr::count(!!rlang::sym("cluster")) %>%
     nrow() %>%
     as.numeric()
 
-  # If number of clusters is <= 1 and model_type is specified as 'mixed', change model_type to 'least-squares'
+  # If number of clusters is <= 1 and model_type is specified as 'mixed',
+  # change model_type to 'least-squares'
   if (cluster_num <= 1 &
     model_type == "mixed") {
-    warn_message <- paste(
-      "Warning: number of clusters is", cluster_num,
-      "and arguement 'model_type' is set to TRUE. Due to lack of multiple clusters, 'model_type' has been set to FALSE and a least squares model will be applied"
+    warn_message <- paste0(
+      "Warning: number of clusters is ", cluster_num,
+      "and arguement 'model_type' is set to TRUE. Due to lack of multiple",
+      " clusters, 'model_type' has been set to FALSE and a least squares",
+      " model will be applied"
     )
     message(warn_message)
     model_type <- "least-squares"
@@ -133,9 +148,9 @@ growth_curve_model_fit <- function(data_frame,
     cat("Number of observations:", nrow(data_frame), "\n")
   }
 
-  # Arrange data_frame by time and cluster
+  # Arrange data_frame by cluster and time
   data_frame <- data_frame %>%
-    dplyr::arrange(time, cluster)
+    dplyr::arrange(!!rlang::sym("cluster"), !!rlang::sym("time"))
 
   # If exponential model is chosen
   if (function_type == "exponential") {
