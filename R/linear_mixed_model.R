@@ -22,7 +22,8 @@
 #' # Load example data (linear data from GrowthCurveME package)
 #' data(lin_mixed_data)
 #' # Fit a linear mixed-effects growth model
-#' lin_mixed_model <- growth_curve_model_fit(data_frame = lin_mixed_data,
+#' lin_mixed_model <- growth_curve_model_fit(
+#' data_frame = lin_mixed_data,
 #' function_type = "linear")
 #' # Fit an linear mixed-effects model using linear_mixed_model()
 #' lin_mixed_model <- linear_mixed_model(data_frame = lin_mixed_data)

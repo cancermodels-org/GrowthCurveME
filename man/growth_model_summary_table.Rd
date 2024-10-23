@@ -2,37 +2,60 @@
 % Please edit documentation in R/growth_model_summary_table.R
 \name{growth_model_summary_table}
 \alias{growth_model_summary_table}
-\title{Create a printable table of the summarized growth model results}
+\title{Create a printable table of the summarized growth model result reporting}
 \usage{
-growth_model_summary_table(growth_model_summary_list, use_knit_print = FALSE)
+growth_model_summary_table(
+  growth_model_summary_list,
+  font_name = "Albany AMT",
+  font_size_header = 14,
+  font_size_body = 12,
+  use_knit_print = FALSE
+)
 }
 \arguments{
-\item{growth_model_summary_list}{A list object created by the \code{\link{summarize_growth_model}} function.}
+\item{growth_model_summary_list}{A list object created by the
+\code{\link{growth_curve_model_fit}} function.}
 
-\item{use_knit_print}{A logical value to specify whether the flextable should be printer using the \code{\link[knitr]{knit_print}} function instead of the flextable object being returned.
+\item{font_name}{A character string specifying the name of the font to use
+when rendering the table. Defaults to "Albany AMT".
+See \code{\link[flextable]{font}}.}
+
+\item{font_size_header}{A numeric value specifying the size of the font
+for the header of the table. Defaults to 14.
+See \code{\link[flextable]{fontsize}}}
+
+\item{font_size_body}{A numeric value specifying the size of the font
+for the header of the table. Defaults to 12.
+See \code{\link[flextable]{fontsize}}}
+
+\item{use_knit_print}{A logical value to specify whether the flextable
+should be printer using the \code{\link[knitr]{knit_print}} function
+instead of the flextable object being returned.
 Defaults to FALSE.}
 }
 \value{
 A flextable object of the 'model_summary_long' data frame
 }
 \description{
-'growth_model_summary_table()' creates a flextable object that can be used for documentation or Rmarkdown reports from the list object created by \code{\link{summarize_growth_model}}.
-The 'model_summary_long' data frame from the list object is used to generate the table.
+'growth_model_summary_table()' creates a flextable object that can be used
+for documentation or Rmarkdown reports from the list object created
+by \code{\link{growth_curve_model_fit}}.
+The 'model_summary_long' data frame from the list object is used to
+generate the table.
 }
 \examples{
 # Load example data (exponential data)
 data(exp_mixed_data)
 # Fit an mixed-effects growth model to the data
-exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data, function_type = "exponential")
-# Summarize the data by creating a summary list object
-exp_mixed_model_summary <- summarize_growth_model(data_frame = exp_mixed_data,
-growth_model_object = exp_mixed_model,
-model_type = "mixed",
+exp_mixed_model_summary <- growth_curve_model_fit(
+data_frame = exp_mixed_data,
 function_type = "exponential")
-# Create flextable object of the growth model results ('model_summary_long' data frame from summary list object) for documentation
-exp_model_table <- growth_model_summary_table(growth_model_summary_list = exp_mixed_model_summary)
-print(exp_model_table)
+# Create flextable object of the growth model results
+exp_model_table <- growth_model_summary_table(
+growth_model_summary_list = exp_mixed_model_summary)
+# Print the table in the view pane
+exp_model_table
 }
 \seealso{
-\code{\link{growth_curve_model_fit}} \code{\link{summarize_growth_model}} \code{\link[flextable]{flextable}}
+\code{\link{growth_curve_model_fit}}
 }

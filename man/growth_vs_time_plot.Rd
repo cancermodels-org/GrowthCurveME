@@ -6,14 +6,15 @@
 \usage{
 growth_vs_time_plot(
   growth_model_summary_list,
-  model_type = "mixed",
+  plot_type = 2,
   growth_metric_name = "growth_metric",
   time_name = "time",
   cluster_name = "cluster",
   plot_title = "Growth vs Time",
-  plot_type = 2,
+  x_aix_breaks = ggplot2::waiver(),
   x_limits = c(NA, NA),
   n_x_axis_breaks = NULL,
+  y_aix_breaks = ggplot2::waiver(),
   y_limits = c(NA, NA),
   n_y_axis_breaks = NULL,
   x_axis_text_size = 8,
@@ -22,76 +23,129 @@ growth_vs_time_plot(
   y_axis_title_size = 14,
   plot_title_size = 20,
   geom_point_size = 2,
-  geom_line_width = 0.5
+  geom_line_width = 0.5,
+  ci_plot_annoate_value = "double_time",
+  annotate_value_text_size = 6
 )
 }
 \arguments{
-\item{growth_model_summary_list}{A list object created by the \code{\link{summarize_growth_model}} function.}
+\item{growth_model_summary_list}{A list object created by the
+\code{\link{growth_curve_model_fit}} function.}
 
-\item{model_type}{A character string specifying the model_type that was fit using the \code{\link{growth_curve_model_fit}} function. Options include either "mixed" or "least-squares. Defaults to "mixed".}
-
-\item{growth_metric_name}{A character string for specifying the name of the growth metric (y-axis title) to be displayed on the plot. Defaults to "growth_metric".}
-
-\item{time_name}{A character string for specifying the name of the time variable (x-axis title) to be displayed on the plot. Defaults to "time".}
-
-\item{cluster_name}{A character string for specifying the name of the cluster variable (legend title) to be displayed on the plot. Defaults to "cluster".}
-
-\item{plot_title}{A character string for specifying the title to be displayed over the plot. Defaults to "Regression Model with 95\% Confidence Intervals".}
-
-\item{plot_type}{A numeric value used to specify the plot type to graph. Values include 1, 2, or 3 with descriptions of each below (defaults to 2):
+\item{plot_type}{A numeric value used to specify the plot type to graph.
+Values include 1, 2, 3, 4 with descriptions of each below (defaults to 2):
 \itemize{
-\item 1 - A scatterplot of the growth_metric vs time data where each point is colored by cluster if applicable.
-\item 2 - A scatterplot of the growth_metric vs time data where each point is colored by cluster if applicable and the model predicted values are overlayed as line.
-When model_type = "mixed" the predicted values will be the fitted values accounting for both fixed and random effects (fitted_values_random).
-When model_type = "least-squares" the predicted values will be the fitted values accounting for fixed effects only (fitted_values_fixed).
-\item 3 - A scatterplot version of plot_type = 2 where each cluster is separated into their own plot forming a matrix of growth_metric vs time plots by cluster.
+\item 1 - A scatterplot of the growth_metric vs time data where each
+point is colored by cluster if applicable.
+\item 2 - A scatterplot of the growth_metric vs time data where each
+point is colored by cluster if applicable and the model predicted values
+are overlayed as line.
+When a mixed-effect model summary list is in-putted, the predicted values
+will be the ind_fit_value which accounts for both fixed and random effects.
+When a least-squares model summary list is in-putted the predicted values
+will be the fitted values accounting for fixed effects only (pop_fit_value).
+\item 3 - A scatterplot version of plot_type = 2 where each cluster is
+separated into their own plot forming a matrix of growth_metric vs time
+plots by cluster.
+\item 4 - A plot of bootstrapped estimates as a smooth line,
+with corresponding bootstrapped 95\% confidence intervals as a
+shaded region. NOTE: plot can only be generated if
+bootstrap_time was set to TRUE in \code{\link{growth_curve_model_fit}} when
+growth_model_summary_list list object was generated.
 }}
 
-\item{x_limits}{A numeric vector of length two providing limits for the x-axis. Use NA to refer to the existing minimum or maximum. Defaults to c(NA, NA). See \code{\link[ggplot2]{scale_x_continuous}}.}
+\item{growth_metric_name}{A character string for specifying the name of
+the growth metric (y-axis title) to be displayed on the plot.
+Defaults to "growth_metric".}
 
-\item{n_x_axis_breaks}{An integer specifying the number of major breaks for the x-axis. Defaults to NULL. See \code{\link[ggplot2]{scale_x_continuous}}.}
+\item{time_name}{A character string for specifying the name of the time
+variable (x-axis title) to be displayed on the plot. Defaults to "time".}
 
-\item{y_limits}{A numeric vector of length two providing limits for the y-axis. Use NA to refer to the existing minimum or maximum. Defaults to c(NA, NA). See \code{\link[ggplot2]{scale_y_continuous}}.}
+\item{cluster_name}{A character string for specifying the name of the
+cluster variable (legend title) to be displayed on the plot.
+Defaults to "cluster".}
 
-\item{n_y_axis_breaks}{An integer specifying the number of major breaks for the x-axis. Defaults to NULL. See \code{\link[ggplot2]{scale_y_continuous}}.}
+\item{plot_title}{A character string for specifying the title to be
+displayed over the plot. Defaults to "Growth vs Time".}
 
-\item{x_axis_text_size}{A numeric value specifying the size of the x-axis text. Defaults to 8. See \code{\link[ggplot2]{element_text}}.}
+\item{x_aix_breaks}{A numeric vector specifying manual numeric breaks.
+Defaults to ggplot2::waiver(). See \code{\link[ggplot2]{scale_x_continuous}}.}
 
-\item{y_axis_text_size}{A numeric value specifying the size of the y-axis text. Defaults to 12. See \code{\link[ggplot2]{element_text}}.}
+\item{x_limits}{A numeric vector of length two providing limits for
+the x-axis. Use NA to refer to the existing minimum or maximum.
+Defaults to c(NA, NA). See \code{\link[ggplot2]{scale_x_continuous}}.}
 
-\item{x_axis_title_size}{A numeric value specifying the size of the x-axis title. Defaults to 14. See \code{\link[ggplot2]{element_text}}.}
+\item{n_x_axis_breaks}{An integer specifying the number of major breaks
+for the x-axis. Defaults to NULL.
+See \code{\link[ggplot2]{scale_x_continuous}}.}
 
-\item{y_axis_title_size}{A numeric value specifying the size of the y-axis title. Defaults to 14. See \code{\link[ggplot2]{element_text}}.}
+\item{y_aix_breaks}{A numeric vector specifying manual numeric breaks.
+Defaults to ggplot2::waiver(). See \code{\link[ggplot2]{scale_y_continuous}}.}
 
-\item{plot_title_size}{A numeric value specifying the size of the plot title. Defaults to 20. See \code{\link[ggplot2]{element_text}}.}
+\item{y_limits}{A numeric vector of length two providing limits for
+the y-axis. Use NA to refer to the existing minimum or maximum.
+Defaults to c(NA, NA). See \code{\link[ggplot2]{scale_y_continuous}}.}
 
-\item{geom_point_size}{A numeric value specifying the size of the points on the graph. Defaults to 2. See \code{\link[ggplot2]{geom_point}}.}
+\item{n_y_axis_breaks}{An integer specifying the number of major breaks
+for the x-axis. Defaults to NULL.
+See \code{\link[ggplot2]{scale_y_continuous}}.}
 
-\item{geom_line_width}{A numeric value specifying the width of the line (applicable only for plot_type = 2 or 3). Defaults to 0.5. See \code{\link[ggplot2]{geom_line}}.}
+\item{x_axis_text_size}{A numeric value specifying the size of the
+x-axis text. Defaults to 8. See \code{\link[ggplot2]{element_text}}.}
+
+\item{y_axis_text_size}{A numeric value specifying the size of the
+y-axis text. Defaults to 12. See \code{\link[ggplot2]{element_text}}.}
+
+\item{x_axis_title_size}{A numeric value specifying the size of the
+x-axis title. Defaults to 14. See \code{\link[ggplot2]{element_text}}.}
+
+\item{y_axis_title_size}{A numeric value specifying the size of the
+y-axis title. Defaults to 14. See \code{\link[ggplot2]{element_text}}.}
+
+\item{plot_title_size}{A numeric value specifying the size of the plot
+title. Defaults to 20. See \code{\link[ggplot2]{element_text}}.}
+
+\item{geom_point_size}{A numeric value specifying the size of the points
+on the graph. Defaults to 2. See \code{\link[ggplot2]{geom_point}}.}
+
+\item{geom_line_width}{A numeric value specifying the width of the line
+(applicable only for plot_type = 2, 3, or 4). Defaults to 0.5.}
+
+\item{ci_plot_annoate_value}{A character string specifying whether to add
+the doubling time or rate estimates from the model to plot 4. Options
+include "double_time" for the doubling time with 95\% CI, "rate" for the
+rate estimate with 95\% CI, or "none" for no annotation. Defaults to
+"double_time"}
+
+\item{annotate_value_text_size}{A numeric value specifying the size of
+the annotation text. Defaults to 6. See \code{\link[ggplot2]{geom_text}}.
+See \code{\link[ggplot2]{geom_line}}.}
 }
 \value{
 Returns a ggplot2 plot
 }
 \description{
-'growth_vs_time_plot()' is a function that can be used to generate different plots from a list object created by the \code{\link{summarize_growth_model}} function.
-Please refer to the documentation for the 'plot_type' parameter for the different plot options.
+'growth_vs_time_plot()' is a function that can be used to generate
+different plots from a list object created by the
+\code{\link{growth_curve_model_fit}} function.
+Please refer to the documentation for the 'plot_type' parameter for the
+different plot options.
 }
 \examples{
 # Load example data (exponential data)
 data(exp_mixed_data)
 # Fit an mixed-effects growth model to the data
-exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data, function_type = "exponential")
-# Summarize the data by creating a summary list object
-exp_mixed_model_summary <- summarize_growth_model(data_frame = exp_mixed_data,
-growth_model_object = exp_mixed_model,
-model_type = "mixed",
-function_type = "exponential")
-# Create growth vs time plot of data with fitted values (plot_type = 2), adjust aesthetics and parameters as desired
-exp_growth_plot <- growth_vs_time_plot(growth_model_summary_list = exp_mixed_model_summary,
-model_type = "mixed",
-plot_type = 2)
+exp_mixed_model_summary <- growth_curve_model_fit(
+  data_frame = exp_mixed_data,
+  function_type = "exponential"
+)
+# Create growth vs time plot of data with fitted values (plot_type = 2)
+exp_growth_plot <- growth_vs_time_plot(
+  growth_model_summary_list = exp_mixed_model_summary,
+  plot_type = 2
+)
 print(exp_growth_plot)
 }
 \seealso{
-\code{\link{growth_curve_model_fit}} \code{\link{summarize_growth_model}}
+\code{\link{growth_curve_model_fit}}
 }

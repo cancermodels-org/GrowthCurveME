@@ -6,46 +6,62 @@
 \usage{
 growth_model_residual_plots(
   growth_model_summary_list,
-  model_type = "mixed",
-  residual_type = "conditional"
+  residual_type = "cluster",
+  weighted = TRUE
 )
 }
 \arguments{
-\item{growth_model_summary_list}{A list object created by the \code{\link{summarize_growth_model}} function.}
+\item{growth_model_summary_list}{A list object created by the
+\code{\link{growth_curve_model_fit}} function.}
 
-\item{model_type}{A character string specifying the model_type that was fit using the \code{\link{growth_curve_model_fit}} function. Options include either "mixed" or "least-squares. Defaults to "mixed".}
+\item{residual_type}{A character string specifying the type of residuals
+to be displayed in the plot. Options include "population" for the
+fixed-effects residuals for mixed-effects and least-squares models and
+"cluster" for fixed and random-effects residuals for mixed-effects
+regression models. Defaults to "cluster".}
 
-\item{residual_type}{A character string specifying type of residuals to be displayed in the plot. Options include "marginal" for mixed-effects and least-squares models and
-"conditional" for mixed-effects regression models. Defaults to "conditional".}
+\item{weighted}{A logical value, when TRUE displays weighted residuals for
+mixed-effects models or Standardized residuals for least-squares models,
+when FALSE displays the raw residuals for mixed-effects and least-squares
+models. Defaults to "TRUE".}
 }
 \value{
-Returns a ggplot2 collage of model diagnostic plots with the following plots displayed:
+Returns a ggplot2 collage of model diagnostic plots with the
+following plots displayed:
 \itemize{
-\item Residual vs Fitted Values - a model diagnostic plot for assessing the distribution of standardized residuals vs the model fitted values, useful in detecting improper function specification, homogeneity of variance, and outlier detection.
-\item Q-Q Plot - a model diagnostic plot (quantile-quantile) plot for comparing standardized residuals vs their theoretical quantiles, useful in assessing normality assumptions and outlier detection.
-\item Residual Density Plot - a model diagnostic showing the distribution of standardized residuals (histogram) with a normal distribution curve overlaid based on the residuals mean and standard deviation, useful in assessing normality assumptions and skewness.
-\item Residual Summary Statistics - a list of descriptive statistics of the standardized residuals including: mean, median, minimum, maximum, skewness, and kurtosis.
+\item Residual vs Fitted Values - a model diagnostic plot for assessing
+the distribution of standardized residuals vs the model fitted values,
+useful in detecting improper function specification, homogeneity of
+variance, and outlier detection.
+\item Q-Q Plot - a model diagnostic plot (quantile-quantile) plot for
+comparing standardized residuals vs their theoretical quantiles,
+useful in assessing normality assumptions and outlier detection.
+\item Residual Density Plot - a model diagnostic showing the distribution
+of standardized residuals (histogram) with a normal distribution curve
+overlaid based on the residuals mean and standard deviation, useful in
+assessing normality assumptions and skewness.
+\item Residual Summary Statistics - a list of descriptive statistics of
+the standardized residuals including: mean, median, minimum, maximum,
+skewness, and kurtosis.
 }
 }
 \description{
-'growth_model_residual_plots()' is function that generates residual diagnostic plots and summary statistics for a growth model fit with \code{\link{growth_curve_model_fit}} and summarized by \code{\link{summarize_growth_model}}.
+'growth_model_residual_plots()' is function that generates residual
+diagnostic plots and summary statistics for a growth model summary list
+object produced by \code{\link{growth_curve_model_fit}}.
 }
 \examples{
 # Load example data (exponential data)
 data(exp_mixed_data)
-# Fit an mixed-effects growth model to the data
-exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data, function_type = "exponential")
-# Summarize the data by creating a summary list object
-exp_mixed_model_summary <- summarize_growth_model(data_frame = exp_mixed_data,
-growth_model_object = exp_mixed_model,
-model_type = "mixed",
+# Fit an mixed-effects growth model to the data and produce summary list
+exp_mixed_model_summary <- growth_curve_model_fit(
+data_frame = exp_mixed_data,
 function_type = "exponential")
 # Check residuals and model assumptions
-residual_diag_plot <- growth_model_residual_plots(growth_model_summary_list = exp_mixed_model_summary,
-model_type = "mixed",
-residual_type = "conditional")
+residual_diag_plot <- growth_model_residual_plots(
+  growth_model_summary_list = exp_mixed_model_summary)
 print(residual_diag_plot)
 }
 \seealso{
-\code{\link{growth_curve_model_fit}} \code{\link{summarize_growth_model}}
+\code{\link{growth_curve_model_fit}}
 }

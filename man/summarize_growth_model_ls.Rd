@@ -4,7 +4,12 @@
 \alias{summarize_growth_model_ls}
 \title{Summarize least-squares growth model object and data}
 \usage{
-summarize_growth_model_ls(data_frame, ls_model, function_type = "exponential")
+summarize_growth_model_ls(
+  data_frame,
+  ls_model,
+  function_type = "exponential",
+  time_unit = "hours"
+)
 }
 \arguments{
 \item{data_frame}{A data frame object that at minimum contains three
@@ -20,43 +25,59 @@ minutes, hours, or days
 over time such as cell count or confluency
 }}
 
-\item{ls_model}{The least-squares model object that is created using the 'growth_curve_model_fit()'}
+\item{ls_model}{The least-squares model object that is created using
+the 'growth_curve_model_fit()'}
 
 \item{function_type}{A character string specifying the function for
 modeling the shape of the growth. Options include "exponential", "linear",
 "logistic", or "gompertz".}
+
+\item{time_unit}{A character string specifying the units in which time is
+measured in. Defaults to "hours"}
 }
 \value{
 A list object with the following data frames within the list:
 \itemize{
-\item model_summary_wide - a data frame with 1 row containing key model estimates, doubling-time, and model metrics depending on the model_type and function_type specified
-\item model_summary_long - a data frame that is a long dataset version of 'model_summary_wide' that can be used to generate a table of the model results (see function \code{\link{growth_model_summary_table}})
-\item model_residual_data - a data frame containing the original data frame values as well as predicted values, residuals, and theoretical quantiles of the residuals depending on the model_type selected
-(see functions \code{\link{growth_model_residual_plots}}, \code{\link{growth_vs_time_plot}}, and \code{\link{growth_model_boot_ci_curve}})
-\item model_fixed_corr - When model_type = "mixed", return the fixed-effects correlation matrix from the model (see function \code{\link{growth_model_fixed_cor_table}})
+\item model_summary_wide - a data frame with 1 row containing
+key model estimates, doubling-time, and model metrics depending
+on the model_type and function_type specified
+\item model_summary_long - a data frame that is a long dataset version of
+'model_summary_wide' that can be used to generate a table of the model
+results (see function \code{\link{growth_model_summary_table}})
+\item model_residual_data - a data frame containing the original data
+frame values as well as predicted values, residuals, and theoretical
+quantiles of the residuals depending on the model_type selected
+(see functions \code{\link{growth_model_residual_plots}} and
+\code{\link{growth_vs_time_plot}}
 }
 }
 \description{
-'summarize_growth_model_mixed()' is a function used within the \code{\link{summarize_growth_model}} function to create a list object of data frames based on a user's input data frame and outputed least-squares growth model object from \code{\link{growth_curve_model_fit}}.
-The list object (referred to in this package as 'growth_model_summary_list') can be used to extract model predicted values, residuals, and can be in-putted into supporting functions from GrowthCurveME to generate plots and perform model diagnostics.
+'summarize_growth_model_mixed()' is a function used within the
+\code{\link{summarize_growth_model}} function to create a list object of
+data frames based on a user's input data frame and outputed least-squares
+growth model object from \code{\link{growth_curve_model_fit}}.
+The list object (referred to in this package as 'growth_model_summary_list')
+can be used to extract model predicted values, residuals,
+and can be in-putted into supporting functions from GrowthCurveME to
+generate plots and perform model diagnostics.
 }
 \examples{
 # Load example data (exponential data)
 data(exp_mixed_data)
-# Fit an least-squares growth model to the data
-exp_ls_model <- growth_curve_model_fit(data_frame = exp_mixed_data,
+# Fit an mixed-effects growth model to the data
+exp_ls_model <- growth_curve_model_fit(
+data_frame = exp_mixed_data,
 function_type = "exponential",
-model_type = "least-squares")
-# Summarize the data by creating a summary list object with main 'summarize_growth_model()' function
-exp_ls_model_summary <- summarize_growth_model(data_frame = exp_mixed_data,
-growth_model_object = exp_ls_model,
 model_type = "least-squares",
-function_type = "exponential")
-# Summarize the data by creating a summary list object with main 'summarize_growth_model()' function
-exp_ls_model_summary <- summarize_growth_model_ls(data_frame = exp_mixed_data,
+return_summary = FALSE)
+# Summarize the data by creating a summary list object
+exp_ls_model_summary <- summarize_growth_model_ls(
+data_frame = exp_mixed_data,
 ls_model = exp_ls_model,
-function_type = "exponential")
+function_type = "exponential",
+time_unit = "hours")
 }
 \seealso{
-\code{\link{growth_curve_model_fit}} \code{\link{summarize_growth_model}}
+\code{\link{growth_curve_model_fit}}
+\code{\link{summarize_growth_model}}
 }

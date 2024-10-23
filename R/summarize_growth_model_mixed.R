@@ -1,39 +1,54 @@
 #' Summarize mixed-effects growth model object and data
 #'
 #' @description
-#' 'summarize_growth_model_mixed()' is a function used within the \code{\link{summarize_growth_model}} function to create a list object of data frames based on a user's input data frame and outputed mixed-effects growth model object from \code{\link{growth_curve_model_fit}}.
-#' The list object (referred to in this package as 'growth_model_summary_list') can be used to extract model predicted values, residuals, and can be in-putted into supporting functions from GrowthCurveME to generate plots and perform model diagnostics.
+#' 'summarize_growth_model_mixed()' is a function used within the
+#'  \code{\link{summarize_growth_model}} function to create a list object of
+#'  data frames based on a user's input data frame and outputed mixed-effects
+#'  growth model object from \code{\link{growth_curve_model_fit}}.
+#' The list object (referred to in this package as 'growth_model_summary_list')
+#' can be used to extract model predicted values, residuals, and can be
+#' in-putted into supporting functions from GrowthCurveME to generate plots and
+#' perform model diagnostics.
 #'
 #'
 #' @inheritParams growth_curve_model_fit
-#' @param mixed_growth_model The mixed-effects model object that is created using the 'growth_curve_model_fit()'
+#' @param mixed_growth_model The mixed-effects model object that is created
+#' using the 'growth_curve_model_fit()'
 #'
 #' @inherit summarize_growth_model return
-#' @seealso \code{\link{growth_curve_model_fit}} \code{\link{summarize_growth_model}}
+#' @seealso \code{\link{growth_curve_model_fit}}
+#' \code{\link{summarize_growth_model}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr arrange bind_rows bind_cols case_when filter mutate
 #' mutate_if rename select summarize ungroup
 #' @importFrom tibble rownames_to_column tibble
-#' @importFrom nlme intervals VarCorr
 #' @importFrom stats qqnorm residuals
-#' @importFrom rlang sym
+#' @importFrom rlang sym :=
+#' @importFrom stringr str_replace str_detect
+#' @importFrom tidyr pivot_wider
 #' @export
 #'
 #' @examples
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
 #' # Fit an mixed-effects growth model to the data
-#' exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data, function_type = "exponential")
-#' # Summarize the data by creating a summary list object with main 'summarize_growth_model()' function
-#' exp_mixed_model_summary <- summarize_growth_model(data_frame = exp_mixed_data, growth_model_object = exp_mixed_model, model_type = "mixed", function_type = "exponential")
-#' # Summarize the data by creating a summary list object with main 'summarize_growth_model()' function
-#' exp_mixed_model_summary <- summarize_growth_model_mixed(data_frame = exp_mixed_data, mixed_growth_model = exp_mixed_model, function_type = "exponential")
-#' # Extracting a data frame from the list object
+#' exp_mixed_model <- growth_curve_model_fit(
+#' data_frame = exp_mixed_data,
+#' function_type = "exponential",
+#' return_summary = FALSE)
+#' # Summarize the data by creating a summary list object
+#' exp_mixed_model_summary <- summarize_growth_model_mixed(
+#' data_frame = exp_mixed_data,
+#' mixed_growth_model = exp_mixed_model,
+#' fixed_rate = TRUE,
+#' function_type = "exponential",
+#' time_unit = "hours")
 #' model_summary_wide <- exp_mixed_model_summary[["model_summary_wide"]]
 summarize_growth_model_mixed <- function(data_frame,
                                          mixed_growth_model,
                                          function_type = "exponential",
-                                         fixed_rate = TRUE) {
+                                         fixed_rate = TRUE,
+                                         time_unit = "hours") {
   # Check initial inputs
   stopifnot(
     "cluster" %in% colnames(data_frame),
@@ -81,13 +96,36 @@ summarize_growth_model_mixed <- function(data_frame,
       rate_se = mixed_growth_model@results@conf.int[2, 3],
       rate_lb = mixed_growth_model@results@conf.int[2, 5],
       rate_ub = mixed_growth_model@results@conf.int[2, 6],
-      double_time_hours_est = log(2) / rate_est,
-      double_time_hours_lb = log(2) / rate_ub,
-      double_time_hours_ub = log(2) / rate_lb,
+      double_time_est = log(2) / !!rlang::sym("rate_est"),
+      double_time_lb = log(2) / !!rlang::sym("rate_ub"),
+      double_time_ub = log(2) / !!rlang::sym("rate_lb"),
       AIC = mixed_growth_model@results@aic.lin,
       BIC = mixed_growth_model@results@bic.lin,
       loglik = mixed_growth_model@results@ll.lin,
     )
+
+    # Calculate doubling time and add aic, bic, and loglik
+    if (function_type == "linear") {
+      model_summary_wide <- model_summary_wide %>%
+        dplyr::mutate(
+          double_time_est = 2 / !!rlang::sym("rate_est"),
+          double_time_lb = 2 / !!rlang::sym("rate_ub"),
+          double_time_ub = 2 / !!rlang::sym("rate_lb"),
+          aic = mixed_growth_model@results@aic.lin,
+          bic = mixed_growth_model@results@bic.lin,
+          loglik = mixed_growth_model@results@ll.lin
+        )
+    } else {
+      model_summary_wide <- model_summary_wide %>%
+        dplyr::mutate(
+          double_time_est = log(2) / !!rlang::sym("rate_est"),
+          double_time_lb = log(2) / !!rlang::sym("rate_ub"),
+          double_time_ub = log(2) / !!rlang::sym("rate_lb"),
+          aic = mixed_growth_model@results@aic.lin,
+          bic = mixed_growth_model@results@bic.lin,
+          loglik = mixed_growth_model@results@ll.lin
+        )
+    }
 
     # Round and create tidy variables for convert to long dataset
     # for table figure
@@ -111,18 +149,18 @@ summarize_growth_model_mixed <- function(data_frame,
                         ",", !!rlang::sym("rate_ub"),
                         "]",
                         sep = ""),
-        double_time_hours_est = round(!!rlang::sym("double_time_hours_est"), 2),
-        double_time_hours_lb = round(!!rlang::sym("double_time_hours_lb"), 2),
-        double_time_hours_ub = round(!!rlang::sym("double_time_hours_ub"), 2),
-        double_time_ci = paste(!!rlang::sym("double_time_hours_est"),
-                               " [", !!rlang::sym("double_time_hours_lb"),
+        double_time_est = round(!!rlang::sym("double_time_est"), 2),
+        double_time_lb = round(!!rlang::sym("double_time_lb"), 2),
+        double_time_ub = round(!!rlang::sym("double_time_ub"), 2),
+        double_time_ci = paste(!!rlang::sym("double_time_est"),
+                               " [", !!rlang::sym("double_time_lb"),
                                ",",
-          !!rlang::sym("double_time_hours_ub"),
+          !!rlang::sym("double_time_ub"),
           "]",
           sep = ""
         ),
-        aic = round(!!rlang::sym("AIC"), 2),
-        bic = round(!!rlang::sym("BIC"), 2),
+        aic = round(!!rlang::sym("aic"), 2),
+        bic = round(!!rlang::sym("bic"), 2),
         loglik = round(!!rlang::sym("loglik"), 2)
       ) %>%
       dplyr::mutate_if(is.numeric, as.character) %>%
@@ -133,7 +171,8 @@ summarize_growth_model_mixed <- function(data_frame,
         "Number of clusters" = !!rlang::sym("number_clusters"),
         "Intercept [95% CI]" = !!rlang::sym("intercept_ci"),
         "Rate constant [95% CI]" = !!rlang::sym("rate_ci"),
-        "Doubling time estimate [95% CI]" = !!rlang::sym("double_time_ci"),
+        !!paste("Doubling time estimate (", time_unit, ") [95% CI]", sep = "")
+        := !!rlang::sym("double_time_ci"),
         "Akaike information criterion (AIC)" = !!rlang::sym("aic"),
         "Bayesian information criterion (BIC)" = !!rlang::sym("bic"),
         "Log likelihood" = !!rlang::sym("loglik"),
@@ -198,7 +237,7 @@ summarize_growth_model_mixed <- function(data_frame,
     # Create wide data set to store variables and components within it
       model_summary_wide <- tibble::tibble(
         model_function = function_type,
-        model_type = "mixed",
+        model_type = "mixed-effects",
         number_observations = data_frame %>%
           nrow() %>% as.numeric(),
         number_clusters = data_frame %>%
@@ -224,12 +263,13 @@ summarize_growth_model_mixed <- function(data_frame,
         aic = mixed_growth_model@results@aic.lin,
         bic = mixed_growth_model@results@bic.lin,
         loglik = mixed_growth_model@results@ll.lin,
-        double_time_hours = log(2) / rate_est,
-        double_time_hours_lb = log(2) / rate_ub,
-        double_time_hours_ub = log(2) / rate_lb,
+        double_time = log(2) / !!rlang::sym("rate_est"),
+        double_time_lb = log(2) / !!rlang::sym("rate_ub"),
+        double_time_ub = log(2) / !!rlang::sym("rate_lb"),
       )
 
-      # Round and create tidy variables for convert to long dataset for table figure
+      # Round and create tidy variables and convert to long dataset for
+      # table figure
       model_summary_long <- model_summary_wide %>%
         dplyr::mutate(
           lower_asy_est = round(!!rlang::sym("lower_asy_est"), 2),
@@ -264,13 +304,13 @@ summarize_growth_model_mixed <- function(data_frame,
                           ",", !!rlang::sym("rate_ub"),
                           "]",
                           sep = ""),
-          double_time_hours = round(!!rlang::sym("double_time_hours"), 2),
-          double_time_hours_lb = round(!!rlang::sym("double_time_hours_lb"), 2),
-          double_time_hours_ub = round(!!rlang::sym("double_time_hours_ub"), 2),
-          double_time_ci = paste(!!rlang::sym("double_time_hours"),
-                                 " [", !!rlang::sym("double_time_hours_lb"),
+          double_time = round(!!rlang::sym("double_time"), 2),
+          double_time_lb = round(!!rlang::sym("double_time_lb"), 2),
+          double_time_ub = round(!!rlang::sym("double_time_ub"), 2),
+          double_time_ci = paste(!!rlang::sym("double_time"),
+                                 " [", !!rlang::sym("double_time_lb"),
                                  ",",
-                                 !!rlang::sym("double_time_hours_ub"),
+                                 !!rlang::sym("double_time_ub"),
                                  "]",
                                  sep = ""
           ),
@@ -288,7 +328,8 @@ summarize_growth_model_mixed <- function(data_frame,
           "Upper asymptote estimate [95% CI]" = !!rlang::sym("upper_asy_ci"),
           "Inflection point estimate [95% CI]" = !!rlang::sym("inflection_ci"),
           "Rate constant estimate [95% CI]" = !!rlang::sym("rate_ci"),
-          "Doubling time estimate [95% CI]" = !!rlang::sym("double_time_ci"),
+          !!paste("Doubling time estimate (", time_unit, ") [95% CI]", sep = "")
+          := !!rlang::sym("double_time_ci"),
           "Akaike information criterion (AIC)" = !!rlang::sym("aic"),
           "Bayesian information criterion (BIC)" = !!rlang::sym("bic"),
           "Log likelihood" = !!rlang::sym("loglik"),
@@ -358,11 +399,11 @@ summarize_growth_model_mixed <- function(data_frame,
     dplyr::select(!!rlang::sym("cluster"),
                   !!rlang::sym("time"),
                   !!rlang::sym("growth_metric")) %>%
-    dplyr::arrange(cluster, time) %>%
+    dplyr::arrange(!!rlang::sym("cluster"), !!rlang::sym("time")) %>%
     dplyr::bind_cols(data.frame(wres = model_update@results@wres))
 
-  # Join wres with model_residual_data and calculate theoretical quantiles
   # Used for residual diagnostics
+  suppressMessages(
   model_residual_data <- model_residual_data %>%
     dplyr::left_join(wres_model_data) %>%
     dplyr::mutate(
@@ -389,36 +430,13 @@ summarize_growth_model_mixed <- function(data_frame,
       pop_wt_resid_quant = !!rlang::sym("pwres_wt_theoretical_quantiles"),
       ind_wt_resid_quant = !!rlang::sym("iwres_wt_theoretical_quantiles")
     )
-
-
-  # Extract unique time points and number of clusters
-  times <- data_frame %>%
-    dplyr::pull(!!rlang::sym("time")) %>%
-    unique()
-  n_cluster <- data_frame %>%
-    dplyr::count(!!rlang::sym("cluster")) %>%
-    nrow()
-
-  # Join times with simulated data
-  simulated_data <- model_update@sim.data@datasim %>%
-    dplyr::bind_cols(
-      data.frame(time = rep(times, model_update@sim.data@nsim*n_cluster))
-      )
-
-  # Calculate the 2.5th and 97.5th percentiles of the predicted values
-  # from each of the simulations
-  simulated_data <- simulated_data %>%
-    dplyr::group_by(time) %>%
-    dplyr::summarize(sim_pop_pred_lb = quantile(ypred, 0.025),
-                     sim_pop_pred_ub = quantile(ypred, 0.975)) %>%
-    dplyr::ungroup()
+  )
 
   # Create a list of wide and long mixed_growth_model summary datasets
   model_summary_list <- list(
     "model_summary_wide" = model_summary_wide,
     "model_summary_long" = model_summary_long,
-    "model_residual_data" = model_residual_data,
-    "model_pop_ci" = simulated_data
+    "model_residual_data" = model_residual_data
   )
 
   # Return the model_summary_list

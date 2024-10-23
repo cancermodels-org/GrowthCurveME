@@ -8,7 +8,8 @@ summarize_growth_model_mixed(
   data_frame,
   mixed_growth_model,
   function_type = "exponential",
-  fixed_rate = TRUE
+  fixed_rate = TRUE,
+  time_unit = "hours"
 )
 }
 \arguments{
@@ -25,7 +26,8 @@ minutes, hours, or days
 over time such as cell count or confluency
 }}
 
-\item{mixed_growth_model}{The mixed-effects model object that is created using the 'growth_curve_model_fit()'}
+\item{mixed_growth_model}{The mixed-effects model object that is created
+using the 'growth_curve_model_fit()'}
 
 \item{function_type}{A character string specifying the function for
 modeling the shape of the growth. Options include "exponential", "linear",
@@ -34,33 +36,54 @@ modeling the shape of the growth. Options include "exponential", "linear",
 \item{fixed_rate}{A logical value specifying whether the rate constant
 of the function should be treated as a fixed effect (TRUE) or random
 effect (FALSE). Defaults to TRUE}
+
+\item{time_unit}{A character string specifying the units in which time is
+measured in. Defaults to "hours"}
 }
 \value{
 A list object with the following data frames within the list:
 \itemize{
-\item model_summary_wide - a data frame with 1 row containing key model estimates, doubling-time, and model metrics depending on the model_type and function_type specified
-\item model_summary_long - a data frame that is a long dataset version of 'model_summary_wide' that can be used to generate a table of the model results (see function \code{\link{growth_model_summary_table}})
-\item model_residual_data - a data frame containing the original data frame values as well as predicted values, residuals, and theoretical quantiles of the residuals depending on the model_type selected
-(see functions \code{\link{growth_model_residual_plots}}, \code{\link{growth_vs_time_plot}}, and \code{\link{growth_model_boot_ci_curve}})
-\item model_fixed_corr - When model_type = "mixed", return the fixed-effects correlation matrix from the model (see function \code{\link{growth_model_fixed_cor_table}})
+\item model_summary_wide - a data frame with 1 row containing
+key model estimates, doubling-time, and model metrics depending
+on the model_type and function_type specified
+\item model_summary_long - a data frame that is a long dataset version of
+'model_summary_wide' that can be used to generate a table of the model
+results (see function \code{\link{growth_model_summary_table}})
+\item model_residual_data - a data frame containing the original data
+frame values as well as predicted values, residuals, and theoretical
+quantiles of the residuals depending on the model_type selected
+(see functions \code{\link{growth_model_residual_plots}} and
+\code{\link{growth_vs_time_plot}}
 }
 }
 \description{
-'summarize_growth_model_mixed()' is a function used within the \code{\link{summarize_growth_model}} function to create a list object of data frames based on a user's input data frame and outputed mixed-effects growth model object from \code{\link{growth_curve_model_fit}}.
-The list object (referred to in this package as 'growth_model_summary_list') can be used to extract model predicted values, residuals, and can be in-putted into supporting functions from GrowthCurveME to generate plots and perform model diagnostics.
+'summarize_growth_model_mixed()' is a function used within the
+\code{\link{summarize_growth_model}} function to create a list object of
+data frames based on a user's input data frame and outputed mixed-effects
+growth model object from \code{\link{growth_curve_model_fit}}.
+The list object (referred to in this package as 'growth_model_summary_list')
+can be used to extract model predicted values, residuals, and can be
+in-putted into supporting functions from GrowthCurveME to generate plots and
+perform model diagnostics.
 }
 \examples{
 # Load example data (exponential data)
 data(exp_mixed_data)
 # Fit an mixed-effects growth model to the data
-exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data, function_type = "exponential")
-# Summarize the data by creating a summary list object with main 'summarize_growth_model()' function
-exp_mixed_model_summary <- summarize_growth_model(data_frame = exp_mixed_data, growth_model_object = exp_mixed_model, model_type = "mixed", function_type = "exponential")
-# Summarize the data by creating a summary list object with main 'summarize_growth_model()' function
-exp_mixed_model_summary <- summarize_growth_model_mixed(data_frame = exp_mixed_data, mixed_growth_model = exp_mixed_model, function_type = "exponential")
-# Extracting a data frame from the list object
+exp_mixed_model <- growth_curve_model_fit(
+data_frame = exp_mixed_data,
+function_type = "exponential",
+return_summary = FALSE)
+# Summarize the data by creating a summary list object
+exp_mixed_model_summary <- summarize_growth_model_mixed(
+data_frame = exp_mixed_data,
+mixed_growth_model = exp_mixed_model,
+fixed_rate = TRUE,
+function_type = "exponential",
+time_unit = "hours")
 model_summary_wide <- exp_mixed_model_summary[["model_summary_wide"]]
 }
 \seealso{
-\code{\link{growth_curve_model_fit}} \code{\link{summarize_growth_model}}
+\code{\link{growth_curve_model_fit}}
+\code{\link{summarize_growth_model}}
 }

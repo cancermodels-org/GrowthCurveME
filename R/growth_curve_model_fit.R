@@ -28,10 +28,44 @@
 #' effect (FALSE). Defaults to TRUE
 #' @param num_chains A numeric value specifying the number of chains to run
 #' in parallel in the MCMC algorithm of saemix. Defaults to 1.
+#' @param time_unit A character string specifying the units in which time is
+#' measured in. Defaults to "hours"
+#' @param return_summary A logical value specifying whether to return the
+#' growth_model_summary_list when TRUE (list object containing summarized data)
+#' or the object model object when FALSE. Defaults to TRUE.
+#' @param bootstrap_time Logical value indicating whether to append
+#' a data frame with bootstrap estimates and 95% confidence intervals for each
+#' time point. Defaults to FALSE. See \code{\link{growth_boostrap_ci}}
+#' for more details.
+#' @param boot_n_sim A numeric value specifying the number of bootstrap
+#' simulations to be performed. Defaults to 100.
+#' See \code{\link{growth_boostrap_ci}} for more details.
+#' @param mix_boot_method For mixed-effects models ONLY, a character string
+#' specifying the bootstrap algorithm to use. Options include "case",
+#' "residual", "parametric" or "conditional". Defaults to "case".
+#' See \code{\link{growth_boostrap_ci}} for more details.
 #'
-#' @return Returns a model object of class 'saemix' when a mixed-effects
-#' model is specified or a model object of class 'nls' if a least-squares
-#' model is specified.
+#' @return A list object with the following data frames within the list:
+#'\itemize{
+#'  \item model_summary_wide - a data frame with 1 row containing
+#'  key model estimates, doubling-time, and model metrics depending
+#'  on the model_type and function_type specified
+#'  \item model_summary_long - a data frame that is a long dataset version of
+#'  'model_summary_wide' that can be used to generate a table of the model
+#'  results (see function \code{\link{growth_model_summary_table}})
+#'  \item model_residual_data - a data frame containing the original data
+#'  frame values as well as predicted values, residuals, and theoretical
+#'  quantiles of the residuals depending on the model_type selected
+#'  (see functions \code{\link{growth_model_residual_plots}} and
+#'  \code{\link{growth_vs_time_plot}}
+#'  \item simulated_data - A data frame containing the bootstrap estimates and
+#'  95% confidence intervals for each time point.ONLY GENERATED WHEN
+#'  bootstrap_time = TRUE
+#'}
+#' Note when return_summary is FALSE, will return a model object of class
+#' 'saemix' when a mixed-effects model is specified or a model object of
+#' class 'nls' if a least-squares model is specified.
+#'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr arrange count filter
 #' @importFrom rlang sym
@@ -40,46 +74,34 @@
 #' @examples
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
-#' # Fit an mixed-effects growth model to the data
-#' exp_mixed_model <- growth_curve_model_fit(data_frame = exp_mixed_data,
-#' function_type = "exponential")
-#' # Summarize the data by creating a summary list object
-#' exp_mixed_model_summary <- summarize_growth_model(
+#' # Fit an mixed-effects growth model to the data and return summary
+#' exp_mixed_model_summary <- growth_curve_model_fit(
 #' data_frame = exp_mixed_data,
-#' growth_model_object = exp_mixed_model,
-#' model_type = "mixed",
 #' function_type = "exponential")
 #' # Create flextable object from the summary list object for documentation
 #' exp_model_table <- growth_model_summary_table(
 #' growth_model_summary_list = exp_mixed_model_summary)
-#' print(exp_model_table)
+#' exp_model_table
 #' # Create growth vs time plot of data with fitted values (plot_type = 2),
-#' adjust aesthetics and parameters as desired
+#' # adjust aesthetics and parameters as desired
 #' exp_growth_plot <- growth_vs_time_plot(
 #' growth_model_summary_list = exp_mixed_model_summary,
-#' model_type = "mixed",
 #' plot_type = 2)
 #' print(exp_growth_plot)
 #' # Check residuals and model assumptions
 #' residual_diag_plot <- growth_model_residual_plots(
-#' growth_model_summary_list = exp_mixed_model_summary,
-#' model_type = "mixed",
-#' residual_type = "conditional")
+#' growth_model_summary_list = exp_mixed_model_summary)
 #' print(residual_diag_plot)
-#' # Create a plot of fixed-effects bootstrapped 95%CI with the doubling time
-#' estimates from the exp_mixed_model annotated on the plot
-#' exp_ci_plot <- growth_model_boot_ci_curve(
-#' growth_model_object = exp_mixed_model,
-#' growth_model_summary_list = exp_mixed_model_summary,
-#' model_type = "mixed",
-#' annotate_value = "double_time",
-#' return = "plot")
-#' print(exp_ci_plot)
 growth_curve_model_fit <- function(data_frame,
                                    function_type = "exponential",
                                    model_type = "mixed",
                                    fixed_rate = TRUE,
-                                   num_chains = 1) {
+                                   num_chains = 1,
+                                   time_unit = "hours",
+                                   return_summary = TRUE,
+                                   bootstrap_time = FALSE,
+                                   boot_n_sim = 100,
+                                   mix_boot_method = "case") {
   # Check initial data frame inputs
   stopifnot(
     "cluster" %in% colnames(data_frame),
@@ -94,7 +116,9 @@ growth_curve_model_fit <- function(data_frame,
     model_type %in% c("mixed", "least-squares"),
     is.logical(fixed_rate),
     is.numeric(num_chains),
-    num_chains >= 1
+    num_chains >= 1,
+    is.character(time_unit),
+    is.logical(return_summary)
   )
 
   # Remove missing values from cluster, time, and growth_metric variables
@@ -189,6 +213,29 @@ growth_curve_model_fit <- function(data_frame,
     )
   }
 
-  # Return the model
-  return(model)
+  # Return either the growth_model_summary_list object or the model object
+  if(return_summary == TRUE){
+    growth_model_summary_list <- summarize_growth_model(
+      data_frame = data_frame,
+      growth_model_object = model,
+      model_type = model_type,
+      function_type = function_type,
+      fixed_rate = fixed_rate,
+      time_unit = time_unit
+    )
+    # Return bootstrap estimates and append growth_model_summary_list is
+    # applicable
+    if(bootstrap_time == TRUE){
+      growth_model_summary_list <- growth_boostrap_ci(
+        data_frame = data_frame,
+        growth_model_object = model,
+        growth_model_summary_list = growth_model_summary_list,
+        boot_n_sim = boot_n_sim,
+        mix_boot_method = mix_boot_method
+      )
+    }
+    return(growth_model_summary_list)
+  }else{
+    return(model)
+  }
 }
