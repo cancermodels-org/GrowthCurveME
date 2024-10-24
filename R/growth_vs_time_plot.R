@@ -39,7 +39,7 @@
 #' Defaults to "cluster".
 #' @param plot_title A character string for specifying the title to be
 #' displayed over the plot. Defaults to "Growth vs Time".
-#' @param x_aix_breaks A numeric vector specifying manual numeric breaks.
+#' @param x_axis_breaks A numeric vector specifying manual numeric breaks.
 #' Defaults to ggplot2::waiver(). See \code{\link[ggplot2]{scale_x_continuous}}.
 #' @param x_limits A numeric vector of length two providing limits for
 #' the x-axis. Use NA to refer to the existing minimum or maximum.
@@ -47,7 +47,7 @@
 #' @param n_x_axis_breaks An integer specifying the number of major breaks
 #' for the x-axis. Defaults to NULL.
 #' See \code{\link[ggplot2]{scale_x_continuous}}.
-#' @param y_aix_breaks A numeric vector specifying manual numeric breaks.
+#' @param y_axis_breaks A numeric vector specifying manual numeric breaks.
 #' Defaults to ggplot2::waiver(). See \code{\link[ggplot2]{scale_y_continuous}}.
 #' @param y_limits A numeric vector of length two providing limits for
 #' the y-axis. Use NA to refer to the existing minimum or maximum.
@@ -76,7 +76,6 @@
 #' "double_time"
 #' @param annotate_value_text_size A numeric value specifying the size of
 #' the annotation text. Defaults to 6. See \code{\link[ggplot2]{geom_text}}.
-#' See \code{\link[ggplot2]{geom_line}}.
 #'
 #' @return Returns a ggplot2 plot
 #' @seealso \code{\link{growth_curve_model_fit}}
@@ -108,10 +107,10 @@ growth_vs_time_plot <- function(growth_model_summary_list,
                                 time_name = "time",
                                 cluster_name = "cluster",
                                 plot_title = "Growth vs Time",
-                                x_aix_breaks = ggplot2::waiver(),
+                                x_axis_breaks = ggplot2::waiver(),
                                 x_limits = c(NA, NA),
                                 n_x_axis_breaks = NULL,
-                                y_aix_breaks = ggplot2::waiver(),
+                                y_axis_breaks = ggplot2::waiver(),
                                 y_limits = c(NA, NA),
                                 n_y_axis_breaks = NULL,
                                 x_axis_text_size = 8,
@@ -195,13 +194,13 @@ growth_vs_time_plot <- function(growth_model_summary_list,
         # expand = c(0, min(data_frame$time)),
         limits = x_limits,
         n.breaks = n_x_axis_breaks,
-        breaks = x_aix_breaks,
+        breaks = x_axis_breaks,
       ) +
       ggplot2::scale_y_continuous(
         # expand = c(0, min(data_frame$growth_metric)),
         limits = y_limits,
         n.breaks = n_y_axis_breaks,
-        breaks = y_aix_breaks
+        breaks = y_axis_breaks
       ) +
       ggplot2::ggtitle(plot_title) +
       ggplot2::xlab(time_name) +
@@ -287,13 +286,13 @@ growth_vs_time_plot <- function(growth_model_summary_list,
         # expand = c(0, min(data_frame$time)),
         limits = x_limits,
         n.breaks = n_x_axis_breaks,
-        breaks = x_aix_breaks,
+        breaks = x_axis_breaks,
       ) +
       ggplot2::scale_y_continuous(
         # expand = c(0, min(data_frame$growth_metric)),
         limits = y_limits,
         n.breaks = n_y_axis_breaks,
-        breaks = y_aix_breaks,
+        breaks = y_axis_breaks,
       ) +
       ggplot2::ggtitle(plot_title) +
       ggplot2::xlab(time_name) +
@@ -383,13 +382,13 @@ growth_vs_time_plot <- function(growth_model_summary_list,
         # expand = c(0, min(data_frame$time)),
         limits = x_limits,
         n.breaks = n_x_axis_breaks,
-        breaks = x_aix_breaks
+        breaks = x_axis_breaks
       ) +
       ggplot2::scale_y_continuous(
         # expand = c(0, min(data_frame$growth_metric)),
         limits = y_limits,
         n.breaks = n_y_axis_breaks,
-        breaks = y_aix_breaks
+        breaks = y_axis_breaks
       ) +
       ggplot2::ggtitle(plot_title) +
       ggplot2::xlab(time_name) +
@@ -463,12 +462,12 @@ growth_vs_time_plot <- function(growth_model_summary_list,
       ggplot2::scale_x_continuous(
         limits = x_limits,
         n.breaks = n_x_axis_breaks,
-        breaks = x_aix_breaks,
+        breaks = x_axis_breaks,
       ) +
       ggplot2::scale_y_continuous(
         limits = y_limits,
         n.breaks = n_y_axis_breaks,
-        breaks = y_aix_breaks
+        breaks = y_axis_breaks
       ) +
       ggplot2::ggtitle(plot_title) +
       ggplot2::xlab(time_name) +

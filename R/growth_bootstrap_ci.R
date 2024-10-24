@@ -20,7 +20,7 @@
 #' @param boot_n_sim A numeric value specifying the number of bootstrap
 #' simulations to be performed. See \code{\link[saemix]{saemix.bootstrap}}
 #' for mixed-effects models and \code{\link[nlraa]{predict_nls}} for
-#' least-squares models. Defaults to 100.
+#' least-squares models. Defaults to 200.
 #' @param mix_boot_method For mixed-effects models, a character string
 #' specifying the bootstrap algorithm to use. Options include "case",
 #' "residual", "parametric" or "conditional". Defaults to "case". See
@@ -28,7 +28,8 @@
 #'
 #' @return An appended version of growth_model_summary_list with a fourth
 #' data frame titled "boot_sim"
-#' @seealso \code{\link{growth_curve_model_fit}}
+#' @seealso
+#' \code{\link{growth_curve_model_fit}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr arrange bind_rows filter group_by mutate pull select
 #' summarize
@@ -49,7 +50,7 @@
 growth_boostrap_ci <- function(data_frame,
                                growth_model_object,
                                growth_model_summary_list,
-                               boot_n_sim = 100,
+                               boot_n_sim = 200,
                                mix_boot_method = "case") {
   # Check inputs
   stopifnot(

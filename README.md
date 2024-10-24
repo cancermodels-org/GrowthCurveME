@@ -7,14 +7,15 @@
 <!-- badges: end -->
 
 In-vitro growth assays often exhibit high levels of technical and
-experimental variability such as, differences in seeding density,
+experimental variability such as differences in seeding density,
 well-to-well variation, and experimental replicate variation, which can
 impact the accuracy of growth estimation and modeling. The goal of
 GrowthCurveME is to address these aspects of variability by allowing
 users to easily fit linear and non-linear mixed-effects regression
 models to account for clustering (such as at the well-to-well level or
 experimental level) and longitudinal repeated measurements.
-GrowthCurveME makes it easy to derive key growth metrics and model
+GrowthCurveME utilizes convenient wrapper functions for the saemix
+package to fit mixed-effects models, derive key growth metrics and model
 statistics, perform model diagnostics, and generate plots and tables for
 reporting your data.
 
@@ -31,7 +32,7 @@ devtools::install_github("cancermodels-org/GrowthCurveME")
 ## Getting Started
 
 First load the package and import a sample dataset. Here in this example
-we have sample confluency based growth data. In this experiment, there
+we have confluency based growth assay data. In this experiment, there
 are multiple “clusters” or well replicates. Although they all follow a
 general growth pattern, each of the well replicates start at different
 growth measurements.
@@ -189,7 +190,7 @@ exp_mix_model_summary <- growth_curve_model_fit(
   model_type = "mixed",
   time_unit = "hours",
   bootstrap_time = TRUE,
-  boot_n_sim = 10)
+  boot_n_sim = 200)
 #> Number of clusters: 10 
 #> Number of unique time points: 24 
 #> Number of observations: 240 

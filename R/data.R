@@ -1,12 +1,19 @@
 #' Sample exponential growth dataset
 #'
-#' A dataset containing the minimum required variables needed to input data into the GrowthModelME package functions
+#' A dataset containing the minimum required variables needed to input data
+#' into the GrowthModelME package functions
 #'
 #' @format A data frame with 240 rows and 3 variables:
 #' \describe{
-#'   \item{cluster}{A character type variable used to specify the clustering of values by a particular metric. Note when selecting a least-squares model instead of a mixed-effects model, do not leave this variable NA, fill in this values for this variable with 1 repative dummy variable for the package to run properly}
-#'   \item{time}{A numeric type variable for any measurement in time such as minutes, hours, or days}
-#'   \item{growth_metric}{A numeric type variable for measuring growth such as confluency or cell count}
+#'   \item{cluster}{A character type variable used to specify the clustering
+#'   of values by a particular metric. Note when selecting a least-squares
+#'   model instead of a mixed-effects model, do not leave this variable NA,
+#'   fill in this values for this variable with 1 repative dummy variable for
+#'   the package to run properly}
+#'   \item{time}{A numeric type variable for any measurement in time such as
+#'   minutes, hours, or days}
+#'   \item{growth_metric}{A numeric type variable for measuring growth such as
+#'   confluency or cell count}
 #' }
 #'
 #' @source {Created through simulation to serve as an example}
@@ -18,16 +25,23 @@
 
 #' Sample logistic growth dataset
 #'
-#' A dataset containing the minimum required variables needed to input data into the GrowthModelME package functions
+#' A dataset containing the minimum required variables needed to input data
+#' into the GrowthModelME package functions
 #'
 #' @format A data frame with 320 rows and 3 variables:
 #' \describe{
-#'   \item{cluster}{A character type variable used to specify the clustering of values by a particular metric. Note when selecting a least-squares model instead of a mixed-effects model, do not leave this variable NA, fill in this values for this variable with 1 repative dummy variable for the package to run properly}
-#'   \item{time}{A numeric type variable for any measurement in time such as minutes, hours, or days}
-#'   \item{growth_metric}{A numeric type variable for measuring growth such as confluency or cell count}
+#'   \item{cluster}{A character type variable used to specify the clustering
+#'   of values by a particular metric. Note when selecting a least-squares
+#'   model instead of a mixed-effects model, do not leave this variable NA,
+#'   fill in this values for this variable with 1 repative dummy variable for
+#'   the package to run properly}
+#'   \item{time}{A numeric type variable for any measurement in time such as
+#'   minutes, hours, or days}
+#'   \item{growth_metric}{A numeric type variable for measuring growth such as
+#'   confluency or cell count}
 #' }
 #'
-#' @source {Created through simulation to serve as an example}
+#' @source Created through simulation to serve as an example
 #'
 #' @examples
 #' data(log_mixed_data)
@@ -36,16 +50,23 @@
 
 #' Sample Gompertz growth dataset
 #'
-#' A dataset containing the minimum required variables needed to input data into the GrowthModelME package functions
+#' A dataset containing the minimum required variables needed to input data
+#' into the GrowthModelME package functions
 #'
 #' @format A data frame with 975 rows and 3 variables:
 #' \describe{
-#'   \item{cluster}{A character type variable used to specify the clustering of values by a particular metric. Note when selecting a least-squares model instead of a mixed-effects model, do not leave this variable NA, fill in this values for this variable with 1 repative dummy variable for the package to run properly}
-#'   \item{time}{A numeric type variable for any measurement in time such as minutes, hours, or days}
-#'   \item{growth_metric}{A numeric type variable for measuring growth such as confluency or cell count}
+#'   \item{cluster}{A character type variable used to specify the clustering
+#'   of values by a particular metric. Note when selecting a least-squares
+#'   model instead of a mixed-effects model, do not leave this variable NA,
+#'   fill in this values for this variable with 1 repative dummy variable for
+#'   the package to run properly}
+#'   \item{time}{A numeric type variable for any measurement in time such as
+#'   minutes, hours, or days}
+#'   \item{growth_metric}{A numeric type variable for measuring growth such
+#'   as confluency or cell count}
 #' }
 #'
-#' @source {Created through simulation to serve as an example}
+#' @source Created through simulation to serve as an example
 #'
 #' @examples
 #' data(log_mixed_data)
@@ -54,16 +75,23 @@
 
 #' Sample linear growth dataset
 #'
-#' A dataset containing the minimum required variables needed to input data into the GrowthModelME package functions
+#' A dataset containing the minimum required variables needed to input data
+#' into the GrowthModelME package functions
 #'
 #' @format A data frame with 110 rows and 3 variables:
 #' \describe{
-#'   \item{cluster}{A character type variable used to specify the clustering of values by a particular metric. Note when selecting a least-squares model instead of a mixed-effects model, do not leave this variable NA, fill in this values for this variable with 1 repative dummy variable for the package to run properly}
-#'   \item{time}{A numeric type variable for any measurement in time such as minutes, hours, or days}
-#'   \item{growth_metric}{A numeric type variable for measuring growth such as confluency or cell count}
+#'   \item{cluster}{A character type variable used to specify the clustering
+#'   of values by a particular metric. Note when selecting a least-squares
+#'   model instead of a mixed-effects model, do not leave this variable NA,
+#'   fill in this values for this variable with 1 repetitive dummy variable for
+#'   the package to run properly}
+#'   \item{time}{A numeric type variable for any measurement in time such as
+#'   minutes, hours, or days}
+#'   \item{growth_metric}{A numeric type variable for measuring growth such as
+#'   confluency or cell count}
 #' }
 #'
-#' @source {Created through simulation to serve as an example}
+#' @source Created through simulation to serve as an example
 #'
 #' @examples
 #' data(log_mixed_data)

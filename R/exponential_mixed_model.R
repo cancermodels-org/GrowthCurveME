@@ -31,7 +31,7 @@
 #' @return Returns an exponential model object of class 'saemix' when a
 #' mixed-effects model is specified or a model object of class 'nls' if a
 #' least-squares model is specified.
-#' @seealso \link{growth_curve_model_fit}
+#' @seealso \code{\link{growth_curve_model_fit}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter pull summarise
 #' @importFrom minpack.lm nlsLM

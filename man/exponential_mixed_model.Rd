@@ -60,5 +60,5 @@ exp_mixed_model <- growth_curve_model_fit(
 exp_mixed_model <- exponential_mixed_model(data_frame = exp_mixed_data)
 }
 \seealso{
-\link{growth_curve_model_fit}
+\code{\link{growth_curve_model_fit}}
 }

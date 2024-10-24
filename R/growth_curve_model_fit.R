@@ -38,7 +38,7 @@
 #' time point. Defaults to FALSE. See \code{\link{growth_boostrap_ci}}
 #' for more details.
 #' @param boot_n_sim A numeric value specifying the number of bootstrap
-#' simulations to be performed. Defaults to 100.
+#' simulations to be performed. Defaults to 200.
 #' See \code{\link{growth_boostrap_ci}} for more details.
 #' @param mix_boot_method For mixed-effects models ONLY, a character string
 #' specifying the bootstrap algorithm to use. Options include "case",
@@ -100,7 +100,7 @@ growth_curve_model_fit <- function(data_frame,
                                    time_unit = "hours",
                                    return_summary = TRUE,
                                    bootstrap_time = FALSE,
-                                   boot_n_sim = 100,
+                                   boot_n_sim = 200,
                                    mix_boot_method = "case") {
   # Check initial data frame inputs
   stopifnot(

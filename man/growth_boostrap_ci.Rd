@@ -9,7 +9,7 @@ growth_boostrap_ci(
   data_frame,
   growth_model_object,
   growth_model_summary_list,
-  boot_n_sim = 100,
+  boot_n_sim = 200,
   mix_boot_method = "case"
 )
 }
@@ -37,7 +37,7 @@ return_summary = FALSE}
 \item{boot_n_sim}{A numeric value specifying the number of bootstrap
 simulations to be performed. See \code{\link[saemix]{saemix.bootstrap}}
 for mixed-effects models and \code{\link[nlraa]{predict_nls}} for
-least-squares models. Defaults to 100.}
+least-squares models. Defaults to 200.}
 
 \item{mix_boot_method}{For mixed-effects models, a character string
 specifying the bootstrap algorithm to use. Options include "case",

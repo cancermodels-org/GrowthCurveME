@@ -5,7 +5,7 @@ Authors@R:
     person("Anand", "Panigrahy", , "anand_panigrahy@dfci.harvard.edu", 
     role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2130-2089"))
-Description: GrowthCurveME is an R package that provides user-friendly
+Description: This is an R package that provides user-friendly
     wrappers to the saemix package for performing linear and non-linear
     mixed-effects regression modeling for in-vitro growth-assay data to
     account for clustering or longitudinal analysis via repeated

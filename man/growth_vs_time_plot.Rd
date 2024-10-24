@@ -11,10 +11,10 @@ growth_vs_time_plot(
   time_name = "time",
   cluster_name = "cluster",
   plot_title = "Growth vs Time",
-  x_aix_breaks = ggplot2::waiver(),
+  x_axis_breaks = ggplot2::waiver(),
   x_limits = c(NA, NA),
   n_x_axis_breaks = NULL,
-  y_aix_breaks = ggplot2::waiver(),
+  y_axis_breaks = ggplot2::waiver(),
   y_limits = c(NA, NA),
   n_y_axis_breaks = NULL,
   x_axis_text_size = 8,
@@ -68,7 +68,7 @@ Defaults to "cluster".}
 \item{plot_title}{A character string for specifying the title to be
 displayed over the plot. Defaults to "Growth vs Time".}
 
-\item{x_aix_breaks}{A numeric vector specifying manual numeric breaks.
+\item{x_axis_breaks}{A numeric vector specifying manual numeric breaks.
 Defaults to ggplot2::waiver(). See \code{\link[ggplot2]{scale_x_continuous}}.}
 
 \item{x_limits}{A numeric vector of length two providing limits for
@@ -79,7 +79,7 @@ Defaults to c(NA, NA). See \code{\link[ggplot2]{scale_x_continuous}}.}
 for the x-axis. Defaults to NULL.
 See \code{\link[ggplot2]{scale_x_continuous}}.}
 
-\item{y_aix_breaks}{A numeric vector specifying manual numeric breaks.
+\item{y_axis_breaks}{A numeric vector specifying manual numeric breaks.
 Defaults to ggplot2::waiver(). See \code{\link[ggplot2]{scale_y_continuous}}.}
 
 \item{y_limits}{A numeric vector of length two providing limits for
@@ -118,8 +118,7 @@ rate estimate with 95\% CI, or "none" for no annotation. Defaults to
 "double_time"}
 
 \item{annotate_value_text_size}{A numeric value specifying the size of
-the annotation text. Defaults to 6. See \code{\link[ggplot2]{geom_text}}.
-See \code{\link[ggplot2]{geom_line}}.}
+the annotation text. Defaults to 6. See \code{\link[ggplot2]{geom_text}}.}
 }
 \value{
 Returns a ggplot2 plot
