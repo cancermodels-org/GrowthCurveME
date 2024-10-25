@@ -23,8 +23,8 @@ variables:
 \itemize{
 \item cluster - a character type variable used to specify how observations
 are nested or grouped by a particular cluster. Note if using a
-least-squares model, please fill in all values of cluster with a single
-dummy character string, do NOT leave blank.
+least-squares model, please fill in cluster values with a single repetitive
+dummy variable (e.g., '1'), do not leave blank.
 \item time - a numeric type variable used for measuring time such as
 minutes, hours, or days
 \item growth_metric - a numeric type variable used for measuring growth
@@ -55,17 +55,17 @@ or the object model object when FALSE. Defaults to TRUE.}
 
 \item{bootstrap_time}{Logical value indicating whether to append
 a data frame with bootstrap estimates and 95\% confidence intervals for each
-time point. Defaults to FALSE. See \code{\link{growth_boostrap_ci}}
+time point. Defaults to FALSE. See \code{\link{growth_bootstrap_ci}}
 for more details.}
 
 \item{boot_n_sim}{A numeric value specifying the number of bootstrap
 simulations to be performed. Defaults to 200.
-See \code{\link{growth_boostrap_ci}} for more details.}
+See \code{\link{growth_bootstrap_ci}} for more details.}
 
 \item{mix_boot_method}{For mixed-effects models ONLY, a character string
 specifying the bootstrap algorithm to use. Options include "case",
 "residual", "parametric" or "conditional". Defaults to "case".
-See \code{\link{growth_boostrap_ci}} for more details.}
+See \code{\link{growth_bootstrap_ci}} for more details.}
 }
 \value{
 A list object with the following data frames within the list:
@@ -80,17 +80,17 @@ results (see function \code{\link{growth_model_summary_table}})
 frame values as well as predicted values, residuals, and theoretical
 quantiles of the residuals depending on the model_type selected
 (see functions \code{\link{growth_model_residual_plots}} and
-\code{\link{growth_vs_time_plot}}
+\code{\link{growth_vs_time_plot}})
 \item simulated_data - A data frame containing the bootstrap estimates and
-95\% confidence intervals for each time point.ONLY GENERATED WHEN
+95\% confidence intervals for each time point. Only generated when
 bootstrap_time = TRUE
 }
 Note when return_summary is FALSE, will return a model object of class
-'saemix' when a mixed-effects model is specified or a model object of
+'SaemixObject' when a mixed-effects model is specified or a model object of
 class 'nls' if a least-squares model is specified.
 }
 \description{
-'growth_curve_model_fit()' fits a mixed-effects model to a data frame based
+This function fits a mixed-effects model to a data frame based
 on a user-defined function to account for clustering.
 }
 \examples{

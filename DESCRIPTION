@@ -1,10 +1,21 @@
 Package: GrowthCurveME
-Title: Mixed-Effects Modeling for Cellular Growth Data
+Title: Mixed-Effects Modeling for In-Vitro Growth Data
 Version: 0.0.1
-Authors@R: 
-    person("Anand", "Panigrahy", , "anand_panigrahy@dfci.harvard.edu", 
-    role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-2130-2089"))
+Authors@R: c(
+    person(given = "Anand", family = "Panigrahy", 
+    middle = "Lawrence", email = "anand_panigrahy@dfci.harvard.edu", 
+    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2130-2089")),
+    person(given = "Sonam", family = "Bhatia", 
+    email = "sonam_bhatia@dfci.harvard.edu", role = "aut"),
+    person(given = "Thomas", family = "Quinn",
+    email = "thomasw_quinn@dfci.harvard.edu", role = "dtc"),
+    person(given = "Aniket", family = "Shetty",
+    email = "aniket_shetty@dfci.harvard.edu", role = "rev"),
+    person(given = "Keith", family = "Ligon", 
+    email = "keith_ligon@dfci.harvard.edu", role = "fnd"),
+    person(given = "Center for Patient-Derived Models", 
+    family = "Dana-Farber Cancer Institute", 
+    email = "models@dfci.harvard.edu", role = "fnd"))
 Description: This is an R package that provides user-friendly
     wrappers to the saemix package for performing linear and non-linear
     mixed-effects regression modeling for in-vitro growth-assay data to
@@ -18,7 +29,8 @@ Description: This is an R package that provides user-friendly
     statistics. It also provides functions for generating
     publication-ready summary tables for reports. Additionally, users can
     fit linear and non-linear least-squares regression models if
-    clustering is not applicable.
+    clustering is not applicable. Please contact models@dfci.harvard.edu with 
+    any questions.
 License: GPL (>= 3)
 Depends: 
     R (>= 3.6.0)

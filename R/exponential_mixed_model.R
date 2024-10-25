@@ -1,7 +1,7 @@
 #' Fit an exponential mixed-effects regression model
 #'
 #' @description
-#' 'exponential_mixed_model()' is a function utilized with the
+#' This function is utilized within the
 #' \code{\link{growth_curve_model_fit}} function for fitting a mono-exponential
 #' mixed-effects regression model to growth data utilizing the saemix package.
 #' Starting values are derived from an initial least-squares model using
@@ -13,7 +13,7 @@
 #'  \item cluster - a character type variable used to specify how observations
 #'  are nested or grouped by a particular cluster. Note if using a
 #'  least-squares model, please fill in all values of cluster with a single
-#'  dummy character string, do NOT leave blank.
+#'  placeholder character string, do NOT leave blank.
 #'  \item time - a numeric type variable used for measuring time such as
 #'  minutes, hours, or days
 #'  \item growth_metric - a numeric type variable used for measuring growth
@@ -22,16 +22,17 @@
 #' @param model_type A character string specifying the type of regression
 #' model to be used. If "mixed" a mixed-effects regression model will be used
 #' with fixed and random effects to account for clustering. Defaults to "mixed".
-#' @param fixed_rate A logical value specifying whether the rate constant
+#' @param fixed_rate A Boolean value specifying whether the rate constant
 #' of the function should be treated as a fixed effect (TRUE) or random
 #' effect (FALSE). Defaults to TRUE
 #' @param num_chains A numeric value specifying the number of chains to run
 #' in parallel in the MCMC algorithm of saemix. Defaults to 1.
 #'
-#' @return Returns an exponential model object of class 'saemix' when a
+#' @return Returns an exponential model object of class 'SaemixObject' when a
 #' mixed-effects model is specified or a model object of class 'nls' if a
 #' least-squares model is specified.
-#' @seealso \code{\link{growth_curve_model_fit}}
+#' @seealso
+#' \code{\link{growth_curve_model_fit}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter pull summarise
 #' @importFrom minpack.lm nlsLM
@@ -60,8 +61,8 @@ exponential_mixed_model <- function(data_frame,
     dplyr::summarise(mean = mean(!!rlang::sym("growth_metric"),
                                  na.rm = TRUE)) %>%
     dplyr::pull(!!rlang::sym("mean"))
-  #   Fit an initial exponential model using the minpack.lm::nlsLM to get
-  # starting values for exponential mixed effects model
+  # Fit an initial exponential model using the minpack.lm::nlsLM function
+  # to derive starting values for the exponential mixed-effects model
   ls_model <- tryCatch(
     expr = {
       withCallingHandlers(
@@ -138,7 +139,7 @@ exponential_mixed_model <- function(data_frame,
 
       return(ypred)
     }
-    # Set NLMEG options
+    # Set saemix NLMEG options
     NLMEG.options <- list(
       seed = 1234, displayProgress = FALSE,
       print = FALSE, save = FALSE,

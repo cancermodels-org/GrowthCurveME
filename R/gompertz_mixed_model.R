@@ -1,7 +1,7 @@
 #' Fit a Gompertz mixed-effects regression model
 #'
 #' @description
-#' 'gompertz_mixed_model()' is a function utilized with the
+#' This function is utilized within the
 #' \code{\link{growth_curve_model_fit}} function for fitting a Gompertz
 #' mixed-effects regression model to growth data utilizing the saemix package.
 #' Starting values are derived from an initial least-squares model using
@@ -10,10 +10,11 @@
 #'
 #' @inheritParams exponential_mixed_model
 #'
-#' @return Returns a Gompertz model object of class 'saemix' when a
+#' @return Returns a Gompertz model object of class 'SaemixObject' if a
 #' mixed-effects model is specified or a model object of class 'nls' if a
 #' least-squares model is specified.
-#' @seealso \code{\link{growth_curve_model_fit}}
+#' @seealso
+#' \code{\link{growth_curve_model_fit}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter mutate pull summarise
 #' @importFrom minpack.lm nlsLM
@@ -78,7 +79,7 @@ gompertz_mixed_model <- function(data_frame,
       )
     },
     error = function(e) {
-      error_message <- paste("Caution an error occured: ", e)
+      error_message <- paste("Caution an error occurred: ", e)
       message(error_message)
     }
   )
@@ -202,14 +203,14 @@ gompertz_mixed_model <- function(data_frame,
             )
           },
           error = function(e) {
-            error_message <- paste("Caution an error occured: ", e)
+            error_message <- paste("Caution an error occurred: ", e)
             message(error_message)
             return("No")
           }
         )
         count <- count + 1
       }
-      # If fixed_rate == FALSE
+      # If fixed_rate is FALSE
     } else {
       model_saemix <- "No"
       count <- 1
@@ -249,7 +250,7 @@ gompertz_mixed_model <- function(data_frame,
             )
           },
           error = function(e) {
-            error_message <- paste("Caution an error occured: ", e)
+            error_message <- paste("Caution an error occurred: ", e)
             message(error_message)
             return("No")
           }

@@ -18,7 +18,7 @@ variables:
 \item cluster - a character type variable used to specify how observations
 are nested or grouped by a particular cluster. Note if using a
 least-squares model, please fill in all values of cluster with a single
-dummy character string, do NOT leave blank.
+placeholder character string, do NOT leave blank.
 \item time - a numeric type variable used for measuring time such as
 minutes, hours, or days
 \item growth_metric - a numeric type variable used for measuring growth
@@ -29,7 +29,7 @@ over time such as cell count or confluency
 model to be used. If "mixed" a mixed-effects regression model will be used
 with fixed and random effects to account for clustering. Defaults to "mixed".}
 
-\item{fixed_rate}{A logical value specifying whether the rate constant
+\item{fixed_rate}{A Boolean value specifying whether the rate constant
 of the function should be treated as a fixed effect (TRUE) or random
 effect (FALSE). Defaults to TRUE}
 
@@ -37,15 +37,16 @@ effect (FALSE). Defaults to TRUE}
 in parallel in the MCMC algorithm of saemix. Defaults to 1.}
 }
 \value{
-Returns a linear model object of class 'saemix' when a mixed-effects
-model is specified or a model object of class 'nls' if a least-squares
-model is specified.
+Returns a linear model object of class 'SaemixObject' when a
+mixed-effects model is specified or a model object of class 'nls' if a
+least-squares model is specified.
 }
 \description{
-'linear_mixed_model()' is a function utilized with the
+This function is utilized within the
 \code{\link{growth_curve_model_fit}} function for fitting a linear
 mixed-effects regression model to growth data utilizing the saemix
-package
+package. Starting values are derived from an initial least-squares model
+using the \code{\link[minpack.lm]{nlsLM}} function.
 }
 \examples{
 # Load example data (linear data from GrowthCurveME package)
@@ -54,7 +55,7 @@ data(lin_mixed_data)
 lin_mixed_model <- growth_curve_model_fit(
 data_frame = lin_mixed_data,
 function_type = "linear")
-# Fit an linear mixed-effects model using linear_mixed_model()
+# Fit a linear mixed-effects model using linear_mixed_model()
 lin_mixed_model <- linear_mixed_model(data_frame = lin_mixed_data)
 }
 \seealso{

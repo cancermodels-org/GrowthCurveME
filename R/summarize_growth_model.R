@@ -1,21 +1,21 @@
 #' Summarize growth model object and data
 #'
 #' @description
-#' 'summarize_growth_model()' is a function used to create a list object of
-#' data frames based on a user's input data and outputed
+#' This function is used to create a list object of
+#' data frames based on a user's input data and output
 #' growth model object from \code{\link{growth_curve_model_fit}}.
 #' The list object (referred to in this package as 'growth_model_summary_list')
 #' can be used to extract model predicted values, residuals, and can be
-#' in-putted into supporting functions from GrowthCurveME to
+#' inputted into supporting functions from GrowthCurveME to
 #' generate plots and perform model diagnostics.
 #'
 #'
 #' @inheritParams growth_curve_model_fit
 #' @param model_type A character string specifying the model_type that was
 #' fit using the \code{\link{growth_curve_model_fit}} function. Options
-#' include either "mixed" or "least-squares. Defaults to "mixed".
+#' include either "mixed" or "least-squares". Defaults to "mixed".
 #' @param growth_model_object The model object that is created using
-#' the growth_curve_model_fit()
+#' the \code{\link{growth_curve_model_fit}}
 #'
 #' @return A list object with the following data frames within the list:
 #'\itemize{
@@ -29,12 +29,14 @@
 #'  frame values as well as predicted values, residuals, and theoretical
 #'  quantiles of the residuals depending on the model_type selected
 #'  (see functions \code{\link{growth_model_residual_plots}} and
-#'  \code{\link{growth_vs_time_plot}}
+#'  \code{\link{growth_vs_time_plot}})
 #'}
 #'
-#' @seealso \code{\link{growth_curve_model_fit}}
+#' @seealso
+#' \code{\link{growth_curve_model_fit}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr arrange filter
+#' @importFrom rlang sym
 #' @export
 #'
 #' @examples

@@ -1,11 +1,11 @@
 #' Create bootstrap estimates and 95% confidence intervals for mixed-effects
-#' and/or least-squares models for each time-point
+#' and/or least-squares models at each time-point
 #'
 #' @description
 #' This function leverages the \code{\link[saemix]{saemix.bootstrap}} function
 #' for mixed-effects models and the \code{\link[nlraa]{predict_nls}} function
 #' for least-squares models to compute bootstrapped 95% confidence intervals for
-#' each time-point for graphical purposes. Estimates of the fixed-effects
+#' each time-point for graphical purposes. Estimates of the fixed-effect
 #' values are calculated based on the median (50th percentile) of the
 #' simulated bootstrap data, with the 95% confidence interval constructed
 #' from the 2.5th and 97.5th percentiles.
@@ -40,14 +40,14 @@
 #'
 #' @examples
 #' # Fit an mixed-effects growth model to the data, return summary
-#' # and bootstrap estimates (boot_n_sim set to 6 for speed)
+#' # and bootstrap estimates (boot_n_sim set to 5 for speed, please set to 200)
 #' exp_mixed_model_summary <- growth_curve_model_fit(
 #'   data_frame = exp_mixed_data,
 #'   function_type = "exponential",
 #'   bootstrap_time = TRUE,
-#'   boot_n_sim = 6
+#'   boot_n_sim = 5
 #' )
-growth_boostrap_ci <- function(data_frame,
+growth_bootstrap_ci <- function(data_frame,
                                growth_model_object,
                                growth_model_summary_list,
                                boot_n_sim = 200,
@@ -93,8 +93,8 @@ growth_boostrap_ci <- function(data_frame,
   if (model_type == "mixed-effects") {
     # Print message
     cat(paste0(
-      "Performing bootstrap calculations on mixed-effects model",
-      ", calculations may take several minutes depending on number of",
+      "Performing bootstrap calculations on mixed-effects model.",
+      " Calculations may take several minutes depending on number of",
       " bootstrap simulations specified."
     ))
     # Perform bootstrap calculations
@@ -206,7 +206,7 @@ growth_boostrap_ci <- function(data_frame,
       }
     }
 
-    # Logistic function
+    # Gompertz function
     if (model_function == "gompertz") {
       for (a in 1:nrow(boot_parameters)) {
         # Extract model parameters

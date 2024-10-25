@@ -22,22 +22,21 @@ See \code{\link[flextable]{font}}.}
 
 \item{font_size_header}{A numeric value specifying the size of the font
 for the header of the table. Defaults to 14.
-See \code{\link[flextable]{fontsize}}}
+See \code{\link[flextable]{fontsize}}.}
 
 \item{font_size_body}{A numeric value specifying the size of the font
-for the header of the table. Defaults to 12.
-See \code{\link[flextable]{fontsize}}}
+for the body of the table. Defaults to 12.
+See \code{\link[flextable]{fontsize}}.}
 
 \item{use_knit_print}{A logical value to specify whether the flextable
-should be printer using the \code{\link[knitr]{knit_print}} function
-instead of the flextable object being returned.
-Defaults to FALSE.}
+should be printed using \code{\link[knitr]{knit_print}} function
+instead of the flextable object being returned. Defaults to FALSE.}
 }
 \value{
-A flextable object of the 'model_summary_long' data frame
+A flextable object of the 'model_summary_long' data frame.
 }
 \description{
-'growth_model_summary_table()' creates a flextable object that can be used
+This function creates a flextable object that can be used
 for documentation or Rmarkdown reports from the list object created
 by \code{\link{growth_curve_model_fit}}.
 The 'model_summary_long' data frame from the list object is used to

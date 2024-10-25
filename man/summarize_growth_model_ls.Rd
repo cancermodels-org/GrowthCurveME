@@ -17,8 +17,8 @@ variables:
 \itemize{
 \item cluster - a character type variable used to specify how observations
 are nested or grouped by a particular cluster. Note if using a
-least-squares model, please fill in all values of cluster with a single
-dummy character string, do NOT leave blank.
+least-squares model, please fill in cluster values with a single repetitive
+dummy variable (e.g., '1'), do not leave blank.
 \item time - a numeric type variable used for measuring time such as
 minutes, hours, or days
 \item growth_metric - a numeric type variable used for measuring growth
@@ -26,7 +26,7 @@ over time such as cell count or confluency
 }}
 
 \item{ls_model}{The least-squares model object that is created using
-the 'growth_curve_model_fit()'}
+the \code{\link{growth_curve_model_fit}}}
 
 \item{function_type}{A character string specifying the function for
 modeling the shape of the growth. Options include "exponential", "linear",
@@ -48,17 +48,17 @@ results (see function \code{\link{growth_model_summary_table}})
 frame values as well as predicted values, residuals, and theoretical
 quantiles of the residuals depending on the model_type selected
 (see functions \code{\link{growth_model_residual_plots}} and
-\code{\link{growth_vs_time_plot}}
+\code{\link{growth_vs_time_plot}})
 }
 }
 \description{
-'summarize_growth_model_mixed()' is a function used within the
-\code{\link{summarize_growth_model}} function to create a list object of
-data frames based on a user's input data frame and outputed least-squares
-growth model object from \code{\link{growth_curve_model_fit}}.
+This function is used within the \code{\link{summarize_growth_model}}
+function to create a list object of data frames based on a user's input
+data frame and output least-squares growth model object
+from \code{\link{growth_curve_model_fit}}.
 The list object (referred to in this package as 'growth_model_summary_list')
 can be used to extract model predicted values, residuals,
-and can be in-putted into supporting functions from GrowthCurveME to
+and can be inputted into supporting functions from GrowthCurveME to
 generate plots and perform model diagnostics.
 }
 \examples{

@@ -1,7 +1,7 @@
 #' Create residual diagnostic plots for growth model
 #'
 #' @description
-#' 'growth_model_residual_plots()' is function that generates residual
+#' This function provides a wrapper to ggplot2 for generating residual
 #' diagnostic plots and summary statistics for a growth model summary list
 #' object produced by \code{\link{growth_curve_model_fit}}.
 #'
@@ -13,8 +13,8 @@
 #' fixed-effects residuals for mixed-effects and least-squares models and
 #' "cluster" for fixed and random-effects residuals for mixed-effects
 #' regression models. Defaults to "cluster".
-#' @param weighted A logical value, when TRUE displays weighted residuals for
-#' mixed-effects models or Standardized residuals for least-squares models,
+#' @param weighted A Boolean value, when TRUE displays weighted residuals for
+#' mixed-effects models or standardized residuals for least-squares models,
 #' when FALSE displays the raw residuals for mixed-effects and least-squares
 #' models. Defaults to "TRUE".
 #'
@@ -22,21 +22,22 @@
 #' following plots displayed:
 #' \itemize{
 #'  \item Residual vs Fitted Values - a model diagnostic plot for assessing
-#'  the distribution of standardized residuals vs the model fitted values,
+#'  the distribution of the residuals vs the model fitted values,
 #'  useful in detecting improper function specification, homogeneity of
 #'  variance, and outlier detection.
 #'  \item Q-Q Plot - a model diagnostic plot (quantile-quantile) plot for
-#'  comparing standardized residuals vs their theoretical quantiles,
+#'  comparing the residuals vs their theoretical quantiles,
 #'  useful in assessing normality assumptions and outlier detection.
 #'  \item Residual Density Plot - a model diagnostic showing the distribution
-#'  of standardized residuals (histogram) with a normal distribution curve
+#'  of the residuals (histogram) with a normal distribution curve
 #'  overlaid based on the residuals mean and standard deviation, useful in
 #'  assessing normality assumptions and skewness.
 #'  \item Residual Summary Statistics - a list of descriptive statistics of
-#'  the standardized residuals including: mean, median, minimum, maximum,
+#'  the the residuals including: mean, median, minimum, maximum,
 #'  skewness, and kurtosis.
 #' }
-#' @seealso \code{\link{growth_curve_model_fit}}
+#' @seealso
+#' \code{\link{growth_curve_model_fit}}
 #' @import ggplot2
 #' @importFrom magrittr %>%
 #' @importFrom dplyr pull select

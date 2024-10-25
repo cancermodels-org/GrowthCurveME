@@ -32,7 +32,7 @@ devtools::install_github("cancermodels-org/GrowthCurveME")
 ## Getting Started
 
 First load the package and import a sample dataset. Here in this example
-we have confluency based growth assay data. In this experiment, there
+we have confluency-based growth assay data. In this experiment, there
 are multiple “clusters” or well replicates. Although they all follow a
 general growth pattern, each of the well replicates start at different
 growth measurements.
@@ -68,15 +68,15 @@ ggplot(exp_mixed_data,
 
 <img src="man/figures/README-example-data-1.png" width="90%" />
 
-GrowthCurveME allows one to account for the well-to-well variation by
+GrowthCurveME allows users to account for the well-to-well variation by
 fitting a mixed-effects model with the growth_curve_model_fit()
 function. In this case, the data appears to follow an exponential curve,
 so one can set the function_type to “exponential”. GrowthCurveME is also
 able to fit “linear”, “logistic”, and “gompertz” shaped functions to
 data. By default, the growth_curve_model_fit() function will return a
-list object that can be used with other function in the GrowthCurveME
+list object that can be used with other functions in the GrowthCurveME
 package. We can also fit a least-squares model for comparison, which
-will NOT account for clustering.
+does not account for clustering.
 
 ``` r
 # Fit an mixed-effect model and return a summary list output
@@ -108,9 +108,9 @@ confidence interval for the rate and doubling time estimates are
 narrower than the least-squares regression model after accounting for
 the inherit well-to-well variation. Model complexity metrics such as
 Akaike information criterion (AIC), Bayesian information criterion
-(BIC), and Log likelihood show that the mixed-effects is better suited
-for the data with clear hierarchical structures and longitudinal
-measurements.
+(BIC), and Log likelihood show that the mixed-effects model is better
+suited for the data which contains clear hierarchical structures and
+longitudinal measurements.
 
 ``` r
 # Summarize mixed-effects model
@@ -164,7 +164,7 @@ growth_vs_time_plot(
 
 <img src="man/figures/README-plots-2.png" width="90%" />
 
-User can also perform model diagnostics for mixed-effect (ME) and
+Users can also perform model diagnostics for mixed-effect (ME) and
 least-squares (LS) models.
 
 ``` r
@@ -179,11 +179,12 @@ growth_model_residual_plots(
 <img src="man/figures/README-diagnostics-1.png" width="90%" />
 
 Users can also generate bootstrapped confidence interval plots by
-specifying ‘boostrap_time = TRUE’ in the growth_curve_model_fit() and
-specifying ‘plot_type = 4’ in the growth_vs_time_plot() function.
+specifying ‘bootstrap_time = TRUE’ in the growth_curve_model_fit()
+function and specify ‘plot_type = 4’ in the growth_vs_time_plot()
+function.
 
 ``` r
-# Fit an mixed-effect model and include boostrap estiamtes
+# Fit a mixed-effect model and include boostrap estiamtes
 exp_mix_model_summary <- growth_curve_model_fit(
   data_frame = exp_mixed_data,
   function_type = "exponential",
@@ -197,18 +198,37 @@ exp_mix_model_summary <- growth_curve_model_fit(
 #> The number of subjects is small, increasing the number of chains to 5 to improve convergence
 #> Simulating data using nsim = 1000 simulated datasets
 #> Computing WRES and npde .
-#> Performing bootstrap calculations on mixed-effects model, calculations may take several minutes depending on number of bootstrap simulations specified.
+#> Performing bootstrap calculations on mixed-effects model. Calculations may take several minutes depending on number of bootstrap simulations specified.
 
-# Graph the boostrapped confidence intervals
+# Graph the bootstrapped confidence intervals
 growth_vs_time_plot(
   growth_model_summary_list = exp_mix_model_summary,
   plot_type = 4,
   growth_metric_name = "Confluency",
   time_name = "Time (hours)",
   cluster_name = "Well",
-  plot_title = "Boostraped CI Confluency vs Time",
+  plot_title = "Boostrap CI Confluency vs Time",
   y_limits = c(0, 25)
 )
 ```
 
 <img src="man/figures/README-boot_ci-1.png" width="90%" />
+
+# Contact Information
+
+If you have any questions please feel free contact us at
+<models@dfci.harvard.edu>.
+
+# Creators and Contributors
+
+- Anand Panigrahy (Package Author and Developer) -
+  <anand_panigrahy@dfci.harvard.edu>
+
+- Sonam Bhatia (Package Author) - <sonam_bhatia@dfci.harvard.edu>
+
+- Thomas Quinn (Data Contributor) - <thomasw_quinn@dfci.harvard.edu>
+
+- Aniket Shetty (Reviewer) - <aniket_shetty@dfci.harvard.edu>
+
+- Keith Ligon (Funder and Principal Investigator) -
+  <keith_ligon@dfci.harvard.edu>

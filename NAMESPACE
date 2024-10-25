@@ -2,7 +2,7 @@
 
 export(exponential_mixed_model)
 export(gompertz_mixed_model)
-export(growth_boostrap_ci)
+export(growth_bootstrap_ci)
 export(growth_curve_model_fit)
 export(growth_model_residual_plots)
 export(growth_model_summary_table)

@@ -1,15 +1,15 @@
 #' Sample exponential growth dataset
 #'
 #' A dataset containing the minimum required variables needed to input data
-#' into the GrowthModelME package functions
+#' into the GrowthCurveME package functions
 #'
 #' @format A data frame with 240 rows and 3 variables:
 #' \describe{
 #'   \item{cluster}{A character type variable used to specify the clustering
 #'   of values by a particular metric. Note when selecting a least-squares
 #'   model instead of a mixed-effects model, do not leave this variable NA,
-#'   fill in this values for this variable with 1 repative dummy variable for
-#'   the package to run properly}
+#'   fill in these values with a single repetitive dummy variable (e.g., '1')
+#'   for the package to run properly}
 #'   \item{time}{A numeric type variable for any measurement in time such as
 #'   minutes, hours, or days}
 #'   \item{growth_metric}{A numeric type variable for measuring growth such as
@@ -26,15 +26,15 @@
 #' Sample logistic growth dataset
 #'
 #' A dataset containing the minimum required variables needed to input data
-#' into the GrowthModelME package functions
+#' into the GrowthCurveME package functions
 #'
 #' @format A data frame with 320 rows and 3 variables:
 #' \describe{
 #'   \item{cluster}{A character type variable used to specify the clustering
 #'   of values by a particular metric. Note when selecting a least-squares
 #'   model instead of a mixed-effects model, do not leave this variable NA,
-#'   fill in this values for this variable with 1 repative dummy variable for
-#'   the package to run properly}
+#'   fill in these values with a single repetitive dummy variable (e.g., '1')
+#'   for the package to run properly}
 #'   \item{time}{A numeric type variable for any measurement in time such as
 #'   minutes, hours, or days}
 #'   \item{growth_metric}{A numeric type variable for measuring growth such as
@@ -51,15 +51,15 @@
 #' Sample Gompertz growth dataset
 #'
 #' A dataset containing the minimum required variables needed to input data
-#' into the GrowthModelME package functions
+#' into the GrowthCurveME package functions
 #'
 #' @format A data frame with 975 rows and 3 variables:
 #' \describe{
 #'   \item{cluster}{A character type variable used to specify the clustering
 #'   of values by a particular metric. Note when selecting a least-squares
 #'   model instead of a mixed-effects model, do not leave this variable NA,
-#'   fill in this values for this variable with 1 repative dummy variable for
-#'   the package to run properly}
+#'   fill in these values with a single repetitive dummy variable (e.g., '1')
+#'   for the package to run properly}
 #'   \item{time}{A numeric type variable for any measurement in time such as
 #'   minutes, hours, or days}
 #'   \item{growth_metric}{A numeric type variable for measuring growth such
@@ -69,22 +69,22 @@
 #' @source Created through simulation to serve as an example
 #'
 #' @examples
-#' data(log_mixed_data)
+#' data(gomp_mixed_data)
 "gomp_mixed_data"
 
 
 #' Sample linear growth dataset
 #'
 #' A dataset containing the minimum required variables needed to input data
-#' into the GrowthModelME package functions
+#' into the GrowthCurveME package functions
 #'
 #' @format A data frame with 110 rows and 3 variables:
 #' \describe{
 #'   \item{cluster}{A character type variable used to specify the clustering
 #'   of values by a particular metric. Note when selecting a least-squares
 #'   model instead of a mixed-effects model, do not leave this variable NA,
-#'   fill in this values for this variable with 1 repetitive dummy variable for
-#'   the package to run properly}
+#'   fill in these values with a single repetitive dummy variable (e.g., '1')
+#'   for the package to run properly}
 #'   \item{time}{A numeric type variable for any measurement in time such as
 #'   minutes, hours, or days}
 #'   \item{growth_metric}{A numeric type variable for measuring growth such as
@@ -94,7 +94,7 @@
 #' @source Created through simulation to serve as an example
 #'
 #' @examples
-#' data(log_mixed_data)
+#' data(lin_mixed_data)
 "lin_mixed_data"
 
 

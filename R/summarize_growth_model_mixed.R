@@ -1,13 +1,13 @@
 #' Summarize mixed-effects growth model object and data
 #'
 #' @description
-#' 'summarize_growth_model_mixed()' is a function used within the
-#'  \code{\link{summarize_growth_model}} function to create a list object of
-#'  data frames based on a user's input data frame and outputed mixed-effects
-#'  growth model object from \code{\link{growth_curve_model_fit}}.
+#' This function is used within the \code{\link{summarize_growth_model}}
+#' function to create a list object of
+#' data frames based on a user's input data frame and output mixed-effects
+#' growth model object from \code{\link{growth_curve_model_fit}}.
 #' The list object (referred to in this package as 'growth_model_summary_list')
 #' can be used to extract model predicted values, residuals, and can be
-#' in-putted into supporting functions from GrowthCurveME to generate plots and
+#' inputted into supporting functions from GrowthCurveME to generate plots and
 #' perform model diagnostics.
 #'
 #'
@@ -175,7 +175,7 @@ summarize_growth_model_mixed <- function(data_frame,
         := !!rlang::sym("double_time_ci"),
         "Akaike information criterion (AIC)" = !!rlang::sym("aic"),
         "Bayesian information criterion (BIC)" = !!rlang::sym("bic"),
-        "Log likelihood" = !!rlang::sym("loglik"),
+        "Log likelihood" = !!rlang::sym("loglik")
       )
 
     # Transpose and convert to a dataframe
@@ -316,7 +316,7 @@ summarize_growth_model_mixed <- function(data_frame,
           ),
           aic = round(!!rlang::sym("aic"), 2),
           bic = round(!!rlang::sym("bic"), 2),
-          loglik = round(!!rlang::sym("loglik"), 2),
+          loglik = round(!!rlang::sym("loglik"), 2)
         ) %>%
         dplyr::mutate_if(is.numeric, as.character) %>%
         dplyr::select(
@@ -332,7 +332,7 @@ summarize_growth_model_mixed <- function(data_frame,
           := !!rlang::sym("double_time_ci"),
           "Akaike information criterion (AIC)" = !!rlang::sym("aic"),
           "Bayesian information criterion (BIC)" = !!rlang::sym("bic"),
-          "Log likelihood" = !!rlang::sym("loglik"),
+          "Log likelihood" = !!rlang::sym("loglik")
         )
 
       # Transpose data and convert to dataframe

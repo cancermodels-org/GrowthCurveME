@@ -1,18 +1,20 @@
 #' Fit a linear mixed-effects regression model
 #'
 #' @description
-#' 'linear_mixed_model()' is a function utilized with the
+#' This function is utilized within the
 #' \code{\link{growth_curve_model_fit}} function for fitting a linear
 #' mixed-effects regression model to growth data utilizing the saemix
-#' package
+#' package. Starting values are derived from an initial least-squares model
+#' using the \code{\link[minpack.lm]{nlsLM}} function.
 #'
 #'
 #' @inheritParams exponential_mixed_model
 #'
-#' @return Returns a linear model object of class 'saemix' when a mixed-effects
-#'  model is specified or a model object of class 'nls' if a least-squares
-#'  model is specified.
-#' @seealso \code{\link{growth_curve_model_fit}}
+#' @return Returns a linear model object of class 'SaemixObject' when a
+#' mixed-effects model is specified or a model object of class 'nls' if a
+#' least-squares model is specified.
+#' @seealso
+#' \code{\link{growth_curve_model_fit}}
 #' @importFrom minpack.lm nlsLM
 #' @importFrom stats lm runif
 #' @importFrom saemix saemix saemixData saemixModel
@@ -25,7 +27,7 @@
 #' lin_mixed_model <- growth_curve_model_fit(
 #' data_frame = lin_mixed_data,
 #' function_type = "linear")
-#' # Fit an linear mixed-effects model using linear_mixed_model()
+#' # Fit a linear mixed-effects model using linear_mixed_model()
 #' lin_mixed_model <- linear_mixed_model(data_frame = lin_mixed_data)
 linear_mixed_model <- function(data_frame,
                                model_type = "mixed",
@@ -56,7 +58,7 @@ linear_mixed_model <- function(data_frame,
       )
     },
     error = function(e) {
-      error_message <- paste("Caution an error occured: ", e)
+      error_message <- paste("Caution an error occurred: ", e)
       message(error_message)
     }
   )
@@ -91,7 +93,7 @@ linear_mixed_model <- function(data_frame,
   } else {
     stop(paste(
       "Initial least-squares model did not converge,",
-      "function selected may not be appropriate for data"
+      "the function selected may not be appropriate for data"
     ))
   }
 
@@ -115,7 +117,7 @@ linear_mixed_model <- function(data_frame,
 
       return(ypred)
     }
-    # Set NLMEG options
+    # Set saemix NLMEG options
     NLMEG.options <- list(
       seed = 1234, displayProgress = FALSE,
       print = FALSE, save = FALSE,
@@ -162,7 +164,7 @@ linear_mixed_model <- function(data_frame,
             )
           },
           error = function(e) {
-            error_message <- paste("Caution an error occured: ", e)
+            error_message <- paste("Caution an error occurred: ", e)
             message(error_message)
             return("No")
           }
@@ -207,7 +209,7 @@ linear_mixed_model <- function(data_frame,
             )
           },
           error = function(e) {
-            error_message <- paste("Caution an error occured: ", e)
+            error_message <- paste("Caution an error occurred: ", e)
             message(error_message)
             return("No")
           }
@@ -221,7 +223,7 @@ linear_mixed_model <- function(data_frame,
     } else {
       stop(paste(
         "Mixed-effects model did not converge,",
-        "function selected may not be appropriate for data"
+        "the function selected may not be appropriate for data"
       ))
     }
   } else {

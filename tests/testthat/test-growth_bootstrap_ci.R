@@ -10,7 +10,7 @@ test_that("Returns a list of length four", {
     model_type = "mixed",
     function_type = "exponential",
     return_summary = TRUE)
-  growth_model_summary_append <- growth_boostrap_ci(
+  growth_model_summary_append <- growth_bootstrap_ci(
     data_frame = exp_mixed_data,
     growth_model_object = exp_mixed_model,
     growth_model_summary_list = growth_model_summary,
@@ -20,6 +20,6 @@ test_that("Returns a list of length four", {
 
   expect_length(growth_model_summary_append, 4)
   expect_true(all(colnames(growth_model_summary_append[[4]]) %in%
-                  c("time", "sim_pop_pred_value",
-                    "sim_pop_pred_lb", "sim_pop_pred_ub")))
+                    c("time", "sim_pop_pred_value",
+                      "sim_pop_pred_lb", "sim_pop_pred_ub")))
 })

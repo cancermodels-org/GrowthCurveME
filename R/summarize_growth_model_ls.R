@@ -1,21 +1,22 @@
 #' Summarize least-squares growth model object and data
 #'
 #' @description
-#' 'summarize_growth_model_mixed()' is a function used within the
-#' \code{\link{summarize_growth_model}} function to create a list object of
-#' data frames based on a user's input data frame and outputed least-squares
-#' growth model object from \code{\link{growth_curve_model_fit}}.
+#' This function is used within the \code{\link{summarize_growth_model}}
+#' function to create a list object of data frames based on a user's input
+#' data frame and output least-squares growth model object
+#' from \code{\link{growth_curve_model_fit}}.
 #' The list object (referred to in this package as 'growth_model_summary_list')
 #' can be used to extract model predicted values, residuals,
-#' and can be in-putted into supporting functions from GrowthCurveME to
+#' and can be inputted into supporting functions from GrowthCurveME to
 #' generate plots and perform model diagnostics.
 #'
 #' @inheritParams growth_curve_model_fit
 #' @param ls_model The least-squares model object that is created using
-#' the 'growth_curve_model_fit()'
+#' the \code{\link{growth_curve_model_fit}}
 #'
 #' @inherit summarize_growth_model return
-#' @seealso \code{\link{growth_curve_model_fit}}
+#' @seealso
+#' \code{\link{growth_curve_model_fit}}
 #' \code{\link{summarize_growth_model}}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr arrange case_when filter mutate mutate_if rename select
