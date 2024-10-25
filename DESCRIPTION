@@ -3,7 +3,7 @@ Title: Mixed-Effects Modeling for In-Vitro Growth Data
 Version: 0.0.1
 Authors@R: c(
     person(given = "Anand", family = "Panigrahy", 
-    middle = "Lawrence", email = "anand_panigrahy@dfci.harvard.edu", 
+    email = "anand_panigrahy@dfci.harvard.edu", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2130-2089")),
     person(given = "Sonam", family = "Bhatia", 
     email = "sonam_bhatia@dfci.harvard.edu", role = "aut"),
