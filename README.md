@@ -184,7 +184,7 @@ function and specify ‘plot_type = 4’ in the growth_vs_time_plot()
 function.
 
 ``` r
-# Fit a mixed-effect model and include boostrap estiamtes
+# Fit a mixed-effect model and include bootstrap estimates
 exp_mix_model_summary <- growth_curve_model_fit(
   data_frame = exp_mixed_data,
   function_type = "exponential",
@@ -207,7 +207,7 @@ growth_vs_time_plot(
   growth_metric_name = "Confluency",
   time_name = "Time (hours)",
   cluster_name = "Well",
-  plot_title = "Boostrap CI Confluency vs Time",
+  plot_title = "Bootstrap CI Confluency vs Time",
   y_limits = c(0, 25)
 )
 ```
