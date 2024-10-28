@@ -33,7 +33,7 @@ Description: This is an R package that provides user-friendly
     any questions.
 License: GPL (>= 3)
 Depends: 
-    R (>= 3.6.0)
+    R (>= 4.0.0)
 Imports: 
     dplyr (>= 1.1.4),
     flextable (>= 0.9.6),
