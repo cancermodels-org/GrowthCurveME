@@ -99,9 +99,9 @@ summarize_growth_model_mixed <- function(data_frame,
       double_time_est = log(2) / !!rlang::sym("rate_est"),
       double_time_lb = log(2) / !!rlang::sym("rate_ub"),
       double_time_ub = log(2) / !!rlang::sym("rate_lb"),
-      AIC = mixed_growth_model@results@aic.lin,
-      BIC = mixed_growth_model@results@bic.lin,
-      loglik = mixed_growth_model@results@ll.lin,
+      AIC = mixed_growth_model@results@aic.is,
+      BIC = mixed_growth_model@results@bic.is,
+      loglik = mixed_growth_model@results@ll.is,
     )
 
     # Calculate doubling time and add aic, bic, and loglik
@@ -111,9 +111,9 @@ summarize_growth_model_mixed <- function(data_frame,
           double_time_est = 2 / !!rlang::sym("rate_est"),
           double_time_lb = 2 / !!rlang::sym("rate_ub"),
           double_time_ub = 2 / !!rlang::sym("rate_lb"),
-          aic = mixed_growth_model@results@aic.lin,
-          bic = mixed_growth_model@results@bic.lin,
-          loglik = mixed_growth_model@results@ll.lin
+          aic = mixed_growth_model@results@aic.is,
+          bic = mixed_growth_model@results@bic.is,
+          loglik = mixed_growth_model@results@ll.is
         )
     } else {
       model_summary_wide <- model_summary_wide %>%
@@ -121,9 +121,9 @@ summarize_growth_model_mixed <- function(data_frame,
           double_time_est = log(2) / !!rlang::sym("rate_est"),
           double_time_lb = log(2) / !!rlang::sym("rate_ub"),
           double_time_ub = log(2) / !!rlang::sym("rate_lb"),
-          aic = mixed_growth_model@results@aic.lin,
-          bic = mixed_growth_model@results@bic.lin,
-          loglik = mixed_growth_model@results@ll.lin
+          aic = mixed_growth_model@results@aic.is,
+          bic = mixed_growth_model@results@bic.is,
+          loglik = mixed_growth_model@results@ll.is
         )
     }
 
@@ -260,9 +260,9 @@ summarize_growth_model_mixed <- function(data_frame,
         inflection_se = mixed_growth_model@results@conf.int[4, 3],
         inflection_lb = mixed_growth_model@results@conf.int[4, 5],
         inflection_ub = mixed_growth_model@results@conf.int[4, 6],
-        aic = mixed_growth_model@results@aic.lin,
-        bic = mixed_growth_model@results@bic.lin,
-        loglik = mixed_growth_model@results@ll.lin,
+        aic = mixed_growth_model@results@aic.is,
+        bic = mixed_growth_model@results@bic.is,
+        loglik = mixed_growth_model@results@ll.is,
         double_time = log(2) / !!rlang::sym("rate_est"),
         double_time_lb = log(2) / !!rlang::sym("rate_ub"),
         double_time_ub = log(2) / !!rlang::sym("rate_lb"),
