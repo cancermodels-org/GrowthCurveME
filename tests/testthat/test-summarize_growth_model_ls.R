@@ -9,5 +9,5 @@ test_that("Returns a list object", {
                                                  ls_model  = growth_model,
                                                  function_type = "exponential")
   expect_type(summary_growth_ls, "list")
-  expect_length(summary_growth_ls, 3)
+  expect_length(summary_growth_ls, 4)
 })

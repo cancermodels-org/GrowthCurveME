@@ -178,41 +178,26 @@ growth_model_residual_plots(
 
 <img src="man/figures/README-diagnostics-1.png" width="90%" />
 
-Users can also generate bootstrapped confidence interval plots by
-specifying ‘bootstrap_time = TRUE’ in the growth_curve_model_fit()
-function and specify ‘plot_type = 4’ in the growth_vs_time_plot()
-function.
+Users can also generate prediction interval plots to assist in viewing
+the variability of the model estimates as well as add an annotation such
+as the doubling time to the top corner of the plot.
 
 ``` r
-# Fit a mixed-effect model and include bootstrap estimates
-exp_mix_model_summary <- growth_curve_model_fit(
-  data_frame = exp_mixed_data,
-  function_type = "exponential",
-  model_type = "mixed",
-  time_unit = "hours",
-  bootstrap_time = TRUE,
-  boot_n_sim = 200)
-#> Number of clusters: 10 
-#> Number of unique time points: 24 
-#> Number of observations: 240 
-#> The number of subjects is small, increasing the number of chains to 5 to improve convergence
-#> Simulating data using nsim = 1000 simulated datasets
-#> Computing WRES and npde .
-#> Performing bootstrap calculations on mixed-effects model. Calculations may take several minutes depending on number of bootstrap simulations specified.
-
-# Graph the bootstrapped confidence intervals
+# Graph prediction interval plots, add annotation from model, change aesthetics
 growth_vs_time_plot(
   growth_model_summary_list = exp_mix_model_summary,
   plot_type = 4,
   growth_metric_name = "Confluency",
   time_name = "Time (hours)",
   cluster_name = "Well",
-  plot_title = "Bootstrap CI Confluency vs Time",
-  y_limits = c(0, 25)
+  plot_title = "Simulated Prediction Intervals of Model with\nDoubling Time 95%CI Annotation",
+  y_limits = c(0, 25),
+  plot_title_size = 18,
+  annotate_value_text_size = 5.5
 )
 ```
 
-<img src="man/figures/README-boot_ci-1.png" width="90%" />
+<img src="man/figures/README-sim_curve-1.png" width="90%" />
 
 # Contact Information
 
@@ -221,14 +206,16 @@ If you have any questions please feel free contact us at
 
 # Creators and Contributors
 
-- Anand Panigrahy (Package Author and Developer) -
-  <anand_panigrahy@dfci.harvard.edu>
+- Anand Panigrahy (Senior Research Technician, Package Author and
+  Developer) - <anand_panigrahy@dfci.harvard.edu>
 
-- Sonam Bhatia (Package Author) - <sonam_bhatia@dfci.harvard.edu>
+- Sonam Bhatia (Associate Director of CPDM, Package Author) -
+  <sonam_bhatia@dfci.harvard.edu>
 
-- Thomas Quinn (Data Contributor) - <thomasw_quinn@dfci.harvard.edu>
+- Thomas Quinn (Senior Research Technician, Data Contributor) -
+  <thomasw_quinn@dfci.harvard.edu>
 
 - Aniket Shetty (Reviewer) - <aniket_shetty@dfci.harvard.edu>
 
-- Keith Ligon (Funder and Principal Investigator) -
+- Keith Ligon (Director of CPDM, Project Funder) -
   <keith_ligon@dfci.harvard.edu>

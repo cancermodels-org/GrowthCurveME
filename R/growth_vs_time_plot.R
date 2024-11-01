@@ -23,11 +23,17 @@
 #'  \item 3 - A scatterplot version of plot_type = 2 where each cluster is
 #'  separated into their own plot forming a matrix of growth_metric vs time
 #'  plots by cluster.
-#'  \item 4 - A plot of bootstrapped estimates as a smooth line,
-#'  with corresponding bootstrapped 95% confidence intervals as a
-#'  shaded region. NOTE: This plot can only be generated if
-#'  bootstrap_time was set to TRUE in \code{\link{growth_curve_model_fit}} when
-#'  growth_model_summary_list list object was generated.
+#'  \item 4 - A plot of the estimates and prediction intervals of the model.
+#'  When a mixed-effects model summary list is in-putted, the prediction
+#'  intervals are calculated from the median and the 2.5th and 97.5th
+#'  percentiles of the saemix model simulations to assist in showing the
+#'  variability of both the population trends and variation among the
+#'  cluster-level predictions (see \code{\link[saemix]{compute.sres}}).
+#'  When a least-squares model summary list is in-putted, the prediction
+#'  intervals are calculated through Taylor-series approximations of the nls
+#'  model (see \code{\link[investr]{predFit}}).
+#'  By default will also add an annotation of the doubling time with 95%
+#'  confidence intervals calculated directly from the original model estimates.
 #' }
 #' @param growth_metric_name A character string for specifying the name of
 #' the growth metric (y-axis title) to be displayed on the plot.
@@ -127,6 +133,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
     is.list(growth_model_summary_list),
     exists("model_summary_wide", growth_model_summary_list),
     exists("model_residual_data", growth_model_summary_list),
+    exists("model_sim_pred_data", growth_model_summary_list),
     plot_type %in% c(1, 2, 3, 4),
     is.character(growth_metric_name),
     is.character(time_name),
@@ -423,20 +430,14 @@ growth_vs_time_plot <- function(growth_model_summary_list,
     return(plot_3)
   }
 
-  # Create bootstrapped confidence interval plot from growth model
+  # Create prediction interval plot
   if (plot_type == 4) {
-    # Check if boot_sim dataset is present
-    if (!exists("boot_sim", growth_model_summary_list)) {
-      stop(paste(
-        "growth_model_summary_list object does NOT contain the 'boot_sim'",
-        "data frame generated when boostrap_time = TRUE. Please re-run the",
-        "growth_curve_model_fit() function with boostrap_time = TRUE",
-        "and then plot the data."
-      ))
-    }
+    # Extract the model_sim_pred_data data from growth_model_summary_list
+    data_frame <- growth_model_summary_list[["model_sim_pred_data"]]
 
-    # Extract the boot_sim data from growth_model_summary_list
-    data_frame <- growth_model_summary_list[["boot_sim"]]
+    # Set x and y limits to NULL if no inputs provided
+    if(all(is.na(x_limits))){x_limits <- NULL}
+    if(all(is.na(y_limits))){y_limits <- NULL}
 
     # Generate plot
     plot_4 <- ggplot2::ggplot(
@@ -460,12 +461,10 @@ growth_vs_time_plot <- function(growth_model_summary_list,
       ) +
       ggplot2::theme_classic() +
       ggplot2::scale_x_continuous(
-        limits = x_limits,
         n.breaks = n_x_axis_breaks,
         breaks = x_axis_breaks,
       ) +
       ggplot2::scale_y_continuous(
-        limits = y_limits,
         n.breaks = n_y_axis_breaks,
         breaks = y_axis_breaks
       ) +
@@ -496,7 +495,10 @@ growth_vs_time_plot <- function(growth_model_summary_list,
         ),
         legend.title = ggplot2::element_text(hjust = 0.5, face = "bold")
       ) +
-      ggplot2::coord_cartesian(clip = "off")
+      ggplot2::coord_cartesian(
+        xlim = x_limits,
+        ylim = y_limits,
+        clip = "off")
 
     # Add annotation if provided
     if (ci_plot_annotate_value == "double_time") {
@@ -508,7 +510,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
 
       annotate_data <- data.frame(
         x_pos = -Inf, y_pos = Inf,
-        text = paste(" Doubling Time:", plot_label_data[1, 2]),
+        text = paste(" Doubling Time [95% CI]\n", plot_label_data[1, 2]),
         h_just = 0, v_just = 1
       )
 
@@ -532,7 +534,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
           stringr::str_detect(!!rlang::sym("Variable"), "Rate"))
       annotate_data <- data.frame(
         x_pos = -Inf, y_pos = Inf,
-        text = paste(" Rate:", plot_label_data[1, 2]),
+        text = paste(" Rate [95% CI]\n", plot_label_data[1, 2]),
         h_just = 0, v_just = 1
       )
       plot_4 <- plot_4 +

@@ -18,7 +18,7 @@
 #' @importFrom dplyr filter mutate pull summarise
 #' @importFrom minpack.lm nlsLM
 #' @importFrom saemix saemix saemixData saemixModel
-#' @importFrom stats as.formula runif
+#' @importFrom stats as.formula runif nls
 #' @importFrom rlang sym
 #' @export
 #'
@@ -124,6 +124,19 @@ logistic_mixed_model <- function(data_frame,
     start_upper_asy_vec <- c(start_upper_asy, start_upper_asy_vec)
     start_rate_vec <- c(start_rate, start_rate_vec)
     start_inflection_vec <- c(start_inflection, start_inflection_vec)
+
+    # Fit a regular nls model from stats package
+    nls_model <- try(stats::nls(
+      data = data_frame,
+      formula = logistic_formula,
+      start = list(
+        lower_asy = start_lower_asy,
+        upper_asy = start_upper_asy,
+        rate = start_rate,
+        inflection = start_inflection
+      )
+    ))
+
   } else {
     stop(paste(
       "Initial least-squares model did not converge,",
@@ -265,7 +278,15 @@ logistic_mixed_model <- function(data_frame,
       ))
     }
   } else {
-    # Return the ls model
-    return(ls_model)
+    # Check that nls_model is nls
+    if(inherits(nls_model, "nls")){
+      # Return the ls model
+      return(nls_model)
+    }else{
+      stop(paste(
+        "Conversion of nls model from minpack.lm nlsLM to stats nls model",
+        "failed."
+      ))
+    }
   }
 }

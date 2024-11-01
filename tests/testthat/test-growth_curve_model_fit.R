@@ -64,9 +64,7 @@ test_that("Boostrap feature returns list with 4 dataframes", {
     data_frame = exp_mixed_data,
     model_type = "mixed",
     function_type = "exponential",
-    return_summary = TRUE,
-    bootstrap_time = TRUE,
-    boot_n_sim = 5)
+    return_summary = TRUE)
 
   expect_length(growth_model_summary, 4)
 })

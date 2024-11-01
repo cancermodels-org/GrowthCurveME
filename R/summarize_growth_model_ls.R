@@ -19,10 +19,12 @@
 #' \code{\link{growth_curve_model_fit}}
 #' \code{\link{summarize_growth_model}}
 #' @importFrom magrittr %>%
-#' @importFrom dplyr arrange case_when filter mutate mutate_if rename select
+#' @importFrom dplyr arrange bind_cols case_when distinct filter group_by
+#' mutate mutate_if rename select summarize
 #' @importFrom tibble rownames_to_column tibble
-#' @importFrom stats AIC BIC confint logLik predict qqnorm residuals
+#' @importFrom stats AIC BIC confint logLik predict quantile qqnorm residuals
 #' @importFrom rlang sym :=
+#' @importFrom investr predFit
 #' @export
 #'
 #' @examples
@@ -107,7 +109,7 @@ summarize_growth_model_ls <- function(data_frame,
     } else {
       model_summary_wide <- model_summary_wide %>%
         dplyr::mutate(
-          double_time = log(2) / !!rlang::sym("rate_est"),
+          double_time_est = log(2) / !!rlang::sym("rate_est"),
           double_time_lb = log(2) / !!rlang::sym("rate_ub"),
           double_time_ub = log(2) / !!rlang::sym("rate_lb"),
           aic = stats::AIC(ls_model),
@@ -144,11 +146,11 @@ summarize_growth_model_ls <- function(data_frame,
           "]",
           sep = ""
         ),
-        double_time = round(!!rlang::sym("double_time"), 2),
+        double_time_est = round(!!rlang::sym("double_time_est"), 2),
         double_time_lb = round(!!rlang::sym("double_time_lb"), 2),
         double_time_ub = round(!!rlang::sym("double_time_ub"), 2),
         double_time_ci = paste(
-          !!rlang::sym("double_time"),
+          !!rlang::sym("double_time_est"),
           " [",
           !!rlang::sym("double_time_lb"),
           ",",
@@ -182,6 +184,7 @@ summarize_growth_model_ls <- function(data_frame,
     model_summary_long <- model_summary_long %>%
       tibble::rownames_to_column(var = "Variable") %>%
       dplyr::rename("Value" = !!rlang::sym("V1"))
+
   }
 
   # If ls_model function_type is logistic or Gompertz
@@ -204,7 +207,7 @@ summarize_growth_model_ls <- function(data_frame,
       inflection_est = sum_object$coefficients[4, 1],
       inflection_lb = ci_intervals[4, 1],
       inflection_ub = ci_intervals[4, 2],
-      double_time = log(2) / !!rlang::sym("rate_est"),
+      double_time_est = log(2) / !!rlang::sym("rate_est"),
       double_time_lb = log(2) / !!rlang::sym("rate_ub"),
       double_time_ub = log(2) / !!rlang::sym("rate_lb"),
       aic = stats::AIC(ls_model),
@@ -264,11 +267,11 @@ summarize_growth_model_ls <- function(data_frame,
           "]",
           sep = ""
         ),
-        double_time = round(!!rlang::sym("double_time"), 2),
+        double_time_est = round(!!rlang::sym("double_time_est"), 2),
         double_time_lb = round(!!rlang::sym("double_time_lb"), 2),
         double_time_ub = round(!!rlang::sym("double_time_ub"), 2),
         double_time_ci = paste(
-          !!rlang::sym("double_time"),
+          !!rlang::sym("double_time_est"),
           " [",
           !!rlang::sym("double_time_lb"),
           ",",
@@ -320,11 +323,31 @@ summarize_growth_model_ls <- function(data_frame,
         stats::qqnorm(!!rlang::sym("pop_stand_resid"), plot.it = FALSE)$x
     )
 
+  # Extract time points
+  times <- data_frame %>%
+    dplyr::select(!!rlang::sym("time")) %>%
+    dplyr::distinct()
+
+  # Calculate median and prediction intervals with investr
+  invest_predict <- investr::predFit(
+    ls_model,
+    interval = "prediction",
+    newdata = times)
+
+  # Create d
+  simulated_data <- times %>%
+    dplyr::mutate(
+    sim_pop_pred_value = invest_predict[,"fit"],
+    sim_pop_pred_lb = invest_predict[,"lwr"],
+    sim_pop_pred_ub = invest_predict[,"upr"]
+  )
+
   # Create a list of wide and long ls_model summary datasets
   model_summary_list <- list(
     "model_summary_wide" = model_summary_wide,
     "model_summary_long" = model_summary_long,
-    "model_residual_data" = model_residual_data
+    "model_residual_data" = model_residual_data,
+    "model_sim_pred_data" = simulated_data
   )
 
   # Return the model_summary_list

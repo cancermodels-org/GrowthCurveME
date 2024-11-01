@@ -13,19 +13,21 @@
 #'
 #' @inheritParams growth_curve_model_fit
 #' @param mixed_growth_model The mixed-effects model object that is created
-#' using the 'growth_curve_model_fit()'
+#' using the \code{\link{growth_curve_model_fit}}
 #'
 #' @inherit summarize_growth_model return
 #' @seealso \code{\link{growth_curve_model_fit}}
 #' \code{\link{summarize_growth_model}}
 #' @importFrom magrittr %>%
-#' @importFrom dplyr arrange bind_rows bind_cols case_when filter mutate
-#' mutate_if rename select summarize ungroup
+#' @importFrom dplyr arrange bind_rows bind_cols bind_rows case_when filter
+#' group_by mutate mutate_if rename select summarize ungroup
 #' @importFrom tibble rownames_to_column tibble
 #' @importFrom stats qqnorm residuals
 #' @importFrom rlang sym :=
 #' @importFrom stringr str_replace str_detect
-#' @importFrom tidyr pivot_wider
+#' @importFrom tidyr crossing pivot_wider
+#' @importFrom stats quantile
+#' @importFrom saemix compute.sres
 #' @export
 #'
 #' @examples
@@ -432,11 +434,61 @@ summarize_growth_model_mixed <- function(data_frame,
     )
   )
 
+  # Count number of clusters and time points
+  cluster_time_count <- data_frame %>%
+    dplyr::count(
+      !!rlang::sym("cluster"),
+      !!rlang::sym("time")
+    )
+
+  # Loop through and expand each cluster and time by their count
+  cluster_time_replicates <- data.frame(
+    cluster = as.character(),
+    time = as.numeric(),
+    obs = as.numeric()
+  )
+  for (a in 1:nrow(cluster_time_count)) {
+    data_temp <- data.frame(
+      cluster = as.character(rep(cluster_time_count[a, "cluster"],
+                                 cluster_time_count[a, "n"])),
+      time = as.numeric(rep(cluster_time_count[a, "time"],
+                            cluster_time_count[a, "n"])),
+      obs = as.numeric(seq(1, as.numeric(cluster_time_count[a, "n"]), 1))
+    )
+
+    cluster_time_replicates <- cluster_time_replicates %>%
+      dplyr::bind_rows(data_temp)
+
+    rm(data_temp)
+  }
+  rm(a)
+
+  # Create cross table of unique cluster and time points by number of
+  # simulations performed
+  cluster_time_replicates <- cluster_time_replicates %>%
+    tidyr::crossing(replicate = 1:as.numeric(model_update@sim.data@nsim)) %>%
+    dplyr::arrange(
+      !!rlang::sym("replicate"),
+      !!rlang::sym("cluster"),
+      !!rlang::sym("time")
+    )
+
+  # Join crossed data set with simulated data and calculate variables
+  ci_sim_data <- data.frame(model_update@sim.data@datasim) %>%
+    dplyr::bind_cols(cluster_time_replicates) %>%
+    dplyr::group_by(!!rlang::sym("time")) %>%
+    dplyr::summarize(
+      sim_pop_pred_value = stats::quantile(!!rlang::sym("ysim"), 0.50),
+      sim_pop_pred_lb = stats::quantile(!!rlang::sym("ysim"), 0.025),
+      sim_pop_pred_ub = stats::quantile(!!rlang::sym("ysim"), 0.975)
+    )
+
   # Create a list of wide and long mixed_growth_model summary datasets
   model_summary_list <- list(
     "model_summary_wide" = model_summary_wide,
     "model_summary_long" = model_summary_long,
-    "model_residual_data" = model_residual_data
+    "model_residual_data" = model_residual_data,
+    "model_sim_pred_data" = ci_sim_data
   )
 
   # Return the model_summary_list

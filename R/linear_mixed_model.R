@@ -16,7 +16,7 @@
 #' @seealso
 #' \code{\link{growth_curve_model_fit}}
 #' @importFrom minpack.lm nlsLM
-#' @importFrom stats lm runif
+#' @importFrom stats lm runif nls
 #' @importFrom saemix saemix saemixData saemixModel
 #' @export
 #'
@@ -90,6 +90,17 @@ linear_mixed_model <- function(data_frame,
 
     start_intercept_vec <- c(start_intercept, start_intercept_vec)
     start_rate_vec <- c(start_rate, start_rate_vec)
+
+    # Fit a regular nls model from stats package
+    nls_model <- try(stats::nls(
+      data = data_frame,
+      formula = growth_metric ~ intercept + rate * time,
+      start = list(
+        intercept = start_intercept,
+        rate = start_rate
+      )
+    ))
+
   } else {
     stop(paste(
       "Initial least-squares model did not converge,",
@@ -227,7 +238,15 @@ linear_mixed_model <- function(data_frame,
       ))
     }
   } else {
-    # Return the ls model
-    return(ls_model)
+    # Check that nls_model is nls
+    if(inherits(nls_model, "nls")){
+      # Return the ls model
+      return(nls_model)
+    }else{
+      stop(paste(
+        "Conversion of nls model from minpack.lm nlsLM to stats nls model",
+        "failed."
+      ))
+    }
   }
 }

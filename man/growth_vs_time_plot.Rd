@@ -47,11 +47,17 @@ are the fitted values accounting for fixed effects only (pop_fit_value).
 \item 3 - A scatterplot version of plot_type = 2 where each cluster is
 separated into their own plot forming a matrix of growth_metric vs time
 plots by cluster.
-\item 4 - A plot of bootstrapped estimates as a smooth line,
-with corresponding bootstrapped 95\% confidence intervals as a
-shaded region. NOTE: This plot can only be generated if
-bootstrap_time was set to TRUE in \code{\link{growth_curve_model_fit}} when
-growth_model_summary_list list object was generated.
+\item 4 - A plot of the estimates and prediction intervals of the model.
+When a mixed-effects model summary list is in-putted, the prediction
+intervals are calculated from the median and the 2.5th and 97.5th
+percentiles of the saemix model simulations to assist in showing the
+variability of both the population trends and variation among the
+cluster-level predictions (see \code{\link[saemix]{compute.sres}}).
+When a least-squares model summary list is in-putted, the prediction
+intervals are calculated through Taylor-series approximations of the nls
+model (see \code{\link[investr]{predFit}}).
+By default will also add an annotation of the doubling time with 95\%
+confidence intervals calculated directly from the original model estimates.
 }}
 
 \item{growth_metric_name}{A character string for specifying the name of

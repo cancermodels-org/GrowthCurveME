@@ -11,10 +11,7 @@ growth_curve_model_fit(
   fixed_rate = TRUE,
   num_chains = 1,
   time_unit = "hours",
-  return_summary = TRUE,
-  bootstrap_time = FALSE,
-  boot_n_sim = 200,
-  mix_boot_method = "case"
+  return_summary = TRUE
 )
 }
 \arguments{
@@ -52,20 +49,6 @@ measured in. Defaults to "hours"}
 \item{return_summary}{A logical value specifying whether to return the
 growth_model_summary_list when TRUE (list object containing summarized data)
 or the object model object when FALSE. Defaults to TRUE.}
-
-\item{bootstrap_time}{Logical value indicating whether to append
-a data frame with bootstrap estimates and 95\% confidence intervals for each
-time point. Defaults to FALSE. See \code{\link{growth_bootstrap_ci}}
-for more details.}
-
-\item{boot_n_sim}{A numeric value specifying the number of bootstrap
-simulations to be performed. Defaults to 200.
-See \code{\link{growth_bootstrap_ci}} for more details.}
-
-\item{mix_boot_method}{For mixed-effects models ONLY, a character string
-specifying the bootstrap algorithm to use. Options include "case",
-"residual", "parametric" or "conditional". Defaults to "case".
-See \code{\link{growth_bootstrap_ci}} for more details.}
 }
 \value{
 A list object with the following data frames within the list:
@@ -81,9 +64,11 @@ frame values as well as predicted values, residuals, and theoretical
 quantiles of the residuals depending on the model_type selected
 (see functions \code{\link{growth_model_residual_plots}} and
 \code{\link{growth_vs_time_plot}})
-\item simulated_data - A data frame containing the bootstrap estimates and
-95\% confidence intervals for each time point. Only generated when
-bootstrap_time = TRUE
+\item simulated_data - a data frame with the 95\% prediction intervals
+calculated using the median for the estimate and the 2.5th and 97.5th
+percentiles of the simulated data at each time point (not to be
+confused with the 95\% confidence intervals calculated from the model
+estimates). See \code{\link{summarize_growth_model}}.
 }
 Note when return_summary is FALSE, will return a model object of class
 'SaemixObject' when a mixed-effects model is specified or a model object of

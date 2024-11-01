@@ -9,7 +9,7 @@ test_that("Returns a list object of length 3", {
                                            growth_model_object = growth_model,
                                            function_type = "exponential")
   expect_type(summary_growth, "list")
-  expect_length(summary_growth, 3)
+  expect_length(summary_growth, 4)
 })
 test_that("Returns the same list object as summarize_growth_model_mixed", {
   data("exp_mixed_data")
