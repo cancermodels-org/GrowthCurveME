@@ -320,7 +320,7 @@ growth_model_residual_plots <- function(growth_model_summary_list,
     ggplot2::scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
     ggplot2::scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
     ggplot2::theme_classic() +
-    ggplot2::ggtitle("Residual Summary Statistics") +
+    ggplot2::ggtitle("Residual Statistics") +
     ggplot2::annotate(geom = "text", x = 0.35, y = 0.90,
                       size = 5, fontface = "bold", label = "Mean:") +
     ggplot2::annotate(

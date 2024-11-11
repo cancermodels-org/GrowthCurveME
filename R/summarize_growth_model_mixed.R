@@ -97,13 +97,7 @@ summarize_growth_model_mixed <- function(data_frame,
       rate_est = mixed_growth_model@results@conf.int[2, 2],
       rate_se = mixed_growth_model@results@conf.int[2, 3],
       rate_lb = mixed_growth_model@results@conf.int[2, 5],
-      rate_ub = mixed_growth_model@results@conf.int[2, 6],
-      double_time_est = log(2) / !!rlang::sym("rate_est"),
-      double_time_lb = log(2) / !!rlang::sym("rate_ub"),
-      double_time_ub = log(2) / !!rlang::sym("rate_lb"),
-      AIC = mixed_growth_model@results@aic.is,
-      BIC = mixed_growth_model@results@bic.is,
-      loglik = mixed_growth_model@results@ll.is,
+      rate_ub = mixed_growth_model@results@conf.int[2, 6]
     )
 
     # Calculate doubling time and add aic, bic, and loglik
