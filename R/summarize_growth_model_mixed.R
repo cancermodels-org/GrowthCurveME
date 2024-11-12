@@ -104,9 +104,12 @@ summarize_growth_model_mixed <- function(data_frame,
     if (function_type == "linear") {
       model_summary_wide <- model_summary_wide %>%
         dplyr::mutate(
-          double_time_est = 2 / !!rlang::sym("rate_est"),
-          double_time_lb = 2 / !!rlang::sym("rate_ub"),
-          double_time_ub = 2 / !!rlang::sym("rate_lb"),
+          double_time_est =
+            !!rlang::sym("intercept_est") / !!rlang::sym("rate_est"),
+          double_time_lb =
+            !!rlang::sym("intercept_est") / !!rlang::sym("rate_ub"),
+          double_time_ub =
+            !!rlang::sym("intercept_est") / !!rlang::sym("rate_lb"),
           aic = mixed_growth_model@results@aic.is,
           bic = mixed_growth_model@results@bic.is,
           loglik = mixed_growth_model@results@ll.is
