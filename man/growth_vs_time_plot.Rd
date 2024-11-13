@@ -24,7 +24,7 @@ growth_vs_time_plot(
   plot_title_size = 20,
   geom_point_size = 2,
   geom_line_width = 0.5,
-  ci_plot_annotate_value = "double_time",
+  pred_plot_annotate_value = "double_time",
   annotate_value_text_size = 6
 )
 }
@@ -117,7 +117,7 @@ on the graph. Defaults to 2. See \code{\link[ggplot2]{geom_point}}.}
 \item{geom_line_width}{A numeric value specifying the width of the line
 (applicable only for plot_type = 2, 3, or 4). Defaults to 0.5.}
 
-\item{ci_plot_annotate_value}{A character string specifying whether to add
+\item{pred_plot_annotate_value}{A character string specifying whether to add
 the doubling time or rate estimates from the model to plot 4. Options
 include "double_time" for the doubling time with 95\% CI, "rate" for the
 rate estimate with 95\% CI, or "none" for no annotation. Defaults to

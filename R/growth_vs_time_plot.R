@@ -75,7 +75,7 @@
 #' on the graph. Defaults to 2. See \code{\link[ggplot2]{geom_point}}.
 #' @param geom_line_width A numeric value specifying the width of the line
 #' (applicable only for plot_type = 2, 3, or 4). Defaults to 0.5.
-#' @param ci_plot_annotate_value A character string specifying whether to add
+#' @param pred_plot_annotate_value A character string specifying whether to add
 #' the doubling time or rate estimates from the model to plot 4. Options
 #' include "double_time" for the doubling time with 95% CI, "rate" for the
 #' rate estimate with 95% CI, or "none" for no annotation. Defaults to
@@ -126,7 +126,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
                                 plot_title_size = 20,
                                 geom_point_size = 2,
                                 geom_line_width = 0.5,
-                                ci_plot_annotate_value = "double_time",
+                                pred_plot_annotate_value = "double_time",
                                 annotate_value_text_size = 6) {
   # Check initial function inputs
   stopifnot(
@@ -151,8 +151,8 @@ growth_vs_time_plot <- function(growth_model_summary_list,
     is.numeric(plot_title_size),
     is.numeric(geom_point_size),
     is.numeric(geom_line_width),
-    is.character(ci_plot_annotate_value),
-    ci_plot_annotate_value %in% c("double_time", "rate", "none"),
+    is.character(pred_plot_annotate_value),
+    pred_plot_annotate_value %in% c("double_time", "rate", "none"),
     is.numeric(annotate_value_text_size),
     annotate_value_text_size >= 0
   )
@@ -497,11 +497,10 @@ growth_vs_time_plot <- function(growth_model_summary_list,
       ) +
       ggplot2::coord_cartesian(
         xlim = x_limits,
-        ylim = y_limits,
-        clip = "off")
+        ylim = y_limits)
 
     # Add annotation if provided
-    if (ci_plot_annotate_value == "double_time") {
+    if (pred_plot_annotate_value == "double_time") {
       # Extract doubling time from model_summary_long dataset from list object
       plot_label_data <-
         growth_model_summary_list[["model_summary_long"]] %>%
@@ -527,7 +526,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
           size = annotate_value_text_size
         )
     }
-    if (ci_plot_annotate_value == "rate") {
+    if (pred_plot_annotate_value == "rate") {
       plot_label_data <-
         growth_model_summary_list[["model_summary_long"]] %>%
         dplyr::filter(
