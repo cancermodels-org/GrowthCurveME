@@ -156,7 +156,7 @@ If you have any questions please feel free contact us at [models\@dfci.harvard.e
 
 -   Anand Panigrahy (Senior Research Technician, Package Author and Developer) - [anand_panigrahy\@dfci.harvard.edu](mailto:anand_panigrahy@dfci.harvard.edu)
 
--   Sonam Bhatia (Associate Director of CPDM, Package Author) - [sonam_bhatia\@dfci.harvard.edu](mailto:sonam_bhatia@dfci.harvard.edu)
+-   Sonam Bhatia (Associate Director of CPDM, Reviewer) - [sonam_bhatia\@dfci.harvard.edu](mailto:sonam_bhatia@dfci.harvard.edu)
 
 -   Thomas Quinn (Senior Research Technician, Data Contributor) - [thomasw_quinn\@dfci.harvard.edu](mailto:thomasw_quinn@dfci.harvard.edu)
 

@@ -187,7 +187,7 @@ summarize_growth_model_mixed <- function(data_frame,
 
     # If fixed_rate is FALSE, add the random effect correlations
     if (fixed_rate == FALSE) {
-      # Prepare random effects correlations
+      # Prepare random-effects correlations
       model_random_corr <-
         as.data.frame(mixed_growth_model@results@conf.int) %>%
         dplyr::select(dplyr::all_of(c("name", "estimate"))) %>%
@@ -341,7 +341,7 @@ summarize_growth_model_mixed <- function(data_frame,
         tibble::rownames_to_column(var = "Variable") %>%
         dplyr::rename("Value" = !!rlang::sym("V1"))
 
-      # Prepare random effects correlations
+      # Prepare random-effects correlations
       model_random_corr <-
         as.data.frame(mixed_growth_model@results@conf.int) %>%
         dplyr::select(dplyr::all_of(c("name", "estimate"))) %>%

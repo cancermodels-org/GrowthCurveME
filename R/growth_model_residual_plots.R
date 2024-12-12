@@ -13,13 +13,13 @@
 #' fixed-effects residuals for mixed-effects and least-squares models and
 #' "cluster" for fixed and random-effects residuals for mixed-effects
 #' regression models. Defaults to "cluster".
-#' @param weighted A Boolean value, when TRUE displays weighted residuals for
+#' @param weighted A logical value, when TRUE displays weighted residuals for
 #' mixed-effects models or standardized residuals for least-squares models,
 #' when FALSE displays the raw residuals for mixed-effects and least-squares
 #' models. Defaults to "TRUE".
 #'
-#' @return Returns a ggplot2 collage of model diagnostic plots with the
-#' following plots displayed:
+#' @return Returns a patchwork collage of ggplot2 model diagnostic plots with
+#' the following plots displayed:
 #' \itemize{
 #'  \item Residual vs Fitted Values - a model diagnostic plot for assessing
 #'  the distribution of the residuals vs the model fitted values,

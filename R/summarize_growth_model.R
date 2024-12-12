@@ -32,9 +32,9 @@
 #'  \code{\link{growth_vs_time_plot}})
 #'  \item model_sim_pred_data - a data frame with estimates and 95% prediction
 #'  intervals (not to be confused with the 95% confidence intervals calculated
-#'  from the model estimates), for mixed-effects models values are calculated
-#'  using the median for the estimate and the 2.5th and 97.5th percentiles of
-#'  the saemix model simulated data at each time point (see
+#'  from the model estimates), for mixed-effects models, values are calculated
+#'  as the median estimate and the 2.5th and 97.5th percentiles of the
+#'  simulated data from the saemix model at each time point (see
 #'  \code{\link[saemix]{compute.sres}} and \code{\link[saemix]{plot}} with
 #'  plot.type = "vpc"). For least-squares models, prediction intervals are
 #'  calculated through Taylor-series approximations using the

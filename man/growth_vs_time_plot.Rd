@@ -41,9 +41,9 @@ point is colored by cluster if applicable.
 point is colored by cluster if applicable and the model predicted values
 are overlayed as line.
 When a mixed-effect model summary list is input, the predicted values
-are the ind_fit_value which accounts for both fixed and random effects.
+are the ind_fit_value which accounts for both fixed and random-effects.
 When a least-squares model summary list is input the predicted values
-are the fitted values accounting for fixed effects only (pop_fit_value).
+are the fitted values accounting for fixed-effects only (pop_fit_value).
 \item 3 - A scatterplot version of plot_type = 2 where each cluster is
 separated into their own plot forming a matrix of growth_metric vs time
 plots by cluster.

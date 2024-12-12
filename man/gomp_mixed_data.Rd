@@ -5,13 +5,13 @@
 \alias{gomp_mixed_data}
 \title{Sample Gompertz growth dataset}
 \format{
-A data frame with 975 rows and 3 variables:
+A data frame with 210 rows and 3 variables:
 \describe{
 \item{cluster}{A character type variable used to specify the clustering
-of values by a particular metric. Note when selecting a least-squares
-model instead of a mixed-effects model, do not leave this variable NA,
-fill in these values with a single repetitive dummy variable (e.g., '1')
-for the package to run properly}
+of values by a particular metric. Note even when selecting a least-squares,
+do not leave this variable NA or empty. Instead fill in these values with
+a single repetitive dummy variable (e.g., '1') for the package to
+run properly}
 \item{time}{A numeric type variable for any measurement in time such as
 minutes, hours, or days}
 \item{growth_metric}{A numeric type variable for measuring growth such

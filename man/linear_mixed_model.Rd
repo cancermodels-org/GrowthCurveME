@@ -26,15 +26,19 @@ over time such as cell count or confluency
 }}
 
 \item{model_type}{A character string specifying the type of regression
-model to be used. If "mixed" a mixed-effects regression model will be used
-with fixed and random effects to account for clustering. Defaults to "mixed".}
+model to be used. If 'mixed', a mixed-effects regression model will be used
+with fixed and random-effects to account for clustering. For
+'least-squares', a least-squares regression model with only fixed-effects
+is applied. Defaults to "mixed".}
 
-\item{fixed_rate}{A Boolean value specifying whether the rate constant
+\item{fixed_rate}{A logical value specifying whether the rate constant
 of the function should be treated as a fixed effect (TRUE) or random
 effect (FALSE). Defaults to TRUE}
 
 \item{num_chains}{A numeric value specifying the number of chains to run
-in parallel in the MCMC algorithm of saemix. Defaults to 1.}
+in parallel in the MCMC algorithm of saemix. Increasing the number of chains
+may improve convergence but may also increase the computational time.
+Defaults to 1.}
 }
 \value{
 Returns a linear model object of class 'SaemixObject' when a

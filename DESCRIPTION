@@ -1,36 +1,38 @@
 Package: GrowthCurveME
-Title: Mixed-Effects Modeling for In Vitro Growth Data
+Title: Mixed-Effects Modeling for Growth Data
 Version: 0.0.1
 Authors@R: c(
     person(given = "Anand", family = "Panigrahy", 
     email = "anand_panigrahy@dfci.harvard.edu", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2130-2089")),
     person(given = "Sonam", family = "Bhatia", 
-    email = "sonam_bhatia@dfci.harvard.edu", role = "aut"),
+    email = "sonam_bhatia@dfci.harvard.edu", 
+    role = "rev", comment = c(ORCID = "0000-0002-0124-2621")),
     person(given = "Thomas", family = "Quinn",
     email = "thomasw_quinn@dfci.harvard.edu", role = "dtc"),
     person(given = "Aniket", family = "Shetty",
     email = "aniket_shetty@dfci.harvard.edu", role = "rev"),
     person(given = "Keith", family = "Ligon", 
-    email = "keith_ligon@dfci.harvard.edu", role = "fnd"),
+    email = "keith_ligon@dfci.harvard.edu", 
+    role = "fnd", comment = c(ORCID = "0000-0002-7733-600X")),
     person(given = "Center for Patient-Derived Models", 
     family = "Dana-Farber Cancer Institute", 
-    email = "models@dfci.harvard.edu", role = "fnd"))
-Description: This is an R package that provides user-friendly
+    email = "models@dfci.harvard.edu", role = "cph"))
+Description: This R package provides user-friendly
     wrappers to the saemix package for performing linear and non-linear
-    mixed-effects regression modeling for in-vitro growth-assay data to
+    mixed-effects regression modeling for growth data to
     account for clustering or longitudinal analysis via repeated
     measurements. The package allows users to fit a variety of growth
     models, including linear, exponential, logistic, and Gompertz
     functions. For non-linear models, starting values are automatically
-    calculated. The package includes functions for summarizing models,
-    visualizing data and results, calculating doubling time and other key
-    statistics, and generating model diagnostic plots and residual summary
-    statistics. It also provides functions for generating
-    publication-ready summary tables for reports. Additionally, users can
-    fit linear and non-linear least-squares regression models if
-    clustering is not applicable. Please contact models@dfci.harvard.edu with 
-    any questions.
+    calculated using initial least-squares estimates. The package includes 
+    functions for summarizing models, visualizing data and results, 
+    calculating doubling time and other key statistics, and generating model 
+    diagnostic plots and residual summary statistics. It also provides 
+    functions for generating publication-ready summary tables for reports. 
+    Additionally, users can fit linear and non-linear least-squares 
+    regression models if clustering is not applicable. Please contact 
+    models@dfci.harvard.edu with any questions.
 License: GPL (>= 3)
 Depends: 
     R (>= 4.0.0)

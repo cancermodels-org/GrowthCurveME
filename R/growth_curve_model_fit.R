@@ -21,13 +21,17 @@
 #' modeling the shape of the growth. Options include "exponential", "linear",
 #' "logistic", or "gompertz".
 #' @param model_type A character string specifying the type of regression
-#' model to be used. If "mixed" a mixed-effects regression model will be used
-#' with fixed and random effects to account for clustering. Defaults to "mixed".
+#' model to be used. If 'mixed', a mixed-effects regression model will be used
+#' with fixed and random-effects to account for clustering. For
+#' 'least-squares', a least-squares regression model with only fixed-effects
+#' is applied. Defaults to "mixed".
 #' @param fixed_rate A logical value specifying whether the rate constant
 #' of the function should be treated as a fixed effect (TRUE) or random
 #' effect (FALSE). Defaults to TRUE
 #' @param num_chains A numeric value specifying the number of chains to run
-#' in parallel in the MCMC algorithm of saemix. Defaults to 1.
+#' in parallel in the MCMC algorithm of saemix. Increasing the number of chains
+#' may improve convergence but may also increase the computational time.
+#' Defaults to 1.
 #' @param time_unit A character string specifying the units in which time is
 #' measured in. Defaults to "hours"
 #' @param return_summary A logical value specifying whether to return the

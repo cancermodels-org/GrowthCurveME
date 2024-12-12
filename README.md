@@ -209,7 +209,7 @@ If you have any questions please feel free contact us at
 - Anand Panigrahy (Senior Research Technician, Package Author and
   Developer) - <anand_panigrahy@dfci.harvard.edu>
 
-- Sonam Bhatia (Associate Director of CPDM, Package Author) -
+- Sonam Bhatia (Associate Director of CPDM, Reviewer) -
   <sonam_bhatia@dfci.harvard.edu>
 
 - Thomas Quinn (Senior Research Technician, Data Contributor) -

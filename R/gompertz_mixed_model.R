@@ -54,7 +54,7 @@ gompertz_mixed_model <- function(data_frame,
         min(!!rlang::sym("diff_growth_metric"))
     ) %>%
     dplyr::pull(!!rlang::sym("time"))
-  # Fit an initial least squares Gompertz model to calculate starting values
+  # Fit an initial least-squares Gompertz model to calculate starting values
   gompertz_formula <- as.formula(
     paste0(
       "growth_metric ~ lower_asy + (upper_asy - lower_asy)*",
