@@ -34,7 +34,7 @@ linear_mixed_model <- function(data_frame,
                                fixed_rate = TRUE,
                                num_chains = 1) {
   # Use the lm function to get estimate of intercept and rate
-  lm_model <- lm(growth_metric ~ time,
+  lm_model <- stats::lm(growth_metric ~ time,
     data = data_frame
   )
 

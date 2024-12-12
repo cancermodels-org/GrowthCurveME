@@ -25,7 +25,7 @@ growth_vs_time_plot(
   geom_point_size = 2,
   geom_line_width = 0.5,
   pred_plot_annotate_value = "double_time",
-  annotate_value_text_size = 6
+  annotate_value_text_size = 5
 )
 }
 \arguments{
@@ -124,7 +124,7 @@ rate estimate with 95\% CI, or "none" for no annotation. Defaults to
 "double_time"}
 
 \item{annotate_value_text_size}{A numeric value specifying the size of
-the annotation text. Defaults to 6. See \code{\link[ggplot2]{geom_text}}.}
+the annotation text. Defaults to 5. See \code{\link[ggplot2]{geom_text}}.}
 }
 \value{
 Returns a ggplot2 plot

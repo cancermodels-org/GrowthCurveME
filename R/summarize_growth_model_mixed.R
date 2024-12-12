@@ -164,8 +164,8 @@ summarize_growth_model_mixed <- function(data_frame,
       ) %>%
       dplyr::mutate_if(is.numeric, as.character) %>%
       dplyr::select(
-        "Model function" = !!rlang::sym("model_function"),
-        "Model type" = !!rlang::sym("model_type"),
+        "Growth function" = !!rlang::sym("model_function"),
+        "Regression type" = !!rlang::sym("model_type"),
         "Number of observations" = !!rlang::sym("number_observations"),
         "Number of clusters" = !!rlang::sym("number_clusters"),
         "Intercept [95% CI]" = !!rlang::sym("intercept_ci"),
@@ -319,8 +319,8 @@ summarize_growth_model_mixed <- function(data_frame,
         ) %>%
         dplyr::mutate_if(is.numeric, as.character) %>%
         dplyr::select(
-          "Model function" = !!rlang::sym("model_function"),
-          "Model type" = !!rlang::sym("model_type"),
+          "Growth function" = !!rlang::sym("model_function"),
+          "Regression type" = !!rlang::sym("model_type"),
           "Number of observations" = !!rlang::sym("number_observations"),
           "Number of clusters" = !!rlang::sym("number_clusters"),
           "Lower asymptote estimate [95% CI]" = !!rlang::sym("lower_asy_ci"),

@@ -215,7 +215,7 @@ If you have any questions please feel free contact us at
 - Thomas Quinn (Senior Research Technician, Data Contributor) -
   <thomasw_quinn@dfci.harvard.edu>
 
-- Aniket Shetty (Bioinformatician and Reviewer) -
+- Aniket Shetty (Bioinformatician, Reviewer) -
   <aniket_shetty@dfci.harvard.edu>
 
 - Keith Ligon (Director of CPDM, Project Funder) -

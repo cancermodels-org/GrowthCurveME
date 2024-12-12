@@ -169,8 +169,8 @@ summarize_growth_model_ls <- function(data_frame,
       ) %>%
       dplyr::mutate_if(is.numeric, as.character) %>%
       dplyr::select(
-        "Model function" = !!rlang::sym("model_function"),
-        "Model type" = !!rlang::sym("model_type"),
+        "Growth function" = !!rlang::sym("model_function"),
+        "Regression type" = !!rlang::sym("model_type"),
         "Number of observations" = !!rlang::sym("number_observations"),
         "Intercept [95% CI]" = !!rlang::sym("intercept_ci"),
         "Rate constant [95% CI]" = !!rlang::sym("rate_ci"),
@@ -294,8 +294,8 @@ summarize_growth_model_ls <- function(data_frame,
       ) %>%
       dplyr::mutate_if(is.numeric, as.character) %>%
       dplyr::select(
-        "Model function" = !!rlang::sym("model_function"),
-        "Model type" = !!rlang::sym("model_type"),
+        "Growth function" = !!rlang::sym("model_function"),
+        "Regression type" = !!rlang::sym("model_type"),
         "Number of observations" = !!rlang::sym("number_observations"),
         "Lower asymptote estimate [95% CI]" = !!rlang::sym("lower_asy_ci"),
         "Upper asymptote estimate [95% CI]" = !!rlang::sym("upper_asy_ci"),

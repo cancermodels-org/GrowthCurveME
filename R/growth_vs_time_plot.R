@@ -81,7 +81,7 @@
 #' rate estimate with 95% CI, or "none" for no annotation. Defaults to
 #' "double_time"
 #' @param annotate_value_text_size A numeric value specifying the size of
-#' the annotation text. Defaults to 6. See \code{\link[ggplot2]{geom_text}}.
+#' the annotation text. Defaults to 5. See \code{\link[ggplot2]{geom_text}}.
 #'
 #' @return Returns a ggplot2 plot
 #' @seealso \code{\link{growth_curve_model_fit}}
@@ -90,7 +90,7 @@
 #' @importFrom viridis scale_color_viridis
 #' @importFrom dplyr pull
 #' @importFrom rlang as_label sym
-#' @importFrom stringr str_detect
+#' @importFrom stringr str_detect str_remove
 #' @export
 #'
 #' @examples
@@ -127,7 +127,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
                                 geom_point_size = 2,
                                 geom_line_width = 0.5,
                                 pred_plot_annotate_value = "double_time",
-                                annotate_value_text_size = 6) {
+                                annotate_value_text_size = 5) {
   # Check initial function inputs
   stopifnot(
     is.list(growth_model_summary_list),
@@ -499,7 +499,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
         xlim = x_limits,
         ylim = y_limits)
 
-    # Add annotation if provided
+    # Add doubling time annotation if provided
     if (pred_plot_annotate_value == "double_time") {
       # Extract doubling time from model_summary_long dataset from list object
       plot_label_data <-
@@ -507,9 +507,14 @@ growth_vs_time_plot <- function(growth_model_summary_list,
         dplyr::filter(
           stringr::str_detect(!!rlang::sym("Variable"), "Doubling"))
 
+      # Remove "estimate" from text
+      plot_label_data[1,1] <- stringr::str_remove(
+        plot_label_data[1,1], " estimate")
+
       annotate_data <- data.frame(
         x_pos = -Inf, y_pos = Inf,
-        text = paste(" Doubling Time [95% CI]\n", plot_label_data[1, 2]),
+        text = paste0(" ", plot_label_data[1,1], "\n ",
+                      plot_label_data[1, 2]),
         h_just = 0, v_just = 1
       )
 
@@ -526,6 +531,7 @@ growth_vs_time_plot <- function(growth_model_summary_list,
           size = annotate_value_text_size
         )
     }
+    # Add rate constant annotation if provided
     if (pred_plot_annotate_value == "rate") {
       plot_label_data <-
         growth_model_summary_list[["model_summary_long"]] %>%
