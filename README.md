@@ -207,7 +207,7 @@ growth_vs_time_plot(
 
 # Contact Information
 
-If you have any questions please feel free contact us at
+If you have any questions please feel free to contact us at
 <models@dfci.harvard.edu>.
 
 # Creators and Contributors
