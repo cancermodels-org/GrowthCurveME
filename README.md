@@ -29,6 +29,12 @@ install.packages("devtools")
 devtools::install_github("cancermodels-org/GrowthCurveME")
 ```
 
+You can also get the official release version from CRAN
+
+``` r
+install.packages("GrowthCurveME")
+```
+
 ## Getting Started
 
 First load the package and import a sample dataset. Here in this example
@@ -209,7 +215,7 @@ If you have any questions please feel free contact us at
 - Anand Panigrahy (Senior Research Technician, Package Author and
   Developer) - <anand_panigrahy@dfci.harvard.edu>
 
-- Sonam Bhatia (Associate Director of CPDM, Reviewer) -
+- Sonam Bhatia (Associate Director of CPDM, Contributor) -
   <sonam_bhatia@dfci.harvard.edu>
 
 - Thomas Quinn (Senior Research Technician, Data Contributor) -

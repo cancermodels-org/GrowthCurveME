@@ -30,6 +30,12 @@ install.packages("devtools")
 devtools::install_github("cancermodels-org/GrowthCurveME")
 ```
 
+You can also get the official release version from CRAN
+
+``` r
+install.packages("GrowthCurveME")
+```
+
 ## Getting Started
 
 First load the package and import a sample dataset. Here in this example we have confluency-based growth assay data. In this experiment, there are multiple "clusters" or well replicates. Although they all follow a general growth pattern, each of the well replicates start at different growth measurements.
@@ -156,7 +162,7 @@ If you have any questions please feel free contact us at [models\@dfci.harvard.e
 
 -   Anand Panigrahy (Senior Research Technician, Package Author and Developer) - [anand_panigrahy\@dfci.harvard.edu](mailto:anand_panigrahy@dfci.harvard.edu)
 
--   Sonam Bhatia (Associate Director of CPDM, Reviewer) - [sonam_bhatia\@dfci.harvard.edu](mailto:sonam_bhatia@dfci.harvard.edu)
+-   Sonam Bhatia (Associate Director of CPDM, Contributor) - [sonam_bhatia\@dfci.harvard.edu](mailto:sonam_bhatia@dfci.harvard.edu)
 
 -   Thomas Quinn (Senior Research Technician, Data Contributor) - [thomasw_quinn\@dfci.harvard.edu](mailto:thomasw_quinn@dfci.harvard.edu)
 

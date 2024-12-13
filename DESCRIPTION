@@ -7,7 +7,7 @@ Authors@R: c(
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2130-2089")),
     person(given = "Sonam", family = "Bhatia", 
     email = "sonam_bhatia@dfci.harvard.edu", 
-    role = "rev", comment = c(ORCID = "0000-0002-0124-2621")),
+    role = "ctb", comment = c(ORCID = "0000-0002-0124-2621")),
     person(given = "Thomas", family = "Quinn",
     email = "thomasw_quinn@dfci.harvard.edu", role = "dtc"),
     person(given = "Aniket", family = "Shetty",
