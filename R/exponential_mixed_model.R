@@ -46,6 +46,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (exponential data from GrowthCurveME package)
 #' data(exp_mixed_data)
 #' # Fit an exponential mixed-effects growth model
@@ -55,6 +56,7 @@
 #' )
 #' # Fit an exponential mixed-effected model using exponential_mixed_model()
 #' exp_mixed_model <- exponential_mixed_model(data_frame = exp_mixed_data)
+#' }
 exponential_mixed_model <- function(data_frame,
                                     model_type = "mixed",
                                     fixed_rate = TRUE,

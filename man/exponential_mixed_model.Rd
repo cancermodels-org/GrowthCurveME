@@ -53,6 +53,7 @@ Starting values are derived from an initial least-squares model using
 the \code{\link[minpack.lm]{nlsLM}} function.
 }
 \examples{
+\donttest{
 # Load example data (exponential data from GrowthCurveME package)
 data(exp_mixed_data)
 # Fit an exponential mixed-effects growth model
@@ -62,6 +63,7 @@ exp_mixed_model <- growth_curve_model_fit(
 )
 # Fit an exponential mixed-effected model using exponential_mixed_model()
 exp_mixed_model <- exponential_mixed_model(data_frame = exp_mixed_data)
+}
 }
 \seealso{
 \code{\link{growth_curve_model_fit}}

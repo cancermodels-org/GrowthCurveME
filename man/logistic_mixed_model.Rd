@@ -53,6 +53,7 @@ Starting values are derived from an initial least-squares model using the
 \code{\link[minpack.lm]{nlsLM}} function.
 }
 \examples{
+\donttest{
 # Load example data (logistic data from GrowthCurveME package)
 data(log_mixed_data)
 # Fit a logistic mixed-effects growth model to the data
@@ -60,6 +61,7 @@ log_mixed_model <- growth_curve_model_fit(data_frame = log_mixed_data,
 function_type = "logistic")
 # Fit a logistic mixed-effects model using logistic_mixed_model()
 log_mixed_model <- logistic_mixed_model(data_frame = log_mixed_data)
+}
 }
 \seealso{
 \code{\link{growth_curve_model_fit}}

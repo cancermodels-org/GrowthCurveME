@@ -23,6 +23,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (logistic data from GrowthCurveME package)
 #' data(log_mixed_data)
 #' # Fit a logistic mixed-effects growth model to the data
@@ -30,6 +31,7 @@
 #' function_type = "logistic")
 #' # Fit a logistic mixed-effects model using logistic_mixed_model()
 #' log_mixed_model <- logistic_mixed_model(data_frame = log_mixed_data)
+#' }
 logistic_mixed_model <- function(data_frame,
                                  model_type = "mixed",
                                  fixed_rate = TRUE,

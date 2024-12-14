@@ -24,6 +24,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (Gompertz data from GrowthCurveME package)
 #' data(gomp_mixed_data)
 #' # Fit a Gompertz mixed-effects growth model
@@ -33,6 +34,7 @@
 #' )
 #' # Fit a Gompertz mixed-effected model using gompertz_mixed_model()
 #' gomp_mixed_model <- gompertz_mixed_model(data_frame = gomp_mixed_data)
+#' }
 gompertz_mixed_model <- function(data_frame,
                                  model_type = "mixed",
                                  fixed_rate = TRUE,

@@ -53,6 +53,7 @@ Starting values are derived from an initial least-squares model using
 the \code{\link[minpack.lm]{nlsLM}} function.
 }
 \examples{
+\donttest{
 # Load example data (Gompertz data from GrowthCurveME package)
 data(gomp_mixed_data)
 # Fit a Gompertz mixed-effects growth model
@@ -62,6 +63,7 @@ gomp_mixed_model <- growth_curve_model_fit(
 )
 # Fit a Gompertz mixed-effected model using gompertz_mixed_model()
 gomp_mixed_model <- gompertz_mixed_model(data_frame = gomp_mixed_data)
+}
 }
 \seealso{
 \code{\link{growth_curve_model_fit}}

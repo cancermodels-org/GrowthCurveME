@@ -19,11 +19,11 @@ Authors@R: c(
     family = "Dana-Farber Cancer Institute", 
     email = "models@dfci.harvard.edu", role = "cph"))
 Description: This R package provides user-friendly
-    wrappers to the saemix package for performing linear and non-linear
+    wrappers to the 'saemix' package for performing linear and non-linear
     mixed-effects regression modeling for growth data to
     account for clustering or longitudinal analysis via repeated
     measurements. The package allows users to fit a variety of growth
-    models, including linear, exponential, logistic, and Gompertz
+    models, including linear, exponential, logistic, and 'Gompertz'
     functions. For non-linear models, starting values are automatically
     calculated using initial least-squares estimates. The package includes 
     functions for summarizing models, visualizing data and results, 
