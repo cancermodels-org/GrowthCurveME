@@ -37,6 +37,10 @@
 #' @param return_summary A logical value specifying whether to return the
 #' growth_model_summary_list when TRUE (list object containing summarized data)
 #' or the object model object when FALSE. Defaults to TRUE.
+#' @param seed A numeric value specifying a seed number to reproduce the
+#' random starting values sampled within the function. Defaults to NULL.
+#' @param verbose A logical value specifying whether print statements will
+#' print in the console. Defaults to TRUE.
 #'
 #' @return A list object with the following data frames within the list:
 #'\itemize{
@@ -72,7 +76,8 @@
 #' # Fit an mixed-effects growth model to the data and return summary
 #' exp_mixed_model_summary <- growth_curve_model_fit(
 #' data_frame = exp_mixed_data,
-#' function_type = "exponential")
+#' function_type = "exponential",
+#' verbose = FALSE)
 #' # Create flextable object from the summary list object for documentation
 #' exp_model_table <- growth_model_summary_table(
 #' growth_model_summary_list = exp_mixed_model_summary)
@@ -93,7 +98,9 @@ growth_curve_model_fit <- function(data_frame,
                                    fixed_rate = TRUE,
                                    num_chains = 1,
                                    time_unit = "hours",
-                                   return_summary = TRUE) {
+                                   return_summary = TRUE,
+                                   seed = NULL,
+                                   verbose = TRUE) {
   # Check initial data frame inputs
   stopifnot(
     "cluster" %in% colnames(data_frame),
@@ -110,7 +117,8 @@ growth_curve_model_fit <- function(data_frame,
     is.numeric(num_chains),
     num_chains >= 1,
     is.character(time_unit),
-    is.logical(return_summary)
+    is.logical(return_summary),
+    (is.null(seed) | is.numeric(seed))
   )
 
   # Remove missing values from cluster, time, and growth_metric variables
@@ -150,14 +158,16 @@ growth_curve_model_fit <- function(data_frame,
       " clusters, 'model_type' has been set to 'least-squares'")
     message(warn_message)
     model_type <- "least-squares"
-  } else if (model_type == "mixed") {
+  } else if (model_type == "mixed" &
+             verbose == TRUE) {
     cat("Number of clusters:", cluster_num, "\n")
     cat("Number of unique time points:", length(unique(data_frame$time)), "\n")
     cat("Number of observations:", nrow(data_frame), "\n")
   }
 
   # Print data info model_type is "least-squares
-  if (model_type == "least-squares") {
+  if (model_type == "least-squares" &
+      verbose == TRUE) {
     cat("Number of unique time points:", length(unique(data_frame$time)), "\n")
     cat("Number of observations:", nrow(data_frame), "\n")
   }
@@ -172,7 +182,8 @@ growth_curve_model_fit <- function(data_frame,
       data_frame = data_frame,
       fixed_rate = fixed_rate,
       model_type = model_type,
-      num_chains = num_chains
+      num_chains = num_chains,
+      seed = seed
     )
   }
   # If linear model is chosen
@@ -181,7 +192,8 @@ growth_curve_model_fit <- function(data_frame,
       data_frame = data_frame,
       fixed_rate = fixed_rate,
       model_type = model_type,
-      num_chains = num_chains
+      num_chains = num_chains,
+      seed = seed
     )
   }
   # If logistic model is selected
@@ -190,7 +202,8 @@ growth_curve_model_fit <- function(data_frame,
       data_frame = data_frame,
       fixed_rate = fixed_rate,
       model_type = model_type,
-      num_chains = num_chains
+      num_chains = num_chains,
+      seed = seed
     )
   }
   # If gompertz model is selected
@@ -199,7 +212,8 @@ growth_curve_model_fit <- function(data_frame,
       data_frame = data_frame,
       fixed_rate = fixed_rate,
       model_type = model_type,
-      num_chains = num_chains
+      num_chains = num_chains,
+      seed = seed
     )
   }
 

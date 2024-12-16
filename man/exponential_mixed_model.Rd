@@ -8,7 +8,8 @@ exponential_mixed_model(
   data_frame,
   model_type = "mixed",
   fixed_rate = TRUE,
-  num_chains = 1
+  num_chains = 1,
+  seed = NULL
 )
 }
 \arguments{
@@ -39,6 +40,9 @@ effect (FALSE). Defaults to TRUE}
 in parallel in the MCMC algorithm of saemix. Increasing the number of chains
 may improve convergence but may also increase the computational time.
 Defaults to 1.}
+
+\item{seed}{A numeric value specifying a seed number to reproduce the
+random starting values sampled within the function. Defaults to NULL.}
 }
 \value{
 Returns an exponential model object of class 'SaemixObject' when a

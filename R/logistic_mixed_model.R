@@ -35,7 +35,8 @@
 logistic_mixed_model <- function(data_frame,
                                  model_type = "mixed",
                                  fixed_rate = TRUE,
-                                 num_chains = 1) {
+                                 num_chains = 1,
+                                 seed = NULL) {
   # Calculate initial starting values
   start_lower_asy <- data_frame %>%
     dplyr::filter(!!rlang::sym("time") == min(!!rlang::sym("time"))) %>%
@@ -100,7 +101,11 @@ logistic_mixed_model <- function(data_frame,
     rate_sd <- sum_object$coefficients[3, 2] * sqrt(nrow(data_frame))
     inflection_sd <- sum_object$coefficients[4, 2] * sqrt(nrow(data_frame))
 
-    set.seed(123)
+    # Set a seed if applicable
+    if(!is.null(seed)){
+      set.seed(seed)
+    }
+
     start_lower_asy_vec <- stats::runif(
       n = 10,
       min = start_lower_asy - (2 * lower_asy_sd),

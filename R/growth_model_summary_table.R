@@ -36,7 +36,8 @@
 #' # Fit an mixed-effects growth model to the data
 #' exp_mixed_model_summary <- growth_curve_model_fit(
 #' data_frame = exp_mixed_data,
-#' function_type = "exponential")
+#' function_type = "exponential",
+#' verbose = FALSE)
 #' # Create flextable object of the growth model results
 #' exp_model_table <- growth_model_summary_table(
 #' growth_model_summary_list = exp_mixed_model_summary)

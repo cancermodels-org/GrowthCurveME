@@ -99,7 +99,8 @@
 #' # Fit an mixed-effects growth model to the data
 #' exp_mixed_model_summary <- growth_curve_model_fit(
 #'   data_frame = exp_mixed_data,
-#'   function_type = "exponential"
+#'   function_type = "exponential",
+#'   verbose = FALSE
 #' )
 #' # Create growth vs time plot of data with fitted values (plot_type = 2)
 #' exp_growth_plot <- growth_vs_time_plot(

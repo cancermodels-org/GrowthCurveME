@@ -32,7 +32,8 @@
 linear_mixed_model <- function(data_frame,
                                model_type = "mixed",
                                fixed_rate = TRUE,
-                               num_chains = 1) {
+                               num_chains = 1,
+                               seed = NULL) {
   # Use the lm function to get estimate of intercept and rate
   lm_model <- stats::lm(growth_metric ~ time,
     data = data_frame
@@ -76,7 +77,11 @@ linear_mixed_model <- function(data_frame,
     intercept_sd <- sum_object$coefficients[1, 2] * sqrt(nrow(data_frame))
     rate_sd <- sum_object$coefficients[2, 2] * sqrt(nrow(data_frame))
 
-    set.seed(123)
+    # Set a seed if applicable
+    if(!is.null(seed)){
+      set.seed(seed)
+    }
+
     start_intercept_vec <- stats::runif(
       n = 10,
       min = start_intercept - (2 * intercept_sd),

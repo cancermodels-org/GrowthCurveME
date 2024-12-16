@@ -10,3 +10,7 @@ but the elapsed time remains minimal (a few seconds over). The package
 functions that employ methods from other R packages include 
 hyperlinks directly to the relevant source functions within those packages to 
 make user review and interpretation easier.
+
+I have addressed the comments from Benjamin Altmann 
+(benjamin.altmann@wu.ac.at) from 12/16/2024 and hope they will be found to be
+satisfactory.

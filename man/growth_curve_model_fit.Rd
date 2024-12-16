@@ -11,7 +11,9 @@ growth_curve_model_fit(
   fixed_rate = TRUE,
   num_chains = 1,
   time_unit = "hours",
-  return_summary = TRUE
+  return_summary = TRUE,
+  seed = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -53,6 +55,12 @@ measured in. Defaults to "hours"}
 \item{return_summary}{A logical value specifying whether to return the
 growth_model_summary_list when TRUE (list object containing summarized data)
 or the object model object when FALSE. Defaults to TRUE.}
+
+\item{seed}{A numeric value specifying a seed number to reproduce the
+random starting values sampled within the function. Defaults to NULL.}
+
+\item{verbose}{A logical value specifying whether print statements will
+print in the console. Defaults to TRUE.}
 }
 \value{
 A list object with the following data frames within the list:
@@ -88,7 +96,8 @@ data(exp_mixed_data)
 # Fit an mixed-effects growth model to the data and return summary
 exp_mixed_model_summary <- growth_curve_model_fit(
 data_frame = exp_mixed_data,
-function_type = "exponential")
+function_type = "exponential",
+verbose = FALSE)
 # Create flextable object from the summary list object for documentation
 exp_model_table <- growth_model_summary_table(
 growth_model_summary_list = exp_mixed_model_summary)

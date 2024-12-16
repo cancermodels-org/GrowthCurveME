@@ -31,6 +31,8 @@
 #' in parallel in the MCMC algorithm of saemix. Increasing the number of chains
 #' may improve convergence but may also increase the computational time.
 #' Defaults to 1.
+#' @param seed A numeric value specifying a seed number to reproduce the
+#' random starting values sampled within the function. Defaults to NULL.
 #'
 #' @return Returns an exponential model object of class 'SaemixObject' when a
 #' mixed-effects model is specified or a model object of class 'nls' if a
@@ -60,7 +62,8 @@
 exponential_mixed_model <- function(data_frame,
                                     model_type = "mixed",
                                     fixed_rate = TRUE,
-                                    num_chains = 1) {
+                                    num_chains = 1,
+                                    seed = NULL) {
   # Calculating starting value for intercept
   start_intercept <- data_frame %>%
     dplyr::filter(!!rlang::sym("time") == min(!!rlang::sym("time"))) %>%
@@ -103,7 +106,11 @@ exponential_mixed_model <- function(data_frame,
     intercept_sd <- sum_object$coefficients[1, 2] * sqrt(nrow(data_frame))
     rate_sd <- sum_object$coefficients[2, 2] * sqrt(nrow(data_frame))
 
-    set.seed(123)
+    # Set a seed if applicable
+    if(!is.null(seed)){
+      set.seed(seed)
+    }
+
     start_intercept_vec <- stats::runif(
       n = 10,
       min = start_intercept - (2 * intercept_sd),
