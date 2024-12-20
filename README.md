@@ -4,6 +4,9 @@
 # GrowthCurveME
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/GrowthCurveME)](https://CRAN.R-project.org/package=GrowthCurveME)
 <!-- badges: end -->
 
 In-vitro growth assays often exhibit high levels of technical and

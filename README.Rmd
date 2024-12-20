@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
+[![CRAN status](https://www.r-pkg.org/badges/version/GrowthCurveME)](https://CRAN.R-project.org/package=GrowthCurveME)
 <!-- badges: end -->
 
 In-vitro growth assays often exhibit high levels of technical and experimental variability such as differences in seeding density, well-to-well variation, and experimental replicate variation, which can impact the accuracy of growth estimation and modeling. The goal of GrowthCurveME is to address these aspects of variability by allowing users to easily fit linear and non-linear mixed-effects regression models to account for clustering (such as at the well-to-well level or experimental level) and longitudinal repeated measurements. GrowthCurveME utilizes convenient wrapper functions for the saemix package to fit mixed-effects models, derive key growth metrics and model statistics, perform model diagnostics, and generate plots and tables for reporting your data.
