@@ -4,7 +4,9 @@ version (version 0.1.0). A test that previously used exact equality comparison
 was updated to allow for numerical tolerance in floating point computations. 
 All CRAN checks now pass with previous comments from first submission still 
 applying for wrapping specific function in the the 'donttest{}' function due 
-to their run exceeding the CPU (user + system) or elapsed time > 5s.
+to their run exceeding the CPU (user + system) or elapsed time > 5s. Original
+notification of problems sent from Prof Brian Ripley (ripley@stats.ox.ac.uk) 
+now addressed. 
 
 ## R CMD check results
 
