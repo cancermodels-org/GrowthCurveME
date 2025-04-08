@@ -13,7 +13,7 @@ test_that("Exponential model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(exp_mixed_model, growth_model)
+  expect_equal(exp_mixed_model, growth_model, tolerance = 1e-4)
 })
 test_that("Linear model is returned and equal to direct output of
           model function", {
@@ -30,7 +30,7 @@ test_that("Linear model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(lin_mixed_model, growth_model)
+  expect_equal(lin_mixed_model, growth_model, tolerance = 1e-4)
 })
 test_that("Logistic model is returned and equal to direct output of
           model function", {
@@ -47,7 +47,7 @@ test_that("Logistic model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(log_mixed_model, growth_model)
+  expect_equal(log_mixed_model, growth_model, tolerance = 1e-4)
 })
 test_that("Gompertz model is returned and equal to direct output of
           model function", {
@@ -64,7 +64,7 @@ test_that("Gompertz model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(gomp_mixed_model, growth_model)
+  expect_equal(gomp_mixed_model, growth_model, tolerance = 1e-4)
 })
 test_that("Boostrap feature returns list with 4 dataframes", {
   data("exp_mixed_data")

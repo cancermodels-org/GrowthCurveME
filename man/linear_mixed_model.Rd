@@ -57,6 +57,7 @@ package. Starting values are derived from an initial least-squares model
 using the \code{\link[minpack.lm]{nlsLM}} function.
 }
 \examples{
+\donttest{
 # Load example data (linear data from GrowthCurveME package)
 data(lin_mixed_data)
 # Fit a linear mixed-effects growth model
@@ -65,6 +66,7 @@ data_frame = lin_mixed_data,
 function_type = "linear")
 # Fit a linear mixed-effects model using linear_mixed_model()
 lin_mixed_model <- linear_mixed_model(data_frame = lin_mixed_data)
+}
 }
 \seealso{
 \code{\link{growth_curve_model_fit}}

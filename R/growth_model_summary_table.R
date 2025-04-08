@@ -31,6 +31,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
 #' # Fit an mixed-effects growth model to the data
@@ -43,6 +44,7 @@
 #' growth_model_summary_list = exp_mixed_model_summary)
 #' # Print the table in the view pane
 #' exp_model_table
+#' }
 growth_model_summary_table <- function(growth_model_summary_list,
                                        font_name = "Albany AMT",
                                        font_size_header = 14,

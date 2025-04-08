@@ -71,6 +71,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
 #' # Fit an mixed-effects growth model to the data and return summary
@@ -92,6 +93,7 @@
 #' residual_diag_plot <- growth_model_residual_plots(
 #' growth_model_summary_list = exp_mixed_model_summary)
 #' print(residual_diag_plot)
+#' }
 growth_curve_model_fit <- function(data_frame,
                                    function_type = "exponential",
                                    model_type = "mixed",

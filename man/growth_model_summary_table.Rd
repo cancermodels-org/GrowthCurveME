@@ -43,6 +43,7 @@ The 'model_summary_long' data frame from the list object is used to
 generate the table.
 }
 \examples{
+\donttest{
 # Load example data (exponential data)
 data(exp_mixed_data)
 # Fit an mixed-effects growth model to the data
@@ -55,6 +56,7 @@ exp_model_table <- growth_model_summary_table(
 growth_model_summary_list = exp_mixed_model_summary)
 # Print the table in the view pane
 exp_model_table
+}
 }
 \seealso{
 \code{\link{growth_curve_model_fit}}

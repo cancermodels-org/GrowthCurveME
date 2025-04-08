@@ -31,6 +31,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
 #' # Fit an mixed-effects growth model to the data
@@ -46,6 +47,7 @@
 #' function_type = "exponential",
 #' time_unit = "hours")
 #' model_summary_wide <- exp_mixed_model_summary[["model_summary_wide"]]
+#' }
 summarize_growth_model_mixed <- function(data_frame,
                                          mixed_growth_model,
                                          function_type = "exponential",

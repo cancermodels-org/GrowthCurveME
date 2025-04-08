@@ -137,6 +137,7 @@ Please refer to the documentation for the 'plot_type' parameter for the
 different plot options.
 }
 \examples{
+\donttest{
 # Load example data (exponential data)
 data(exp_mixed_data)
 # Fit an mixed-effects growth model to the data
@@ -151,6 +152,7 @@ exp_growth_plot <- growth_vs_time_plot(
   plot_type = 2
 )
 print(exp_growth_plot)
+}
 }
 \seealso{
 \code{\link{growth_curve_model_fit}}

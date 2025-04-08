@@ -50,6 +50,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
 #' # Fit an mixed-effects growth model to the data and produce summary list
@@ -61,6 +62,7 @@
 #' residual_diag_plot <- growth_model_residual_plots(
 #'   growth_model_summary_list = exp_mixed_model_summary)
 #' print(residual_diag_plot)
+#' }
 growth_model_residual_plots <- function(growth_model_summary_list,
                                         residual_type = "cluster",
                                         weighted = TRUE) {

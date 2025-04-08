@@ -1,3 +1,9 @@
+## CRAN Package Updates
+This is a re-submission addressing the ERROR from the previous version. A test 
+that previously used exact equality comparison was updated to allow for 
+numerical tolerance in floating point computations. All CRAN checks now pass 
+with previous comments from first submission still applying.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note

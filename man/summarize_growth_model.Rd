@@ -80,6 +80,7 @@ inputted into supporting functions from GrowthCurveME to
 generate plots and perform model diagnostics.
 }
 \examples{
+\donttest{
 # Load example data (exponential data)
 data(exp_mixed_data)
 # Fit an mixed-effects growth model to the data
@@ -96,6 +97,7 @@ function_type = "exponential",
 time_unit = "hours")
 # Extracting a data frame from the list object
 model_summary_wide <- exp_mixed_model_summary[["model_summary_wide"]]
+}
 }
 \seealso{
 \code{\link{growth_curve_model_fit}}

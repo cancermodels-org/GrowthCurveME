@@ -94,6 +94,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Load example data (exponential data)
 #' data(exp_mixed_data)
 #' # Fit an mixed-effects growth model to the data
@@ -108,6 +109,7 @@
 #'   plot_type = 2
 #' )
 #' print(exp_growth_plot)
+#' }
 growth_vs_time_plot <- function(growth_model_summary_list,
                                 plot_type = 2,
                                 growth_metric_name = "growth_metric",

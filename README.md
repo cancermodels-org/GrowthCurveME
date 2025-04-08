@@ -75,7 +75,7 @@ ggplot(exp_mixed_data,
   theme_classic()
 ```
 
-<img src="man/figures/README-example-data-1.png" width="90%" />
+<img src="man/figures/README-example-data-1.svg" width="90%" />
 
 GrowthCurveME allows users to account for the well-to-well variation by
 fitting a mixed-effects model with the growth_curve_model_fit()
@@ -155,7 +155,7 @@ growth_vs_time_plot(
 )
 ```
 
-<img src="man/figures/README-plots-1.png" width="90%" />
+<img src="man/figures/README-plots-1.svg" width="90%" />
 
 ``` r
 
@@ -171,7 +171,7 @@ growth_vs_time_plot(
 )
 ```
 
-<img src="man/figures/README-plots-2.png" width="90%" />
+<img src="man/figures/README-plots-2.svg" width="90%" />
 
 Users can also perform model diagnostics for mixed-effect (ME) and
 least-squares (LS) models.
@@ -185,7 +185,7 @@ growth_model_residual_plots(
 )
 ```
 
-<img src="man/figures/README-diagnostics-1.png" width="90%" />
+<img src="man/figures/README-diagnostics-1.svg" width="90%" />
 
 Users can also generate prediction interval plots to assist in viewing
 the variability of the model estimates as well as add an annotation such
@@ -206,7 +206,7 @@ growth_vs_time_plot(
 )
 ```
 
-<img src="man/figures/README-sim_curve-1.png" width="90%" />
+<img src="man/figures/README-sim_curve-1.svg" width="90%" />
 
 # Contact Information
 
