@@ -1,4 +1,4 @@
-# GrowthCurveME 0.1.1
+# GrowthCurveME 0.1.11
 Path fix to unit tests
 
 # GrowthCurveME 0.1.0
