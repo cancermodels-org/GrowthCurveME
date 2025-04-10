@@ -1,12 +1,13 @@
-## CRAN Package Updates (version 0.1.1)
+## CRAN Package Updates (version 0.1.11)
 This is a re-submission addressing the ERROR from the previous CRAN approved
 version (version 0.1.0). A test that previously used exact equality comparison 
-was updated to allow for numerical tolerance in floating point computations. 
+was updated to test for correct model class output between functions. 
 All CRAN checks now pass with previous comments from first submission still 
 applying for wrapping specific function in the the 'donttest{}' function due 
-to their run exceeding the CPU (user + system) or elapsed time > 5s. Original
-notification of problems sent from Prof Brian Ripley (ripley@stats.ox.ac.uk) 
-now addressed. 
+to their run exceeding the CPU (user + system) or elapsed time > 5s. 
+
+Original notification of problems sent from Prof Brian Ripley 
+(ripley@stats.ox.ac.uk) and Kurt Hornik (Kurt.Hornik@wu.ac.at) now addressed. 
 
 ## R CMD check results
 

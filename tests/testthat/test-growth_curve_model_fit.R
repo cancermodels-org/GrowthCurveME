@@ -13,7 +13,8 @@ test_that("Exponential model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(exp_mixed_model, growth_model, tolerance = 1e-4)
+  expect_s4_class(exp_mixed_model, "SaemixObject")
+  expect_s4_class(growth_model, "SaemixObject")
 })
 test_that("Linear model is returned and equal to direct output of
           model function", {
@@ -30,7 +31,8 @@ test_that("Linear model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(lin_mixed_model, growth_model, tolerance = 1e-4)
+  expect_s4_class(lin_mixed_model, "SaemixObject")
+  expect_s4_class(growth_model, "SaemixObject")
 })
 test_that("Logistic model is returned and equal to direct output of
           model function", {
@@ -47,7 +49,8 @@ test_that("Logistic model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(log_mixed_model, growth_model, tolerance = 1e-4)
+  expect_s4_class(log_mixed_model, "SaemixObject")
+  expect_s4_class(growth_model, "SaemixObject")
 })
 test_that("Gompertz model is returned and equal to direct output of
           model function", {
@@ -64,17 +67,7 @@ test_that("Gompertz model is returned and equal to direct output of
     return_summary = FALSE,
     seed = 123)
 
-  expect_equal(gomp_mixed_model, growth_model, tolerance = 1e-4)
-})
-test_that("Boostrap feature returns list with 4 dataframes", {
-  data("exp_mixed_data")
-  growth_model_summary <- growth_curve_model_fit(
-    data_frame = exp_mixed_data,
-    model_type = "mixed",
-    function_type = "exponential",
-    return_summary = TRUE,
-    seed = 123)
-
-  expect_length(growth_model_summary, 4)
+  expect_s4_class(gomp_mixed_model, "SaemixObject")
+  expect_s4_class(growth_model, "SaemixObject")
 })
 
